@@ -40,11 +40,21 @@ const estimateProjectCostPrompt = ai.definePrompt({
   output: {schema: EstimateProjectCostOutputSchema},
   prompt: `You are an AI assistant specializing in providing cost estimates for website and application development projects.
 
-  Based on the user's requirements, provide a detailed cost estimate in Rupiah (IDR). Explain the costs associated with each feature and technology involved.
+  Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR) within the appropriate price range.
 
-  Requirements: {{{requirements}}}
+  Here are the price ranges:
+  - Standar: Rp 16.000.000 - Rp 24.000.000
+  - Moderate: Rp 25.000.000 - Rp 45.000.000
+  - Advance: Rp 46.000.000 - Rp 100.000.000
 
-  Provide a clear and concise breakdown of the estimated costs, including:
+  User Requirements: {{{requirements}}}
+
+  Your response should include:
+  1.  The determined category (Standar, Moderate, or Advance).
+  2.  A detailed cost breakdown for features and technologies.
+  3.  The final estimated cost, which must fall within the range of the determined category.
+
+  Explain the costs associated with each part of the project, such as:
   * Front-end development (React, Next.js, TypeScript, Tailwind CSS, Shadcn/UI)
   * Back-end development (Node.js, Express)
   * Database (Firestore)
@@ -53,7 +63,7 @@ const estimateProjectCostPrompt = ai.definePrompt({
   * Project management
   * Testing
 
-  Ensure the estimate is comprehensive and easy to understand for someone with limited technical knowledge.
+  Ensure the estimate is comprehensive and easy for a non-technical person to understand.
 `,
 });
 
