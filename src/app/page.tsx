@@ -10,8 +10,15 @@ import {
   Smartphone,
   Paintbrush,
   Users,
+  HelpCircle,
 } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const features = [
   {
@@ -83,6 +90,41 @@ const services = [
     description: "Sistem kompleks dengan hak akses berbeda untuk admin, user, dan peran lainnya.",
     link: "/layanan"
   },
+];
+
+const faqItems = [
+  {
+    question: "Berapa lama waktu pengerjaan untuk integrasi Payment Gateway DOKU?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          Perkiraan waktu yang dibutuhkan untuk integrasi payment gateway DOKU dari awal hingga siap digunakan biasanya berkisar antara <strong>3 minggu hingga 2 bulan</strong>.
+        </p>
+        <p>
+          Waktu pengerjaan bisa bervariasi tergantung pada kelengkapan dokumen dari sisi Anda dan kecepatan proses dari pihak DOKU. Prosesnya dapat dibagi menjadi dua bagian utama: Proses Bisnis (Pendaftaran) dan Proses Teknis (Integrasi).
+        </p>
+        <div>
+          <h4 className="font-semibold">1. Tahap Pendaftaran & Persetujuan (Proses Bisnis)</h4>
+          <p className="text-muted-foreground"><strong>Perkiraan Waktu: 1 minggu - 1 bulan (atau lebih)</strong></p>
+          <ul className="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>Pendaftaran Merchant:</strong> Anda perlu mendaftar dan melengkapi dokumen legalitas usaha (KTP, NPWP, SIUP/NIB).</li>
+            <li><strong>Verifikasi oleh DOKU:</strong> Tim DOKU akan meninjau dokumen Anda.</li>
+            <li><strong>Aktivasi Akun:</strong> Setelah disetujui, DOKU akan memberikan akses ke sandbox (testing) dan production (live).</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold">2. Tahap Integrasi & Pengujian (Proses Teknis)</h4>
+          <p className="text-muted-foreground"><strong>Perkiraan Waktu: 2 - 4 minggu</strong></p>
+          <ul className="list-disc pl-5 mt-2 space-y-1">
+            <li><strong>Minggu 1 (Persiapan):</strong> Mempelajari dokumentasi, membuat endpoint untuk permintaan pembayaran, dan implementasi signature keamanan.</li>
+            <li><strong>Minggu 2 (Webhook & Pengujian):</strong> Membuat endpoint untuk menerima notifikasi (webhook), dan melakukan pengujian menyeluruh di lingkungan Sandbox.</li>
+            <li><strong>Minggu 3-4 (Finalisasi & Go-Live):</strong> Mengganti kunci API ke production, melakukan tes transaksi live, dan deployment final.</li>
+          </ul>
+        </div>
+        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, sedangkan proses bisnis oleh Anda & DOKU sekitar 1-4 minggu.</p>
+      </div>
+    )
+  }
 ];
 
 export default function Home() {
@@ -197,6 +239,30 @@ export default function Home() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-16 md:py-24 bg-secondary/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold">Tanya Jawab</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Pertanyaan yang sering diajukan oleh klien kami.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map((item, index) => (
+                <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionTrigger className="text-lg font-semibold text-left">{item.question}</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground pt-2">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </section>
