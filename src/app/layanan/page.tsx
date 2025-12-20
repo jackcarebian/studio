@@ -3,6 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckCircle, Code2, Database, Smartphone, Store, Wind } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Layanan | JasaWebsiteKu",
+  description: "Jelajahi layanan kami, dari pembuatan website profesional, aplikasi web kustom, toko online (e-commerce), hingga Progressive Web App (PWA).",
+};
 
 const serviceList = [
     {
