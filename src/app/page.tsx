@@ -94,7 +94,7 @@ const services = [
 ];
 
 const faqItems = [
-    {
+  {
     question: "Apa yang dimaksud dengan Aplikasi Web Kustom?",
     answer: (
       <div className="space-y-4">
@@ -179,7 +179,7 @@ export default function Home() {
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
                 <Link href="/estimasi-biaya">Dapatkan Estimasi Gratis</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary font-bold">
+              <Button asChild size="lg" variant="outline" className="border-white bg-white text-primary hover:bg-white/90 font-bold">
                 <Link href="/kontak">Hubungi Kami</Link>
               </Button>
             </div>
