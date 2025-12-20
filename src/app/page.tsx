@@ -11,6 +11,7 @@ import {
   Paintbrush,
   Users,
   HelpCircle,
+  FileText,
 } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
 import {
@@ -93,35 +94,56 @@ const services = [
 ];
 
 const faqItems = [
-  {
-    question: "Berapa lama waktu pengerjaan untuk integrasi Payment Gateway DOKU?",
+    {
+    question: "Apa yang dimaksud dengan Aplikasi Web Kustom?",
     answer: (
       <div className="space-y-4">
         <p>
-          Perkiraan waktu yang dibutuhkan untuk integrasi payment gateway DOKU dari awal hingga siap digunakan biasanya berkisar antara <strong>3 minggu hingga 2 bulan</strong>.
+          Aplikasi Web Kustom adalah solusi perangkat lunak yang kami bangun secara khusus dari awal untuk menjawab kebutuhan unik dan alur kerja spesifik bisnis Anda. Berbeda dengan website biasa atau perangkat lunak siap pakai, aplikasi kustom dirancang untuk menyelesaikan masalah yang tidak bisa ditangani oleh solusi umum.
+        </p>
+        <div>
+          <h4 className="font-semibold">Kapan Anda Membutuhkan Aplikasi Kustom?</h4>
+          <ul className="list-disc pl-5 mt-2 space-y-1 text-muted-foreground">
+            <li>Saat proses bisnis Anda sangat spesifik dan tidak ada software jadi yang cocok.</li>
+            <li>Ketika Anda perlu mengotomatiskan tugas-tugas manual yang rumit dan memakan waktu.</li>
+            <li>Jika Anda ingin mengintegrasikan beberapa sistem berbeda menjadi satu platform terpusat.</li>
+            <li>Anda membutuhkan dashboard analitik untuk memantau data bisnis secara real-time.</li>
+          </ul>
+        </div>
+        <div>
+          <h4 className="font-semibold">Contoh Aplikasi Kustom:</h4>
+          <ul className="list-disc pl-5 mt-2 space-y-1 text-muted-foreground">
+            <li>Sistem Manajemen Inventaris (Inventory Management)</li>
+            <li>Platform E-learning Internal untuk Karyawan</li>
+            <li>Dashboard Analitik Penjualan</li>
+            <li>Sistem Manajemen Hubungan Pelanggan (CRM) sederhana</li>
+          </ul>
+        </div>
+        <p>
+          Dengan teknologi seperti <strong>Next.js, TypeScript, dan Firebase (Firestore & Auth)</strong>, kami dapat membangun aplikasi yang cepat, aman, dan skalabel sesuai pertumbuhan bisnis Anda.
+        </p>
+      </div>
+    ),
+  },
+  {
+    question: "Berapa lama waktu pengerjaan untuk integrasi Payment Gateway?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          Perkiraan waktu yang dibutuhkan untuk integrasi payment gateway (seperti DOKU) dari awal hingga siap digunakan biasanya berkisar antara <strong>3 minggu hingga 2 bulan</strong>.
         </p>
         <p>
-          Waktu pengerjaan bisa bervariasi tergantung pada kelengkapan dokumen dari sisi Anda dan kecepatan proses dari pihak DOKU. Prosesnya dapat dibagi menjadi dua bagian utama: Proses Bisnis (Pendaftaran) dan Proses Teknis (Integrasi).
+          Waktu pengerjaan dapat bervariasi karena terbagi menjadi dua bagian utama:
         </p>
         <div>
-          <h4 className="font-semibold">1. Tahap Pendaftaran & Persetujuan (Proses Bisnis)</h4>
-          <p className="text-muted-foreground"><strong>Perkiraan Waktu: 1 minggu - 1 bulan (atau lebih)</strong></p>
-          <ul className="list-disc pl-5 mt-2 space-y-1">
-            <li><strong>Pendaftaran Merchant:</strong> Anda perlu mendaftar dan melengkapi dokumen legalitas usaha (KTP, NPWP, SIUP/NIB).</li>
-            <li><strong>Verifikasi oleh DOKU:</strong> Tim DOKU akan meninjau dokumen Anda.</li>
-            <li><strong>Aktivasi Akun:</strong> Setelah disetujui, DOKU akan memberikan akses ke sandbox (testing) dan production (live).</li>
-          </ul>
+          <h4 className="font-semibold">1. Proses Bisnis (Pendaftaran Merchant)</h4>
+          <p className="text-muted-foreground"><strong>Perkiraan: 1 - 4 minggu (atau lebih)</strong>. Tahap ini bergantung pada kelengkapan dokumen legalitas usaha Anda (KTP, NPWP, SIUP/NIB) dan kecepatan proses verifikasi oleh pihak payment gateway (misalnya DOKU).</p>
         </div>
         <div>
-          <h4 className="font-semibold">2. Tahap Integrasi & Pengujian (Proses Teknis)</h4>
-          <p className="text-muted-foreground"><strong>Perkiraan Waktu: 2 - 4 minggu</strong></p>
-          <ul className="list-disc pl-5 mt-2 space-y-1">
-            <li><strong>Minggu 1 (Persiapan):</strong> Mempelajari dokumentasi, membuat endpoint untuk permintaan pembayaran, dan implementasi signature keamanan.</li>
-            <li><strong>Minggu 2 (Webhook & Pengujian):</strong> Membuat endpoint untuk menerima notifikasi (webhook), dan melakukan pengujian menyeluruh di lingkungan Sandbox.</li>
-            <li><strong>Minggu 3-4 (Finalisasi & Go-Live):</strong> Mengganti kunci API ke production, melakukan tes transaksi live, dan deployment final.</li>
-          </ul>
+          <h4 className="font-semibold">2. Proses Teknis (Integrasi Kode)</h4>
+          <p className="text-muted-foreground"><strong>Perkiraan: 2 - 4 minggu</strong>. Ini adalah bagian yang kami kerjakan, meliputi studi dokumentasi, implementasi API, pembuatan *signature*, penanganan *webhook*, serta pengujian di lingkungan *sandbox* hingga *production*.</p>
         </div>
-        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, sedangkan proses bisnis oleh Anda & DOKU sekitar 1-4 minggu.</p>
+        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, namun total waktu sangat dipengaruhi oleh kelancaran proses administrasi di sisi Anda dan pihak payment gateway.</p>
       </div>
     )
   }
