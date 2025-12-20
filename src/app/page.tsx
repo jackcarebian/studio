@@ -126,6 +126,36 @@ const faqItems = [
     ),
   },
   {
+    question: "Berapa lama proses pengerjaan dan apa saja tahapannya?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          Waktu pengerjaan sebuah proyek sangat bervariasi tergantung pada kompleksitas fitur yang dibutuhkan. Namun, secara umum, kami membagi proses pengerjaan menjadi beberapa tahapan yang jelas untuk memastikan hasil terbaik:
+        </p>
+        <ol className="list-decimal pl-5 space-y-3 text-muted-foreground">
+          <li>
+            <strong>Tahap Diskusi & Perencanaan (1-2 Minggu):</strong> Kami berdiskusi mendalam untuk memahami tujuan, target audiens, dan fitur yang Anda butuhkan. Hasilnya adalah dokumen spesifikasi dan rencana proyek.
+          </li>
+          <li>
+            <strong>Tahap Desain & Prototyping (1-2 Minggu):</strong> Kami merancang Desain UI/UX (tampilan antarmuka dan pengalaman pengguna) dan membuat prototipe interaktif agar Anda mendapatkan gambaran jelas sebelum masuk ke tahap pengembangan.
+          </li>
+          <li>
+            <strong>Tahap Pengembangan (3-6 Minggu):</strong> Ini adalah tahap inti di mana kami melakukan coding (frontend dan backend), membangun database, dan mengimplementasikan semua fitur yang telah disepakati.
+          </li>
+          <li>
+            <strong>Tahap Pengujian & Revisi (1 Minggu):</strong> Kami melakukan pengujian menyeluruh untuk memastikan semua fitur berjalan tanpa bug. Anda juga memiliki kesempatan untuk melakukan revisi minor.
+          </li>
+           <li>
+            <strong>Tahap Peluncuran & Pelatihan (1 Minggu):</strong> Setelah semua sempurna, kami akan meluncurkan website Anda dan memberikan pelatihan jika diperlukan.
+          </li>
+        </ol>
+        <p>
+          Total waktu pengerjaan untuk website company profile standar biasanya sekitar **1-2 bulan**, sedangkan untuk aplikasi web kustom yang lebih kompleks bisa memakan waktu **3 bulan atau lebih**.
+        </p>
+      </div>
+    )
+  },
+  {
     question: "Berapa lama waktu pengerjaan untuk integrasi Payment Gateway?",
     answer: (
       <div className="space-y-4">
@@ -179,7 +209,7 @@ export default function Home() {
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
                 <Link href="/estimasi-biaya">Dapatkan Estimasi Gratis</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white bg-white text-primary hover:bg-white/90 font-bold">
+              <Button asChild size="lg" variant="outline" className="border-white text-primary hover:bg-white/90 font-bold">
                 <Link href="/kontak">Hubungi Kami</Link>
               </Button>
             </div>
