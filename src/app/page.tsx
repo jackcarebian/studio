@@ -330,13 +330,13 @@ export default function Home() {
                 className="group block"
               >
                 <Card className="overflow-hidden border-none shadow-lg group-hover:shadow-2xl transition-all duration-300 h-full fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <div className="relative aspect-video">
+                  <div className="relative aspect-video bg-muted/20">
                     {project.image && (
                       <Image
                         src={project.image.imageUrl}
                         alt={project.image.description}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-contain transition-transform duration-500 group-hover:scale-105 p-2"
                         data-ai-hint={project.image.imageHint}
                       />
                     )}
