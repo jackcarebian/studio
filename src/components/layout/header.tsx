@@ -1,9 +1,10 @@
+
 "use client";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Mountain } from "lucide-react";
+import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
@@ -22,6 +23,7 @@ export function Header() {
   const pathname = usePathname();
   const { user, loading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +32,9 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Helper function to close the sheet
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <header className={cn(
@@ -70,7 +75,7 @@ export function Header() {
             </>
           )}
         </div>
-        <Sheet>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon" className="md:hidden">
               <Menu className="h-6 w-6" />
@@ -79,13 +84,14 @@ export function Header() {
           </SheetTrigger>
           <SheetContent side="right">
             <nav className="grid gap-6 text-lg font-medium mt-8">
-              <Link href="/" className="flex items-center gap-2 text-lg font-semibold">
+              <Link href="/" className="flex items-center gap-2 text-lg font-semibold" onClick={closeMenu}>
                 <Logo />
               </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={closeMenu}
                   className={cn(
                     "hover:text-foreground",
                     pathname === link.href ? "text-foreground" : "text-muted-foreground"
@@ -98,13 +104,15 @@ export function Header() {
                 {loading ? (
                     <div className="h-10 w-full animate-pulse rounded-md bg-muted"></div>
                 ) : user ? (
-                    <UserNav />
+                    <div onClick={closeMenu}>
+                        <UserNav />
+                    </div>
                 ) : (
                     <>
-                    <Button asChild variant="ghost" className="justify-start">
+                    <Button asChild variant="ghost" className="justify-start" onClick={closeMenu}>
                         <Link href="/login">Masuk</Link>
                     </Button>
-                    <Button asChild className="justify-start">
+                    <Button asChild className="justify-start" onClick={closeMenu}>
                         <Link href="/register">Daftar</Link>
                     </Button>
                     </>
