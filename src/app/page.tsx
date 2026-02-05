@@ -11,6 +11,14 @@ import {
   Paintbrush,
   Users,
   ExternalLink,
+  AlertCircle,
+  CheckCircle2,
+  Target,
+  Zap,
+  LayoutDashboard,
+  Bell,
+  BarChart3,
+  ShieldAlert,
 } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
 import {
@@ -68,27 +76,6 @@ const testimonials = [
     quote:
       "Profesionalisme dan keahlian teknis mereka luar biasa. Mereka memberikan solusi yang tepat untuk kebutuhan marketing kami.",
     avatar: placeholderImages.find(p => p.id === "testimonial-person-3")?.imageUrl || "https://picsum.photos/seed/3/100/100",
-  },
-];
-
-const services = [
-  {
-    icon: <Smartphone className="w-12 h-12 text-primary mb-4" />,
-    title: "Pengembangan Aplikasi Web",
-    description: "Aplikasi web kustom yang dirancang untuk mengoptimalkan proses bisnis Anda.",
-    link: "/layanan"
-  },
-  {
-    icon: <Paintbrush className="w-12 h-12 text-primary mb-4" />,
-    title: "Website Company Profile",
-    description: "Tampilkan citra profesional perusahaan Anda dengan website yang elegan dan informatif.",
-    link: "/layanan"
-  },
-  {
-    icon: <Users className="w-12 h-12 text-primary mb-4" />,
-    title: "Aplikasi Multi-Peran",
-    description: "Sistem kompleks dengan hak akses berbeda untuk admin, user, dan peran lainnya.",
-    link: "/layanan"
   },
 ];
 
@@ -196,7 +183,7 @@ export default function Home() {
               <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
                 <Link href="/estimasi-biaya">Dapatkan Estimasi Gratis</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white text-primary hover:bg-white/90 font-bold">
+              <Button asChild size="lg" variant="outline" className="border-white text-primary bg-white hover:bg-white/90 font-bold">
                 <Link href="/kontak">Hubungi Kami</Link>
               </Button>
             </div>
@@ -204,7 +191,89 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Portfolio Section */}
+      {/* Latar Belakang & Masalah Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6 fade-in-up">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-bold">
+                <AlertCircle className="h-4 w-4" />
+                <span>Latar Belakang</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800 leading-tight">
+                Tantangan Operasional yang Semakin Kompleks
+              </h2>
+              <div className="space-y-4 text-lg text-muted-foreground">
+                <p>
+                  Banyak bisnis distribusi dan prinsipal saat ini menghadapi tantangan yang sulit: Jumlah sales bertambah, target meningkat, area semakin luas—namun <strong>kontrol justru melemah</strong>.
+                </p>
+                <p>
+                  Masalah yang sering muncul bukan pada produk atau pasar, melainkan pada alur kerja internal yang <strong>tidak tertangani oleh software umum</strong>.
+                </p>
+              </div>
+            </div>
+            <div className="bg-secondary/30 p-8 rounded-2xl border border-border fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <h3 className="text-xl font-headline font-bold mb-6 flex items-center gap-2 text-destructive">
+                <ShieldAlert className="h-6 w-6" />
+                Masalah Umum yang Dihadapi
+              </h3>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  "Operasional melibatkan banyak orang & peran",
+                  "Tekanan target tinggi di level sales",
+                  "Laporan aktivitas sales sulit diverifikasi",
+                  "Order fiktif dan data tidak akurat",
+                  "Update penjualan bergantung WA/Manual",
+                  "Admin kelelahan input ulang",
+                  "Owner tidak memiliki visibilitas real-time"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <CheckCircle2 className="h-5 w-5 text-destructive shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 p-4 bg-destructive/5 rounded-lg text-sm italic text-destructive font-medium border-l-4 border-destructive">
+                Software generik (CRM, ERP standar, spreadsheet) tidak dirancang untuk kondisi lapangan yang dinamis seperti ini.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pendekatan Kami Section */}
+      <section className="py-16 md:py-24 bg-primary text-primary-foreground">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto space-y-6">
+            <h2 className="text-3xl md:text-5xl font-headline font-bold fade-in-up">Pendekatan Kami</h2>
+            <p className="text-xl opacity-90 fade-in-up" style={{ animationDelay: '0.2s' }}>
+              Kami tidak menawarkan software siap pakai. Kami membangun sistem operasional custom yang <strong>mengikuti alur kerja internal bisnis Anda</strong>.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+              <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20 fade-in-up" style={{ animationDelay: '0.3s' }}>
+                <Target className="h-10 w-10 mx-auto mb-4" />
+                <h4 className="font-bold mb-2">Fokus Disiplin</h4>
+                <p className="text-sm opacity-80">Validasi aktivitas sales di lapangan secara nyata.</p>
+              </div>
+              <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20 fade-in-up" style={{ animationDelay: '0.4s' }}>
+                <Zap className="h-10 w-10 mx-auto mb-4" />
+                <h4 className="font-bold mb-2">Tanpa Gangguan</h4>
+                <p className="text-sm opacity-80">Tidak mengganti sistem pusat yang sudah berjalan.</p>
+              </div>
+              <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20 fade-in-up" style={{ animationDelay: '0.5s' }}>
+                <Smartphone className="h-10 w-10 mx-auto mb-4" />
+                <h4 className="font-bold mb-2">Aman & Mudah</h4>
+                <p className="text-sm opacity-80">Siap digunakan di level cabang maupun tim lapangan.</p>
+              </div>
+            </div>
+            <p className="mt-8 text-sm italic opacity-70 fade-in-up" style={{ animationDelay: '0.6s' }}>
+              *Pendekatan ini telah kami terapkan pada sistem Prolist Property, yang digunakan oleh agent properti berskala nasional.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Portofolio Section */}
       <section id="portfolio" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
@@ -250,37 +319,115 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-16 md:py-24 bg-secondary/30">
+      {/* Solusi Section */}
+      <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Layanan Unggulan</h2>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Solusi yang Ditawarkan</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Solusi digital untuk membawa bisnis Anda ke level berikutnya.
+              Sistem berbasis Website & PWA (tanpa install aplikasi) dengan fitur inti untuk kendali penuh bisnis Anda.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="fade-in-up text-center p-8 bg-card rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                <div className="flex justify-center">{service.icon}</div>
-                <h3 className="text-xl font-headline font-bold mb-2">{service.title}</h3>
-                <p className="text-muted-foreground mb-4">{service.description}</p>
-                <Button asChild variant="link" className="text-primary font-bold">
-                  <Link href={service.link}>Pelajari Lebih Lanjut</Link>
-                </Button>
+            {[
+              {
+                icon: <Users className="h-8 w-8 text-primary" />,
+                title: "Multi Akses Akun",
+                desc: "Akses berbeda untuk Sales Lapangan, Admin, dan Owner/Supervisor."
+              },
+              {
+                icon: <Zap className="h-8 w-8 text-primary" />,
+                title: "Order & Aktivitas Real-Time",
+                desc: "Order langsung dari lapangan, data valid dan dapat ditelusuri."
+              },
+              {
+                icon: <CheckCircle2 className="h-8 w-8 text-primary" />,
+                title: "Approval Bertingkat",
+                desc: "Alur persetujuan jelas, mengurangi order fiktif & data tidak akurat."
+              },
+              {
+                icon: <Bell className="h-8 w-8 text-primary" />,
+                title: "Push Notification",
+                desc: "Notifikasi instan untuk order masuk, ditolak, atau tugas follow-up."
+              },
+              {
+                icon: <BarChart3 className="h-8 w-8 text-primary" />,
+                title: "Monitoring Per Area",
+                desc: "Pantau performa harian sales per wilayah tanpa laporan manual."
+              },
+              {
+                icon: <LayoutDashboard className="h-8 w-8 text-primary" />,
+                title: "Dashboard PWA",
+                desc: "Akses cepat dari smartphone seperti aplikasi native tanpa instalasi."
+              }
+            ].map((solusi, idx) => (
+              <div key={idx} className="p-6 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow fade-in-up" style={{ animationDelay: `${idx * 0.1}s` }}>
+                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4">
+                  {solusi.icon}
+                </div>
+                <h4 className="text-lg font-headline font-bold mb-2">{solusi.title}</h4>
+                <p className="text-sm text-muted-foreground">{solusi.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-16 md:py-24 bg-background">
+      {/* Nilai Utama & Keunggulan Section */}
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-16 items-start">
+            <div className="lg:w-1/2 space-y-6 fade-in-up">
+              <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Nilai Utama Sistem</h2>
+              <p className="text-lg text-muted-foreground">
+                Fokus utama kami bukan sekadar digitalisasi, tetapi <strong>pengendalian operasional dan kualitas data</strong>. Sistem ini dirancang khusus untuk bisnis yang:
+              </p>
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  "Ribet secara operasional dengan banyak orang & peran",
+                  "Mengalami tekanan target tinggi dan kebocoran data",
+                  "Tidak bisa dipaksa menggunakan software umum yang kaku"
+                ].map((point, i) => (
+                  <div key={i} className="flex items-center gap-3 p-4 bg-secondary/50 rounded-lg">
+                    <CheckCircle2 className="h-6 w-6 text-primary" />
+                    <span className="font-medium">{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 bg-primary/5 p-8 rounded-2xl border border-primary/20 fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <h3 className="text-2xl font-headline font-bold mb-6 text-primary">Keunggulan Kami</h3>
+              <div className="space-y-4">
+                {[
+                  { title: "Custom Sesuai Alur Bisnis", desc: "Sistem mengikuti alur internal Anda, bukan sebaliknya." },
+                  { title: "Tidak Mengganggu Sistem Pusat", desc: "Dapat berjalan berdampingan dengan sistem yang sudah ada." },
+                  { title: "Cepat Diadaptasi", desc: "Antarmuka intuitif untuk tim lapangan yang sibuk." },
+                  { title: "Kebutuhan Nyata", desc: "Solusi dibangun berdasarkan masalah nyata, bukan teori software." },
+                  { title: "Scalable", desc: "Sistem siap dikembangkan secara bertahap sesuai pertumbuhan." }
+                ].map((item, i) => (
+                  <div key={i} className="flex gap-4 items-start">
+                    <div className="mt-1 h-6 w-6 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold shrink-0">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <h5 className="font-bold">{item.title}</h5>
+                      <p className="text-sm text-muted-foreground">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section (Why Choose Us) */}
+      <section id="features" className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Mengapa Memilih Kami?</h2>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold">Mengapa Memilih JasaWebsiteKu?</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Kami memberikan lebih dari sekadar kode, kami memberikan nilai dan kualitas.
+              Kami memberikan lebih dari sekadar kode, kami memberikan nilai dan kualitas tinggi untuk setiap solusi.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -295,46 +442,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 md:py-24 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Apa Kata Klien Kami</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Kepuasan klien adalah prioritas utama kami.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Avatar>
-                      <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                      <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-base font-bold">{testimonial.name}</CardTitle>
-                      <p className="text-sm text-muted-foreground">{testimonial.title}</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="italic text-muted-foreground">"{testimonial.quote}"</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section id="faq" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Tanya Jawab</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Pertanyaan yang sering diajukan oleh klien kami.
+              Pertanyaan yang sering diajukan oleh klien kami mengenai solusi kustom.
             </p>
           </div>
           <div className="max-w-3xl mx-auto">
@@ -360,7 +474,7 @@ export default function Home() {
             Jangan ragu untuk berdiskusi dengan kami. Konsultasi gratis untuk menemukan solusi digital terbaik bagi bisnis Anda.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
-            <Link href="/estimasi-biaya">Mulai Sekarang</Link>
+            <Link href="/estimasi-biaya">Dapatkan Estimasi Gratis</Link>
           </Button>
         </div>
       </section>
