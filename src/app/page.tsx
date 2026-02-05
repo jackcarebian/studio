@@ -210,35 +210,41 @@ export default function Home() {
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Proyek Selesai</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Beberapa karya terbaik yang telah kami bantu wujudkan.
+              Beberapa karya terbaik yang telah kami bantu wujudkan. Klik kartu untuk mengunjungi website.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {portfolioProjects.map((project, index) => (
-              <Card key={index} className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="relative aspect-video">
-                  {project.image && (
-                    <Image
-                      src={project.image.imageUrl}
-                      alt={project.image.description}
-                      fill
-                      className="object-cover"
-                      data-ai-hint={project.image.imageHint}
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <Button asChild variant="secondary" size="sm">
-                      <a href={project.url} target="_blank" rel="noopener noreferrer">
-                        Kunjungi Situs <ExternalLink className="ml-2 h-4 w-4" />
-                      </a>
-                    </Button>
+              <a 
+                key={index} 
+                href={project.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="group block"
+              >
+                <Card className="overflow-hidden border-none shadow-lg group-hover:shadow-2xl transition-all duration-300 h-full fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="relative aspect-video">
+                    {project.image && (
+                      <Image
+                        src={project.image.imageUrl}
+                        alt={project.image.description}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        data-ai-hint={project.image.imageHint}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="bg-secondary text-secondary-foreground px-4 py-2 rounded-md flex items-center gap-2 font-semibold">
+                        Kunjungi Situs <ExternalLink className="h-4 w-4" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <CardHeader>
-                  <CardTitle className="font-headline font-bold">{project.title}</CardTitle>
-                  <CardDescription className="text-sm">{project.description}</CardDescription>
-                </CardHeader>
-              </Card>
+                  <CardHeader>
+                    <CardTitle className="font-headline font-bold group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                    <CardDescription className="text-sm line-clamp-2">{project.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              </a>
             ))}
           </div>
         </div>
