@@ -141,13 +141,51 @@ const faqItems = [
     )
   },
   {
-    question: "Berapa lama waktu pengerjaan untuk integrasi Payment Gateway?",
+    question: "Apakah saya bisa mengelola data atau konten sendiri?",
     answer: (
       <div className="space-y-4">
         <p>
-          Perkiraan waktu yang dibutuhkan untuk integrasi payment gateway (seperti DOKU) dari awal hingga siap digunakan biasanya berkisar antara <strong>3 minggu hingga 2 bulan</strong>.
+          Tentu saja. Kami membangun <strong>Dashboard Admin kustom</strong> yang intuitif. Anda dapat menambah, mengubah, atau menghapus konten (seperti berita, produk, galeri, atau data transaksi) tanpa perlu memahami bahasa pemrograman sama sekali.
         </p>
-        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, namun total waktu sangat dipengaruhi oleh kelancaran proses administrasi legalitas usaha di sisi Anda dan verifikasi oleh pihak payment gateway.</p>
+        <p>Kami juga memberikan sesi pelatihan singkat setelah proyek selesai untuk memastikan tim Anda dapat mengoperasikan sistem dengan lancar.</p>
+      </div>
+    )
+  },
+  {
+    question: "Apakah website yang dibuat sudah SEO-Friendly?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          Ya. Kami menggunakan <strong>Next.js</strong> yang memiliki fitur Server-Side Rendering (SSR) dan optimasi meta-tag yang sangat baik untuk mesin pencari (SEO).
+        </p>
+        <p>Selain itu, kami memastikan struktur website rapi (Semantic HTML), kecepatan loading yang optimal, dan responsivitas di semua ukuran layar—semuanya adalah faktor kunci untuk mendapatkan peringkat tinggi di Google.</p>
+      </div>
+    )
+  },
+  {
+    question: "Apa itu PWA (Progressive Web App)?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          PWA adalah teknologi yang memungkinkan website Anda berfungsi seperti aplikasi mobile native (seperti di Android/iOS) tanpa harus didownload melalui Play Store atau App Store.
+        </p>
+        <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+          <li><strong>Dapat diinstal:</strong> Muncul ikon di layar utama HP.</li>
+          <li><strong>Cepat & Ringan:</strong> Loading instan karena sistem caching cerdas.</li>
+          <li><strong>Offline Mode:</strong> Masih bisa diakses meskipun koneksi internet tidak stabil.</li>
+          <li><strong>Hemat Biaya:</strong> Anda tidak perlu membuat aplikasi terpisah untuk Android dan iOS.</li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    question: "Bagaimana dengan dukungan (support) setelah website online?",
+    answer: (
+      <div className="space-y-4">
+        <p>
+          Kami memberikan <strong>Garansi Bebas Bug</strong> selama 3 bulan pertama setelah peluncuran. Jika terjadi kesalahan teknis dari sisi kami, kami akan memperbaikinya tanpa biaya tambahan.
+        </p>
+        <p>Kami juga menawarkan paket maintenance bulanan bagi bisnis yang membutuhkan update rutin, pemantauan keamanan berkala, dan backup data otomatis untuk memastikan sistem selalu berjalan prima.</p>
       </div>
     )
   }
