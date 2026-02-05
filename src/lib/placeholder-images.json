@@ -35,6 +35,24 @@
       "description": "Portrait of a person in a creative setting.",
       "imageUrl": "https://images.unsplash.com/photo-1611244419377-b0a760c19719?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMHBlcnNvbnxlbnwwfHx8fDE3NjYxNDY2MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "creative person"
+    },
+    {
+      "id": "project-notiflayer",
+      "description": "Screenshot cuplikan website NotifLayer.",
+      "imageUrl": "https://images.unsplash.com/photo-1591174425156-fd472f354be4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxub3RpZmljYXRpb24lMjBkYXNoYm9hcmR8ZW58MHx8fHwxNzcwMjgwODcwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "notification dashboard"
+    },
+    {
+      "id": "project-prolist",
+      "description": "Screenshot cuplikan aplikasi ProList.",
+      "imageUrl": "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0YXNrJTIwbWFuYWdlbWVudHxlbnwwfHx8fDE3NzAxOTYyNzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "task management"
+    },
+    {
+      "id": "project-gadamedika",
+      "description": "Screenshot cuplikan sistem Gada Medika.",
+      "imageUrl": "https://images.unsplash.com/photo-1631563020941-c0c6bc534b8e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtZWRpY2FsJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc3MDI4MDg3MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "medical interface"
     }
   ]
 }

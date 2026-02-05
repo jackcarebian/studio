@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,8 +10,7 @@ import {
   Smartphone,
   Paintbrush,
   Users,
-  HelpCircle,
-  FileText,
+  ExternalLink,
 } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
 import {
@@ -93,6 +92,27 @@ const services = [
   },
 ];
 
+const portfolioProjects = [
+  {
+    title: "NotifLayer",
+    description: "Layanan infrastruktur notifikasi real-time yang andal dan mudah diintegrasikan.",
+    url: "https://notiflayer.com",
+    image: placeholderImages.find(p => p.id === "project-notiflayer"),
+  },
+  {
+    title: "ProList",
+    description: "Aplikasi manajemen tugas kolaboratif untuk meningkatkan produktivitas tim modern.",
+    url: "https://prolist-two.vercel.app",
+    image: placeholderImages.find(p => p.id === "project-prolist"),
+  },
+  {
+    title: "Gada Medika",
+    description: "Sistem informasi manajemen kesehatan terintegrasi untuk klinik dan praktisi medis.",
+    url: "https://gadamedika.vercel.app",
+    image: placeholderImages.find(p => p.id === "project-gadamedika"),
+  },
+];
+
 const faqItems = [
   {
     question: "Apa yang dimaksud dengan Aplikasi Web Kustom?",
@@ -110,15 +130,6 @@ const faqItems = [
             <li>Anda membutuhkan dashboard analitik untuk memantau data bisnis secara real-time.</li>
           </ul>
         </div>
-        <div>
-          <h4 className="font-semibold">Contoh Aplikasi Kustom:</h4>
-          <ul className="list-disc pl-5 mt-2 space-y-1 text-muted-foreground">
-            <li>Sistem Manajemen Inventaris (Inventory Management)</li>
-            <li>Platform E-learning Internal untuk Karyawan</li>
-            <li>Dashboard Analitik Penjualan</li>
-            <li>Sistem Manajemen Hubungan Pelanggan (CRM) sederhana</li>
-          </ul>
-        </div>
         <p>
           Dengan teknologi seperti <strong>Next.js, TypeScript, dan Firebase (Firestore & Auth)</strong>, kami dapat membangun aplikasi yang cepat, aman, dan skalabel sesuai pertumbuhan bisnis Anda.
         </p>
@@ -132,26 +143,13 @@ const faqItems = [
         <p>
           Waktu pengerjaan sebuah proyek sangat bervariasi tergantung pada kompleksitas fitur yang dibutuhkan. Namun, secara umum, kami membagi proses pengerjaan menjadi beberapa tahapan yang jelas untuk memastikan hasil terbaik:
         </p>
-        <ol className="list-decimal pl-5 space-y-3 text-muted-foreground">
-          <li>
-            <strong>Tahap Diskusi & Perencanaan (1-2 Minggu):</strong> Kami berdiskusi mendalam untuk memahami tujuan, target audiens, dan fitur yang Anda butuhkan. Hasilnya adalah dokumen spesifikasi dan rencana proyek.
-          </li>
-          <li>
-            <strong>Tahap Desain & Prototyping (1-2 Minggu):</strong> Kami merancang Desain UI/UX (tampilan antarmuka dan pengalaman pengguna) dan membuat prototipe interaktif agar Anda mendapatkan gambaran jelas sebelum masuk ke tahap pengembangan.
-          </li>
-          <li>
-            <strong>Tahap Pengembangan (3-6 Minggu):</strong> Ini adalah tahap inti di mana kami melakukan coding (frontend dan backend), membangun database, dan mengimplementasikan semua fitur yang telah disepakati.
-          </li>
-          <li>
-            <strong>Tahap Pengujian & Revisi (1 Minggu):</strong> Kami melakukan pengujian menyeluruh untuk memastikan semua fitur berjalan tanpa bug. Anda juga memiliki kesempatan untuk melakukan revisi minor.
-          </li>
-           <li>
-            <strong>Tahap Peluncuran & Pelatihan (1 Minggu):</strong> Setelah semua sempurna, kami akan meluncurkan website Anda dan memberikan pelatihan jika diperlukan.
-          </li>
+        <ol className="list-decimal pl-5 space-y-2 text-muted-foreground">
+          <li><strong>Diskusi & Perencanaan (1-2 Minggu):</strong> Memahami tujuan dan spesifikasi.</li>
+          <li><strong>Desain UI/UX (1-2 Minggu):</strong> Perancangan tampilan visual.</li>
+          <li><strong>Pengembangan (3-6 Minggu):</strong> Proses coding inti.</li>
+          <li><strong>Pengujian & Revisi (1 Minggu):</strong> Memastikan bug-free.</li>
+          <li><strong>Peluncuran (1 Minggu):</strong> Go-live dan pelatihan.</li>
         </ol>
-        <p>
-          Total waktu pengerjaan untuk website company profile standar biasanya sekitar **1-2 bulan**, sedangkan untuk aplikasi web kustom yang lebih kompleks bisa memakan waktu **3 bulan atau lebih**.
-        </p>
       </div>
     )
   },
@@ -162,18 +160,7 @@ const faqItems = [
         <p>
           Perkiraan waktu yang dibutuhkan untuk integrasi payment gateway (seperti DOKU) dari awal hingga siap digunakan biasanya berkisar antara <strong>3 minggu hingga 2 bulan</strong>.
         </p>
-        <p>
-          Waktu pengerjaan dapat bervariasi karena terbagi menjadi dua bagian utama:
-        </p>
-        <div>
-          <h4 className="font-semibold">1. Proses Bisnis (Pendaftaran Merchant)</h4>
-          <p className="text-muted-foreground"><strong>Perkiraan: 1 - 4 minggu (atau lebih)</strong>. Tahap ini bergantung pada kelengkapan dokumen legalitas usaha Anda (KTP, NPWP, SIUP/NIB) dan kecepatan proses verifikasi oleh pihak payment gateway (misalnya DOKU).</p>
-        </div>
-        <div>
-          <h4 className="font-semibold">2. Proses Teknis (Integrasi Kode)</h4>
-          <p className="text-muted-foreground"><strong>Perkiraan: 2 - 4 minggu</strong>. Ini adalah bagian yang kami kerjakan, meliputi studi dokumentasi, implementasi API, pembuatan *signature*, penanganan *webhook*, serta pengujian di lingkungan *sandbox* hingga *production*.</p>
-        </div>
-        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, namun total waktu sangat dipengaruhi oleh kelancaran proses administrasi di sisi Anda dan pihak payment gateway.</p>
+        <p><strong>Ringkasan:</strong> Proses teknis oleh kami sekitar 2-4 minggu, namun total waktu sangat dipengaruhi oleh kelancaran proses administrasi legalitas usaha di sisi Anda dan verifikasi oleh pihak payment gateway.</p>
       </div>
     )
   }
@@ -217,19 +204,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-16 md:py-24 bg-background">
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Layanan Unggulan Kami</h2>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Proyek Selesai</h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Solusi digital yang kami tawarkan untuk membawa bisnis Anda ke level berikutnya.
+              Beberapa karya terbaik yang telah kami bantu wujudkan.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioProjects.map((project, index) => (
+              <Card key={index} className="overflow-hidden border-none shadow-lg hover:shadow-2xl transition-all duration-300 fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="relative aspect-video">
+                  {project.image && (
+                    <Image
+                      src={project.image.imageUrl}
+                      alt={project.image.description}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={project.image.imageHint}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <Button asChild variant="secondary" size="sm">
+                      <a href={project.url} target="_blank" rel="noopener noreferrer">
+                        Kunjungi Situs <ExternalLink className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+                <CardHeader>
+                  <CardTitle className="font-headline font-bold">{project.title}</CardTitle>
+                  <CardDescription className="text-sm">{project.description}</CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-16 md:py-24 bg-secondary/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Layanan Unggulan</h2>
+            <p className="mt-4 text-lg text-muted-foreground">
+              Solusi digital untuk membawa bisnis Anda ke level berikutnya.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <div key={index} className="fade-in-up text-center p-8 bg-card rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300">
-                {service.icon}
+                <div className="flex justify-center">{service.icon}</div>
                 <h3 className="text-xl font-headline font-bold mb-2">{service.title}</h3>
                 <p className="text-muted-foreground mb-4">{service.description}</p>
                 <Button asChild variant="link" className="text-primary font-bold">
@@ -242,7 +269,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-16 md:py-24 bg-secondary/50">
+      <section id="features" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Mengapa Memilih Kami?</h2>
@@ -263,7 +290,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 md:py-24 bg-background">
+      <section id="testimonials" className="py-16 md:py-24 bg-secondary/50">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Apa Kata Klien Kami</h2>
@@ -296,7 +323,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-16 md:py-24 bg-secondary/50">
+      <section id="faq" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Tanya Jawab</h2>
