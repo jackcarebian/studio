@@ -83,7 +83,7 @@ const portfolioProjects = [
   {
     title: "NotifLayer",
     description: "Layanan infrastruktur notifikasi real-time yang andal dan mudah diintegrasikan.",
-    url: "https://notiflayer.com",
+    url: "https://notiflayer.com/home",
     image: placeholderImages.find(p => p.id === "project-notiflayer"),
   },
   {

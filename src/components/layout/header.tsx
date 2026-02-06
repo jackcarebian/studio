@@ -7,8 +7,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/use-auth";
-import { UserNav } from "@/components/auth/user-nav";
 import { Logo } from "./logo";
 import { useEffect, useState } from "react";
 
@@ -21,7 +19,6 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
-  const { user, loading } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,7 +30,6 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Helper function to close the sheet
   const closeMenu = () => setIsOpen(false);
 
   return (
@@ -60,20 +56,9 @@ export function Header() {
           ))}
         </nav>
         <div className="hidden items-center gap-4 md:flex">
-          {loading ? (
-            <div className="h-10 w-24 animate-pulse rounded-md bg-muted"></div>
-          ) : user ? (
-            <UserNav />
-          ) : (
-            <>
-              <Button asChild variant="ghost">
-                <Link href="/login">Masuk</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/register">Daftar</Link>
-              </Button>
-            </>
-          )}
+          <Button asChild>
+            <Link href="/kontak">Konsultasi Gratis</Link>
+          </Button>
         </div>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
@@ -100,24 +85,11 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-               <div className="flex flex-col gap-4 pt-4 border-t">
-                {loading ? (
-                    <div className="h-10 w-full animate-pulse rounded-md bg-muted"></div>
-                ) : user ? (
-                    <div onClick={closeMenu}>
-                        <UserNav />
-                    </div>
-                ) : (
-                    <>
-                    <Button asChild variant="ghost" className="justify-start" onClick={closeMenu}>
-                        <Link href="/login">Masuk</Link>
-                    </Button>
-                    <Button asChild className="justify-start" onClick={closeMenu}>
-                        <Link href="/register">Daftar</Link>
-                    </Button>
-                    </>
-                )}
-                </div>
+              <div className="pt-4 border-t">
+                <Button asChild className="w-full" onClick={closeMenu}>
+                  <Link href="/kontak">Konsultasi Gratis</Link>
+                </Button>
+              </div>
             </nav>
           </SheetContent>
         </Sheet>
