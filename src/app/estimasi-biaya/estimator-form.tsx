@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -5,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useState, useTransition } from "react";
 import ReactMarkdown from 'react-markdown';
+import { jsPDF } from "jspdf";
 
 import { estimateProjectCost } from "@/ai/flows/estimate-project-cost";
 import { Button } from "@/components/ui/button";
@@ -19,7 +21,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight } from "lucide-react";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -105,6 +107,75 @@ export function EstimatorForm() {
       }
     });
   }
+
+  const handleDownloadPDF = () => {
+    if (!result) return;
+
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    const contentWidth = pageWidth - margin * 2;
+
+    // Header
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.setTextColor(25, 158, 189); // Match primary color
+    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, 32, { align: "center" });
+
+    doc.setDrawColor(200);
+    doc.line(margin, 38, pageWidth - margin, 38);
+
+    // Body
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+
+    // AI result already has double spacing logic, but we'll clean and wrap it
+    // Remove markdown symbols for the PDF document to look formal
+    const cleanText = result
+      .replace(/[#*]/g, "")
+      .replace(/(\r\n|\n|\r)/gm, "\n");
+
+    const lines = doc.splitTextToSize(cleanText, contentWidth);
+
+    let cursorY = 48;
+    const lineHeight = 7;
+
+    lines.forEach((line: string) => {
+      if (cursorY > 275) {
+        doc.addPage();
+        cursorY = 20;
+      }
+      doc.text(line, margin, cursorY);
+      cursorY += lineHeight;
+    });
+
+    // Footer
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(150);
+      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+    }
+
+    doc.save(`Estimasi_Biaya_JasaWebsiteKu_${new Date().getTime()}.pdf`);
+    
+    toast({
+      title: "PDF Berhasil Dibuat",
+      description: "Dokumen estimasi telah diunduh ke perangkat Anda.",
+    });
+  };
 
   return (
     <div className="space-y-8">
@@ -196,11 +267,15 @@ export function EstimatorForm() {
 
       {result && (
         <Card className="fade-in-up border-primary/50 shadow-md">
-          <CardHeader className="bg-primary/5 border-b">
+          <CardHeader className="bg-primary/5 border-b flex flex-col md:flex-row md:items-center justify-between gap-4">
             <CardTitle className="font-headline flex items-center gap-2">
               <CheckCircle2 className="h-6 w-6 text-primary" />
               Hasil Analisis & Estimasi Biaya
             </CardTitle>
+            <Button onClick={handleDownloadPDF} variant="outline" className="gap-2 border-primary text-primary hover:bg-primary/10">
+              <Download className="h-4 w-4" />
+              Unduh PDF
+            </Button>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-headline prose-p:mb-6">
