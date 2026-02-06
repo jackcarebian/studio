@@ -42,10 +42,10 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR) within the appropriate price range.
 
-  Here are the price ranges:
-  - Standar: Rp 16.000.000 - Rp 24.000.000
-  - Moderate: Rp 25.000.000 - Rp 45.000.000
-  - Advance: Rp 46.000.000 - Rp 100.000.000
+  Here are the price ranges (Telah disesuaikan menjadi 50% dari harga pasar sebelumnya):
+  - Standar: Rp 8.000.000 - Rp 12.000.000
+  - Moderate: Rp 13.000.000 - Rp 22.000.000
+  - Advance: Rp 23.000.000 - Rp 50.000.000
 
   User Requirements: {{{requirements}}}
 

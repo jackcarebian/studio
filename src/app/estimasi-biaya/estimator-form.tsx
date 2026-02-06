@@ -73,7 +73,7 @@ export function EstimatorForm() {
             <CardDescription>Proyek Esensial</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="font-bold text-primary">Rp 16jt - 24jt</p>
+            <p className="font-bold text-primary">Rp 8jt - 12jt</p>
           </CardContent>
         </Card>
         <Card className="bg-primary/5 border-primary/20">
@@ -82,7 +82,7 @@ export function EstimatorForm() {
             <CardDescription>Proyek Menengah</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="font-bold text-primary">Rp 25jt - 45jt</p>
+            <p className="font-bold text-primary">Rp 13jt - 22jt</p>
           </CardContent>
         </Card>
         <Card className="bg-primary/5 border-primary/20">
@@ -91,7 +91,7 @@ export function EstimatorForm() {
             <CardDescription>Proyek Kompleks</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="font-bold text-primary">Rp 46jt - 100jt</p>
+            <p className="font-bold text-primary">Rp 23jt - 50jt</p>
           </CardContent>
         </Card>
       </div>
@@ -103,7 +103,7 @@ export function EstimatorForm() {
                 <span>Formulir Kebutuhan Proyek</span>
             </CardTitle>
             <CardDescription>
-              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 16.000.000 hingga Rp 100.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
+              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 8.000.000 hingga Rp 50.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
             </CardDescription>
         </CardHeader>
         <CardContent>
