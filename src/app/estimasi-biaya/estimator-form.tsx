@@ -18,8 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Wand2, AlertTriangle } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Loader2, Wand2, Calculator, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -66,12 +66,45 @@ export function EstimatorForm() {
 
   return (
     <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <Card className="bg-primary/5 border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-headline">Standar</CardTitle>
+            <CardDescription>Proyek Esensial</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="font-bold text-primary">Rp 16jt - 24jt</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-primary/5 border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-headline">Moderate</CardTitle>
+            <CardDescription>Proyek Menengah</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="font-bold text-primary">Rp 25jt - 45jt</p>
+          </CardContent>
+        </Card>
+        <Card className="bg-primary/5 border-primary/20">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg font-headline">Advance</CardTitle>
+            <CardDescription>Proyek Kompleks</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="font-bold text-primary">Rp 46jt - 100jt</p>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
         <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-headline">
-                <Wand2 className="h-6 w-6" />
+            <CardTitle className="flex items-center gap-2 font-headline text-2xl">
+                <Calculator className="h-6 w-6 text-primary" />
                 <span>Formulir Kebutuhan Proyek</span>
             </CardTitle>
+            <CardDescription>
+              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 16.000.000 hingga Rp 100.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
+            </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -84,26 +117,29 @@ export function EstimatorForm() {
                     <FormLabel className="text-lg">Deskripsi Proyek</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Contoh: Saya membutuhkan website company profile untuk firma hukum saya. Halaman yang dibutuhkan: Beranda, Tentang Kami, Layanan, Tim, dan Kontak. Desainnya harus profesional dan modern..."
-                        className="min-h-[150px] text-base"
+                        placeholder="Contoh: Saya membutuhkan sistem manajemen sales untuk 10 orang tim lapangan. Fitur utama: absensi GPS, input order real-time, dan dashboard owner..."
+                        className="min-h-[180px] text-base"
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      Semakin detail penjelasan Anda, semakin akurat estimasi yang diberikan.
+                      Berikan rincian alur kerja bisnis Anda agar AI dapat menghitung biaya dengan lebih akurat.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isPending} size="lg">
+              <Button type="submit" disabled={isPending} size="lg" className="w-full md:w-auto">
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Memproses...
+                    Menganalisis Kebutuhan...
                   </>
                 ) : (
-                  "Buat Estimasi"
+                  <>
+                    <Wand2 className="mr-2 h-4 w-4" />
+                    Buat Estimasi Sekarang
+                  </>
                 )}
               </Button>
             </form>
@@ -112,11 +148,11 @@ export function EstimatorForm() {
       </Card>
 
       {isPending && (
-         <Card className="animate-pulse">
+         <Card className="animate-pulse border-primary/30">
             <CardHeader>
                 <div className="h-6 w-1/3 bg-muted rounded-md"></div>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
                 <div className="h-4 w-full bg-muted rounded-md"></div>
                 <div className="h-4 w-full bg-muted rounded-md"></div>
                 <div className="h-4 w-2/3 bg-muted rounded-md"></div>
@@ -125,12 +161,15 @@ export function EstimatorForm() {
       )}
 
       {result && (
-        <Card className="fade-in-up">
-          <CardHeader>
-            <CardTitle className="font-headline">Hasil Estimasi Biaya</CardTitle>
+        <Card className="fade-in-up border-primary/50 shadow-md">
+          <CardHeader className="bg-primary/5 border-b">
+            <CardTitle className="font-headline flex items-center gap-2">
+              <CheckCircle2 className="h-6 w-6 text-primary" />
+              Hasil Analisis & Estimasi Biaya
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-headline">
+          <CardContent className="pt-6">
+            <div className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-headline prose-p:mb-6">
               <ReactMarkdown>{result}</ReactMarkdown>
             </div>
           </CardContent>

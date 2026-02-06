@@ -63,7 +63,11 @@ const estimateProjectCostPrompt = ai.definePrompt({
   * Project management
   * Testing
 
-  Ensure the estimate is comprehensive and easy for a non-technical person to understand.
+  CRITICAL FORMATTING INSTRUCTION:
+  Ensure the response is clean and very easy to read.
+  AFTER EVERY PERIOD (tanda titik "."), you MUST provide TWO newlines (2 enters) to separate the ideas clearly and create a very spacious layout.
+  Use bold text for key categories and prices.
+  The output should be in Indonesian.
 `,
 });
 
