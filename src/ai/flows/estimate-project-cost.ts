@@ -42,17 +42,19 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR) within the appropriate price range.
 
-  Here are the price ranges (Telah disesuaikan menjadi 50% dari harga pasar sebelumnya):
+  Here are the price ranges:
   - Standar: Rp 8.000.000 - Rp 12.000.000
   - Moderate: Rp 13.000.000 - Rp 22.000.000
   - Advance: Rp 23.000.000 - Rp 50.000.000
+
+  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 8.000.000 hingga Rp 16.000.000 di atas harga dasar Advance.
 
   User Requirements: {{{requirements}}}
 
   Your response should include:
   1.  The determined category (Standar, Moderate, or Advance).
   2.  A detailed cost breakdown for features and technologies.
-  3.  The final estimated cost, which must fall within the range of the determined category.
+  3.  The final estimated cost (Sebutkan jika ada biaya add-on pembukuan jika relevan).
 
   Explain the costs associated with each part of the project, such as:
   * Front-end development (React, Next.js, TypeScript, Tailwind CSS, Shadcn/UI)
@@ -60,6 +62,7 @@ const estimateProjectCostPrompt = ai.definePrompt({
   * Database (Firestore)
   * Authentication (Firebase Authentication)
   * PWA implementation
+  * Pembukuan (Khusus Add-on Advance)
   * Project management
   * Testing
 

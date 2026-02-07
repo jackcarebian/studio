@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -72,7 +71,8 @@ const tierDetails = [
       "Multi-role Access (Owner, Admin, Sales)",
       "Sistem Notifikasi Push (Real-time)",
       "Dashboard Analitik & Laporan PDF",
-      "Integrasi API Pihak Ketiga"
+      "Integrasi API Pihak Ketiga",
+      "Pembukuan (Add-on: Rp 8jt - 16jt)"
     ]
   }
 ];
