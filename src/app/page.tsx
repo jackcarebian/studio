@@ -295,8 +295,8 @@ export default function Home() {
               </div>
               <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20 fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <Zap className="h-10 w-10 mx-auto mb-4" />
-                <h4 className="font-bold mb-2">Tanpa Gangguan</h4>
-                <p className="text-sm opacity-80">Tidak mengganti sistem pusat yang sudah berjalan.</p>
+                <h4 className="font-bold mb-2">Alur Flexible</h4>
+                <p className="text-sm opacity-80">Sistem di rancang untuk mengikuti Alur opersional bisnis</p>
               </div>
               <div className="p-6 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20 fade-in-up" style={{ animationDelay: '0.5s' }}>
                 <Smartphone className="h-10 w-10 mx-auto mb-4" />
