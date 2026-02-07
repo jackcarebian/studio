@@ -72,7 +72,7 @@ const tierDetails = [
       "Sistem Notifikasi Push (Real-time)",
       "Dashboard Analitik & Laporan PDF",
       "Integrasi API Pihak Ketiga",
-      "Pembukuan (Add-on: Rp 8jt - 16jt)"
+      "Pembukuan (Add-on: Rp 16jt - 24jt)"
     ]
   }
 ];
@@ -121,10 +121,9 @@ export function EstimatorForm() {
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
-    // Header
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(25, 158, 189); // Match primary color
+    doc.setTextColor(25, 158, 189);
     doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
 
     doc.setFont("helvetica", "normal");
@@ -135,13 +134,10 @@ export function EstimatorForm() {
     doc.setDrawColor(200);
     doc.line(margin, 38, pageWidth - margin, 38);
 
-    // Body
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
     doc.setTextColor(0);
 
-    // AI result already has double spacing logic, but we'll clean and wrap it
-    // Remove markdown symbols for the PDF document to look formal
     const cleanText = result
       .replace(/[#*]/g, "")
       .replace(/(\r\n|\n|\r)/gm, "\n");
@@ -160,7 +156,6 @@ export function EstimatorForm() {
       cursorY += lineHeight;
     });
 
-    // Footer
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);

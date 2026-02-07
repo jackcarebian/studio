@@ -47,7 +47,7 @@ const estimateProjectCostPrompt = ai.definePrompt({
   - Moderate: Rp 13.000.000 - Rp 22.000.000
   - Advance: Rp 23.000.000 - Rp 50.000.000
 
-  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 8.000.000 hingga Rp 16.000.000 di atas harga dasar Advance.
+  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 16.000.000 hingga Rp 24.000.000 di atas harga dasar Advance.
 
   RINCIAN MODUL PEMBUKUAN (Add-on Advance):
   Sistem ini bersifat mandiri (TIDAK terintegrasi ke BANK) dengan cakupan fitur:
