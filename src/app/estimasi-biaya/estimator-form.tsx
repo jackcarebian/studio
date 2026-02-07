@@ -37,7 +37,7 @@ const formSchema = z.object({
 const tierDetails = [
   {
     title: "Standar",
-    price: "Rp 8jt - 12jt",
+    price: "Rp 4jt - 8jt",
     description: "Cocok untuk profil bisnis esensial.",
     features: [
       "Website Company Profile / Landing Page",
@@ -50,7 +50,7 @@ const tierDetails = [
   },
   {
     title: "Moderate",
-    price: "Rp 13jt - 22jt",
+    price: "Rp 9jt - 16jt",
     description: "Untuk sistem bisnis menengah.",
     features: [
       "Semua Fitur Standar",
@@ -63,7 +63,7 @@ const tierDetails = [
   },
   {
     title: "Advance",
-    price: "Rp 23jt - 50jt",
+    price: "Rp 17jt - 28jt",
     description: "Solusi operasional kompleks.",
     features: [
       "Semua Fitur Moderate",
@@ -203,7 +203,7 @@ export function EstimatorForm() {
                 <span>Formulir Kebutuhan Proyek</span>
             </CardTitle>
             <CardDescription>
-              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 8.000.000 hingga Rp 50.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
+              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 4.000.000 hingga Rp 28.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
             </CardDescription>
         </CardHeader>
         <CardContent>
