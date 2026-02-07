@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/auth-provider";
@@ -11,6 +11,25 @@ export const metadata: Metadata = {
   title: "JasaWebsiteKu | Solusi Digital untuk Bisnis Anda",
   description: "Layanan jasa pembuatan Website dan Aplikasi Custom sesuai dengan kebutuhan Bisnis. Modern, cepat, dan SEO-friendly.",
   keywords: ["pembuatan website", "jasa website", "aplikasi custom", "next.js", "react", "seo"],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "JasaWebsiteKu",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/favicon.ico", sizes: "any" },
+      { url: "https://i.imgur.com/1tPYul1.png", type: "image/png" }
+    ],
+    apple: [
+      { url: "https://i.imgur.com/1tPYul1.png", sizes: "180x180", type: "image/png" }
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#199EBD",
 };
 
 export default function RootLayout({
@@ -24,8 +43,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#199EBD" />
+        <meta name="mobile-web-app-capable" content="yes" />
       </head>
       <body
         className={cn(
