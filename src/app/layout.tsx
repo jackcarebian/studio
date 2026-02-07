@@ -22,6 +22,7 @@ export const metadata: Metadata = {
       { url: "/icons/favicon.ico", sizes: "any" },
       { url: "https://i.imgur.com/1tPYul1.png", type: "image/png" }
     ],
+    shortcut: "https://i.imgur.com/1tPYul1.png",
     apple: [
       { url: "https://i.imgur.com/1tPYul1.png", sizes: "180x180", type: "image/png" }
     ],
@@ -44,6 +45,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="JasaWebsiteKu" />
+        <meta name="apple-mobile-web-app-title" content="JasaWebsiteKu" />
+        <meta name="msapplication-TileColor" content="#199EBD" />
       </head>
       <body
         className={cn(
