@@ -49,12 +49,21 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 8.000.000 hingga Rp 16.000.000 di atas harga dasar Advance.
 
+  RINCIAN MODUL PEMBUKUAN (Add-on Advance):
+  Sistem ini bersifat mandiri (TIDAK terintegrasi ke BANK) dengan cakupan fitur:
+  1. Master Data: Akun sederhana/COA Ringkas (Kas, Bank, Modal, Pendapatan, Beban), Kategori Transaksi, Data User (Admin & Staff).
+  2. Input Transaksi: Pemasukan & Pengeluaran harian, Upload bukti transaksi (foto/file).
+  3. Buku & Rekap: Buku Kas, Rekap per akun/kategori, Filter tanggal.
+  4. Laporan Keuangan Dasar: Laporan Laba Rugi, Neraca Sederhana, Rekap Bulanan, Export PDF/Excel.
+  5. Dashboard Ringkas: Total In/Out, Saldo Akhir, Grafik bulanan.
+  6. User & Akses: Multi-user (Admin: Full akses, Staff: Input & Lihat laporan).
+
   User Requirements: {{{requirements}}}
 
   Your response should include:
-  1.  The determined category (Standar, Moderate, or Advance).
-  2.  A detailed cost breakdown for features and technologies.
-  3.  The final estimated cost (Sebutkan jika ada biaya add-on pembukuan jika relevan).
+  1. The determined category (Standar, Moderate, or Advance).
+  2. A detailed cost breakdown for features and technologies.
+  3. The final estimated cost (Sebutkan jika ada biaya add-on pembukuan jika relevan).
 
   Explain the costs associated with each part of the project, such as:
   * Front-end development (React, Next.js, TypeScript, Tailwind CSS, Shadcn/UI)
@@ -62,13 +71,13 @@ const estimateProjectCostPrompt = ai.definePrompt({
   * Database (Firestore)
   * Authentication (Firebase Authentication)
   * PWA implementation
-  * Pembukuan (Khusus Add-on Advance)
+  * Pembukuan (Khusus Add-on Advance - sebutkan fitur-fitur yang didapat)
   * Project management
   * Testing
 
   CRITICAL FORMATTING INSTRUCTION:
   Ensure the response is clean and very easy to read.
-  AFTER EVERY PERIOD (tanda titik "."), you MUST provide TWO newlines (2 enters) to separate the ideas clearly and create a very spacious layout.
+  AFTER EVERY PERIOD (tanda titik "."), you MUST provide TWO newlines (2 enters) to separate the ideas clearly and create a very spacious layout like a formal document.
   Use bold text for key categories and prices.
   The output should be in Indonesian.
 `,
