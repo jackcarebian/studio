@@ -53,6 +53,12 @@
       "description": "Screenshot cuplikan sistem Gada Medika.",
       "imageUrl": "https://i.imgur.com/ugsRFCu.jpeg",
       "imageHint": "medical interface"
+    },
+    {
+      "id": "project-temanin",
+      "description": "Screenshot cuplikan website TemanIn.",
+      "imageUrl": "https://i.imgur.com/rxZpwCv.jpeg",
+      "imageHint": "social dashboard"
     }
   ]
 }

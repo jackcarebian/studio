@@ -98,6 +98,12 @@ const portfolioProjects = [
     url: "https://gadamedika.vercel.app",
     image: placeholderImages.find(p => p.id === "project-gadamedika"),
   },
+  {
+    title: "TemanIn",
+    description: "Platform kolaborasi dan networking untuk menghubungkan profesional dan komunitas.",
+    url: "https://temanin.vercel.app/",
+    image: placeholderImages.find(p => p.id === "project-temanin"),
+  },
 ];
 
 const faqItems = [
@@ -320,7 +326,7 @@ export default function Home() {
               Beberapa karya terbaik yang telah kami bantu wujudkan. Klik kartu untuk mengunjungi website.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
             {portfolioProjects.map((project, index) => (
               <a 
                 key={index} 
