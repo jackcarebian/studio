@@ -3,6 +3,8 @@ import { Github, Linkedin, Twitter } from "lucide-react";
 import { Logo } from "./logo";
 
 export function Footer() {
+  const socialLink = "https://www.linkedin.com/in/jimmy-tjahyono-a89254a1/";
+
   return (
     <footer className="bg-secondary/60 text-secondary-foreground">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-12 md:grid-cols-4 md:px-6">
@@ -42,13 +44,13 @@ export function Footer() {
         <div className="grid gap-2">
           <h4 className="font-headline font-semibold">Ikuti Kami</h4>
           <div className="flex gap-4">
-            <Link href="#" className="text-muted-foreground hover:text-primary">
+            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Twitter className="h-5 w-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-primary">
+            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Github className="h-5 w-5" />
             </Link>
-            <Link href="#" className="text-muted-foreground hover:text-primary">
+            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Linkedin className="h-5 w-5" />
             </Link>
           </div>
