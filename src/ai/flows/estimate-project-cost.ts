@@ -42,12 +42,14 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR) within the appropriate price range.
 
-  Here are the price ranges:
+  PENTING: Berikan estimasi harga yang cenderung berada pada batas atas (maksimal) dari rentang harga yang ditentukan untuk memastikan kualitas pengerjaan premium dan fitur yang lengkap.
+
+  Price Ranges (Gunakan angka maksimal dari rentang ini sebagai acuan utama):
   - Standar: Rp 4.000.000 - Rp 8.000.000
   - Moderate: Rp 9.000.000 - Rp 16.000.000
-  - Advance: Rp 17.000.000 - Rp 28.000.000
+  - Advance: Rp 17.000.000 - Rp 33.000.000
 
-  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 16.000.000 hingga Rp 24.000.000 di atas harga dasar Advance.
+  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 16.000.000 hingga Rp 24.000.000 di atas harga dasar Advance tersebut.
 
   RINCIAN MODUL PEMBUKUAN (Add-on Advance):
   Sistem ini bersifat mandiri (TIDAK terintegrasi ke BANK) dengan cakupan fitur:
