@@ -19,6 +19,7 @@ import {
   Bell,
   BarChart3,
   ShieldAlert,
+  Gem,
 } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
 import {
@@ -240,36 +241,39 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 fade-in-up">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-destructive/10 text-destructive text-sm font-bold">
-                <AlertCircle className="h-4 w-4" />
-                <span>Latar Belakang</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold">
+                <Gem className="h-4 w-4" />
+                <span>Sistem Sebagai Aset Bisnis</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800 leading-tight">
-                Tantangan Operasional yang Semakin Kompleks
+                Bisnis Tumbuh, Kendali Jangan Sampai Melemah
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground">
                 <p>
-                  Banyak bisnis distribusi dan prinsipal saat ini menghadapi tantangan yang sulit: Jumlah sales bertambah, target meningkat, area semakin luas—namun <strong>kontrol justru melemah</strong>.
+                  Banyak pemilik bisnis terjebak dalam dilema pertumbuhan: Semakin besar skala bisnisnya, semakin sulit memantau setiap detail operasional secara akurat.
                 </p>
                 <p>
-                  Masalah yang sering muncul bukan pada produk atau pasar, mirainkan pada alur kerja internal yang <strong>tidak tertangani oleh software umum</strong>.
+                  Sistem yang Anda bangun bersama kami bukan sekadar software biasa, melainkan <strong>Investasi Aset Digital</strong> yang Anda miliki sepenuhnya untuk memberikan kemandirian operasional jangka panjang.
+                </p>
+                <p className="font-bold text-primary italic">
+                  "Jangan biarkan bisnis Anda berjalan berdasarkan asumsi. Berjalanlah di atas sistem yang solid."
                 </p>
               </div>
             </div>
             <div className="bg-secondary/30 p-8 rounded-2xl border border-border fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h3 className="text-xl font-headline font-bold mb-6 flex items-center gap-2 text-destructive">
                 <ShieldAlert className="h-6 w-6" />
-                Masalah Umum yang Dihadapi
+                Tantangan Utama Pemilik Bisnis
               </h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  "Operasional melibatkan banyak orang & peran",
-                  "Tekanan target tinggi di level sales",
-                  "Laporan aktivitas sales sulit diverifikasi",
-                  "Order fiktif dan data tidak akurat",
-                  "Update penjualan bergantung WA/Manual",
-                  "Admin kelelahan input ulang",
-                  "Owner tidak memiliki visibilitas real-time"
+                  "Ketergantungan tinggi pada orang tertentu",
+                  "Data operasional yang sulit divalidasi",
+                  "Proses manual yang menghambat kecepatan",
+                  "Laporan bisnis yang terlambat & tidak akurat",
+                  "Owner tidak memiliki kontrol saat di luar kantor",
+                  "Komunikasi berantakan di grup chat",
+                  "Kebocoran biaya yang sulit dideteksi sejak dini"
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm">
                     <CheckCircle2 className="h-5 w-5 text-destructive shrink-0" />
@@ -277,8 +281,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 p-4 bg-destructive/5 rounded-lg text-sm italic text-destructive font-medium border-l-4 border-destructive">
-                Software generik (CRM, ERP standar, spreadsheet) tidak dirancang untuk kondisi lapangan yang dinamis seperti ini.
+              <p className="mt-6 p-4 bg-primary/5 rounded-lg text-sm italic text-primary font-medium border-l-4 border-primary">
+                Sistem kustom dirancang khusus untuk membereskan alur kerja unik Anda yang tidak bisa ditangani oleh software umum.
               </p>
             </div>
           </div>
@@ -513,9 +517,9 @@ export default function Home() {
       {/* CTA Section */}
       <section className="bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Siap untuk Memulai Project Anda?</h2>
+          <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Siap untuk Memubah Proyek Anda Menjadi Aset?</h2>
           <p className="text-lg max-w-2xl mx-auto mb-8">
-            Jangan ragu untuk berdiskusi dengan kami. Konsultasi gratis untuk menemukan solusi digital terbaik bagi bisnis Anda.
+            Jangan ragu untuk berdiskusi dengan kami. Konsultasi gratis untuk menemukan solusi digital terbaik yang akan menjadi aset berharga bagi masa depan bisnis Anda.
           </p>
           <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground font-bold">
             <Link href="/estimasi-biaya">Dapatkan Estimasi Gratis</Link>
