@@ -1,9 +1,11 @@
+
 import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
 import { Logo } from "./logo";
 
 export function Footer() {
-  const socialLink = "https://www.linkedin.com/in/jimmy-tjahyono-a89254a1/";
+  const linkedInLink = "https://www.linkedin.com/in/jimmy-tjahyono-a89254a1/";
+  const githubLink = "https://github.com/jackcarebian/studio";
 
   return (
     <footer className="bg-secondary/60 text-secondary-foreground">
@@ -44,13 +46,13 @@ export function Footer() {
         <div className="grid gap-2">
           <h4 className="font-headline font-semibold">Ikuti Kami</h4>
           <div className="flex gap-4">
-            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+            <Link href={linkedInLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Twitter className="h-5 w-5" />
             </Link>
-            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+            <Link href={githubLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Github className="h-5 w-5" />
             </Link>
-            <Link href={socialLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+            <Link href={linkedInLink} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
               <Linkedin className="h-5 w-5" />
             </Link>
           </div>
