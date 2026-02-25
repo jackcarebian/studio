@@ -43,8 +43,8 @@ export default function KontakPage() {
                   <div>
                     <h3 className="font-semibold text-lg">WhatsApp</h3>
                     <p className="text-muted-foreground">Untuk respon yang lebih cepat.</p>
-                    <a href="https://wa.me/62895803501000" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">
-                      +62 895-8035-01000
+                    <a href="https://wa.me/6288988357060" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:underline">
+                      +62 889-8835-7060
                     </a>
                   </div>
                 </div>

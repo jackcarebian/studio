@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function WhatsAppFAB() {
-    const phoneNumber = "62895803501000";
+    const phoneNumber = "6288988357060";
     const message = "Halo, saya tertarik dengan layanan pembuatan website Anda.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

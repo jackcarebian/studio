@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import { Github, Linkedin, Twitter } from "lucide-react";
 import { Logo } from "./logo";
@@ -38,8 +37,8 @@ export function Footer() {
           <a href="mailto:promone.info@gmail.com" className="text-sm text-muted-foreground hover:text-primary">
             promone.info@gmail.com
           </a>
-          <a href="https://wa.me/62895803501000" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary">
-            +62 895-8035-01000
+          <a href="https://wa.me/6288988357060" target="_blank" rel="noopener noreferrer" className="text-sm text-muted-foreground hover:text-primary">
+            +62 889-8835-7060
           </a>
           <p className="text-sm text-muted-foreground">Perum Berkoh Indah, Purwokerto</p>
         </div>
