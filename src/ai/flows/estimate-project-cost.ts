@@ -40,25 +40,16 @@ const estimateProjectCostPrompt = ai.definePrompt({
   output: {schema: EstimateProjectCostOutputSchema},
   prompt: `You are an AI assistant specializing in providing cost estimates for website and application development projects.
 
-  Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR) within the appropriate price range.
+  Based on the user's requirements, first categorize the project into one of three tiers: Standar, Moderate, or Advance. Then, provide a detailed cost estimate in Rupiah (IDR).
 
-  PENTING: Berikan estimasi harga yang cenderung berada pada batas atas (maksimal) dari rentang harga yang ditentukan untuk memastikan kualitas pengerjaan premium dan fitur yang lengkap.
+  PENTING: Berikan estimasi harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS (maksimal) dari rentang harga yang ditentukan untuk memastikan kualitas pengerjaan premium dan fitur yang lengkap.
 
-  Price Ranges (Gunakan angka maksimal dari rentang ini sebagai acuan utama):
-  - Standar: Rp 4.000.000 - Rp 8.000.000
-  - Moderate: Rp 9.000.000 - Rp 16.000.000
-  - Advance: Rp 17.000.000 - Rp 33.000.000
+  Price Ranges (Gunakan rentang tengah ke atas sebagai acuan utama):
+  - Standar: Rp 2.000.000 - Rp 4.000.000 (Berikan penawaran di Rp 3.000.000 - Rp 4.000.000)
+  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Berikan penawaran di Rp 8.000.000 - Rp 10.000.000)
+  - Advance: Rp 12.000.000 - Rp 16.000.000 (Berikan penawaran di Rp 14.000.000 - Rp 16.000.000)
 
-  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 16.000.000 hingga Rp 24.000.000 di atas harga dasar Advance tersebut.
-
-  RINCIAN MODUL PEMBUKUAN (Add-on Advance):
-  Sistem ini bersifat mandiri (TIDAK terintegrasi ke BANK) dengan cakupan fitur:
-  1. Master Data: Akun sederhana/COA Ringkas (Kas, Bank, Modal, Pendapatan, Beban), Kategori Transaksi, Data User (Admin & Staff).
-  2. Input Transaksi: Pemasukan & Pengeluaran harian, Upload bukti transaksi (foto/file).
-  3. Buku & Rekap: Buku Kas, Rekap per akun/kategori, Filter tanggal.
-  4. Laporan Keuangan Dasar: Laporan Laba Rugi, Neraca Sederhana, Rekap Bulanan, Export PDF/Excel.
-  5. Dashboard Ringkas: Total In/Out, Saldo Akhir, Grafik bulanan.
-  6. User & Akses: Multi-user (Admin: Full akses, Staff: Input & Lihat laporan).
+  PENTING: Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 2.000.000 hingga Rp 5.000.000 di atas harga dasar Advance tersebut.
 
   User Requirements: {{{requirements}}}
 

@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from "jspdf";
 
@@ -20,8 +20,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download } from "lucide-react";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 const formSchema = z.object({
   requirements: z
@@ -37,7 +38,8 @@ const formSchema = z.object({
 const tierDetails = [
   {
     title: "Standar",
-    price: "Rp 4jt - 8jt",
+    originalPrice: "Rp 4jt - 8jt",
+    price: "Rp 2jt - 4jt",
     description: "Cocok untuk profil bisnis esensial.",
     features: [
       "Website Company Profile / Landing Page",
@@ -50,7 +52,8 @@ const tierDetails = [
   },
   {
     title: "Moderate",
-    price: "Rp 9jt - 16jt",
+    originalPrice: "Rp 11jt - 18jt",
+    price: "Rp 6jt - 10jt",
     description: "Untuk sistem bisnis menengah.",
     features: [
       "Semua Fitur Standar",
@@ -63,7 +66,8 @@ const tierDetails = [
   },
   {
     title: "Advance",
-    price: "Rp 17jt - 28jt",
+    originalPrice: "Rp 24jt - 33jt",
+    price: "Rp 12jt - 16jt",
     description: "Solusi operasional kompleks.",
     features: [
       "Semua Fitur Moderate",
@@ -72,10 +76,72 @@ const tierDetails = [
       "Sistem Notifikasi Push (Real-time)",
       "Dashboard Analitik & Laporan PDF",
       "Integrasi API Pihak Ketiga",
-      "Pembukuan (Add-on: Rp 16jt - 24jt)"
+      "Pembukuan (Add-on: Rp 2jt - 5jt)"
     ]
   }
 ];
+
+function CountdownTimer() {
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      // Calculate first day of next month at 00:00:00
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
+      const difference = nextMonth.getTime() - now.getTime();
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      }
+    };
+
+    const timer = setInterval(calculateTimeLeft, 1000);
+    calculateTimeLeft(); // Initial call
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="flex items-center justify-center gap-4 py-4 px-6 bg-destructive/10 border border-destructive/20 rounded-xl mb-8">
+      <div className="flex items-center gap-2 text-destructive font-bold">
+        <Timer className="h-5 w-5 animate-pulse" />
+        <span className="text-sm md:text-base uppercase tracking-wider">Promo Berakhir Dalam:</span>
+      </div>
+      <div className="flex gap-2 text-xl md:text-2xl font-mono font-bold text-destructive">
+        <div className="flex flex-col items-center">
+          <span>{String(timeLeft.days).padStart(2, '0')}</span>
+          <span className="text-[10px] uppercase font-sans">Hari</span>
+        </div>
+        <span>:</span>
+        <div className="flex flex-col items-center">
+          <span>{String(timeLeft.hours).padStart(2, '0')}</span>
+          <span className="text-[10px] uppercase font-sans">Jam</span>
+        </div>
+        <span>:</span>
+        <div className="flex flex-col items-center">
+          <span>{String(timeLeft.minutes).padStart(2, '0')}</span>
+          <span className="text-[10px] uppercase font-sans">Menit</span>
+        </div>
+        <span>:</span>
+        <div className="flex flex-col items-center">
+          <span>{String(timeLeft.seconds).padStart(2, '0')}</span>
+          <span className="text-[10px] uppercase font-sans">Detik</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function EstimatorForm() {
   const [isPending, startTransition] = useTransition();
@@ -174,12 +240,24 @@ export function EstimatorForm() {
 
   return (
     <div className="space-y-8">
+      <CountdownTimer />
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {tierDetails.map((tier, idx) => (
-          <Card key={idx} className="bg-primary/5 border-primary/20 hover:border-primary/40 transition-colors">
+          <Card key={idx} className="bg-primary/5 border-primary/20 hover:border-primary/40 transition-colors relative overflow-hidden group">
+            <div className="absolute top-0 right-0 bg-destructive text-destructive-foreground text-[10px] font-bold px-3 py-1 rotate-45 translate-x-3 translate-y-2 uppercase shadow-sm">
+              Diskon 50%
+            </div>
             <CardHeader className="pb-2">
               <CardTitle className="text-xl font-headline text-primary">{tier.title}</CardTitle>
-              <p className="text-2xl font-bold">{tier.price}</p>
+              <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground line-through decoration-destructive/60 decoration-2">
+                  {tier.originalPrice}
+                </span>
+                <p className="text-2xl font-bold text-foreground">
+                  {tier.price}
+                </p>
+              </div>
               <CardDescription className="mt-2">{tier.description}</CardDescription>
             </CardHeader>
             <CardContent>
@@ -203,7 +281,7 @@ export function EstimatorForm() {
                 <span>Formulir Kebutuhan Proyek</span>
             </CardTitle>
             <CardDescription>
-              Rentang estimasi pembuatan sistem berbasis website kami mulai dari <strong>Rp 4.000.000 hingga Rp 28.000.000+</strong> tergantung pada kompleksitas fitur dan alur kerja.
+              Dapatkan penawaran khusus hari ini mulai dari <strong>Rp 2.000.000 hingga Rp 16.000.000+</strong>. Harga promo akan tereset otomatis setiap awal bulan.
             </CardDescription>
         </CardHeader>
         <CardContent>
@@ -214,11 +292,14 @@ export function EstimatorForm() {
                 name="requirements"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-lg">Deskripsi Proyek</FormLabel>
+                    <div className="flex justify-between items-center">
+                      <FormLabel className="text-lg">Deskripsi Proyek</FormLabel>
+                      <Badge variant="secondary" className="bg-primary/10 text-primary border-none">AI Powered Analysis</Badge>
+                    </div>
                     <FormControl>
                       <Textarea
                         placeholder="Contoh: Saya membutuhkan sistem manajemen sales untuk 10 orang tim lapangan. Fitur utama: absensi GPS, input order real-time, dan dashboard owner..."
-                        className="min-h-[180px] text-base"
+                        className="min-h-[180px] text-base focus-visible:ring-primary/50"
                         {...field}
                       />
                     </FormControl>
@@ -229,7 +310,7 @@ export function EstimatorForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isPending} size="lg" className="w-full md:w-auto">
+              <Button type="submit" disabled={isPending} size="lg" className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg">
                 {isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -267,7 +348,7 @@ export function EstimatorForm() {
               <CheckCircle2 className="h-6 w-6 text-primary" />
               Hasil Analisis & Estimasi Biaya
             </CardTitle>
-            <Button onClick={handleDownloadPDF} variant="outline" className="gap-2 border-primary text-primary hover:bg-primary/10">
+            <Button onClick={handleDownloadPDF} variant="outline" className="gap-2 border-primary text-primary hover:bg-primary/10 font-bold">
               <Download className="h-4 w-4" />
               Unduh PDF
             </Button>
