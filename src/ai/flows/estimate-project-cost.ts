@@ -53,7 +53,9 @@ const estimateProjectCostPrompt = ai.definePrompt({
   - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target: Rp 8.000.000 - Rp 10.000.000)
   - Advance: Rp 12.000.000 - Rp 16.000.000 (Target: Rp 14.000.000 - Rp 16.000.000)
 
-  PENTING: Khusus untuk paket Advance, jika pengguna memilih atau membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 2.000.000 hingga Rp 5.000.000 di atas harga dasar Advance tersebut.
+  ATURAN BIAYA KHUSUS:
+  - Khusus untuk item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)", biayanya adalah TETAP Rp 300.000. Jangan gunakan angka lain untuk item ini.
+  - Khusus untuk paket Advance, jika pengguna memilih atau membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 2.000.000 hingga Rp 5.000.000 di atas harga dasar Advance tersebut.
 
   User Requirements Context: {{{requirements}}}
   
@@ -64,15 +66,16 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Your response should include:
   1. The determined category (Standar, Moderate, or Advance).
-  2. A detailed cost breakdown for features and technologies.
-  3. The final estimated cost (Sebutkan jika ada biaya add-on pembukuan jika relevan).
+  2. A detailed cost breakdown for each feature and technology.
+  3. A clear "TOTAL ESTIMASI BIAYA" at the end of the response.
 
   Explain the costs associated with each part of the project, focusing on the selected features.
   
   CRITICAL FORMATTING INSTRUCTION:
   Ensure the response is clean and very easy to read.
   AFTER EVERY PERIOD (tanda titik "."), you MUST provide TWO newlines (2 enters) to separate the ideas clearly.
-  Use bold text for key categories and prices.
+  Use bold text for key categories, feature names, and prices.
+  The "TOTAL ESTIMASI BIAYA" should be in bold and use a larger font-like emphasis (e.g., using ### in markdown).
   The output MUST be in Indonesian.
 `,
 });
