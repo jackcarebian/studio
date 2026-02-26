@@ -66,12 +66,12 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Explain the costs associated with each part of the project, focusing on the selected features.
   
-  CRITICAL FORMATTING INSTRUCTION:
-  Ensure the response is clean and very easy to read.
-  AFTER EVERY PERIOD (tanda titik "."), you MUST provide TWO newlines (2 enters) to separate the ideas clearly.
-  Use bold text for key categories, feature names, and prices.
-  The "TOTAL ESTIMASI BIAYA" should be in bold and use a larger font-like emphasis (e.g., using ### in markdown).
-  The output MUST be in Indonesian.
+  CRITICAL FORMATTING INSTRUCTIONS (INSTRUKSI FORMAT WAJIB):
+  - Gunakan Bahasa Indonesia yang profesional.
+  - WAJIB: Berikan jarak DUA baris baru (2 enters/newline) SETELAH SETIAP tanda titik (.). Contoh: "Selesai. Lanjut." menjadi "Selesai.\n\nLanjut."
+  - WAJIB: Berikan jarak DUA baris baru (2 enters/newline) SEBELUM SETIAP judul poin fitur atau kategori utama untuk memberikan ruang visual yang lega.
+  - Gunakan teks tebal (**teks**) untuk Kategori, Nama Fitur, dan Harga.
+  - Penulisan total biaya di akhir harus menggunakan format heading markdown level 3: ### **TOTAL ESTIMASI BIAYA: Rp [Jumlah]**.
 `,
 });
 
