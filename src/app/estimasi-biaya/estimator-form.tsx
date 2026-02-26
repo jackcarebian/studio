@@ -325,7 +325,7 @@ export function EstimatorForm() {
                 </ul>
               </CardContent>
               <div className="p-6 pt-0 mt-auto relative z-10">
-                <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/50 font-bold" asChild>
+                <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/50 hover:text-primary font-bold" asChild>
                   <a href="#form-estimator">Pilih Paket {tier.title}</a>
                 </Button>
               </div>
