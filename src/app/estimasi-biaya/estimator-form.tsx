@@ -7,7 +7,7 @@ import { useState, useTransition, useEffect } from "react";
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from "jspdf";
 
-import { estimateProjectCost } from "@/ai/flows/estimate-project-cost";
+import { estimateProjectCost, identifyFeatures } from "@/ai/flows/estimate-project-cost";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -80,7 +80,7 @@ const tierDetails = [
   },
   {
     title: "Advance",
-    originalPrice: "Rp 24jt - 33jt",
+    originalPrice: "Rp 24jt - 45jt",
     price: "Rp 12jt - 16jt",
     description: "Solusi operasional kompleks.",
     features: featureChecklist.Advance
@@ -157,6 +157,7 @@ function CountdownTimer() {
 export function EstimatorForm() {
   const [step, setStep] = useState<'input' | 'features' | 'result'>('input');
   const [isPending, startTransition] = useTransition();
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const { toast } = useToast();
@@ -168,12 +169,24 @@ export function EstimatorForm() {
     },
   });
 
-  function onInitialSubmit(values: z.infer<typeof formSchema>) {
-    setStep('features');
-    // Scroll to the checklist
-    setTimeout(() => {
-      document.getElementById('feature-checklist')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+  async function onInitialSubmit(values: z.infer<typeof formSchema>) {
+    setIsAnalyzing(true);
+    try {
+      const response = await identifyFeatures({ requirements: values.requirements });
+      setSelectedFeatures(response.suggestedFeatures);
+      
+      setStep('features');
+      // Scroll to the checklist
+      setTimeout(() => {
+        document.getElementById('feature-checklist')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } catch (error) {
+      console.error("AI analysis failed:", error);
+      // Fallback: still go to features but with empty selection if analysis fails
+      setStep('features');
+    } finally {
+      setIsAnalyzing(false);
+    }
   }
 
   function toggleFeature(feature: string) {
@@ -366,9 +379,18 @@ export function EstimatorForm() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" size="lg" className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl hover:shadow-primary/20 transition-all">
-                  <Wand2 className="mr-3 h-5 w-5" />
-                  Buat Estimasi Biaya (Gratis)
+                <Button type="submit" disabled={isAnalyzing} size="lg" className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl hover:shadow-primary/20 transition-all">
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                      Menganalisis Kebutuhan...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="mr-3 h-5 w-5" />
+                      Buat Estimasi Biaya (Gratis)
+                    </>
+                  )}
                 </Button>
               </form>
             </Form>
@@ -386,7 +408,7 @@ export function EstimatorForm() {
                   <span>Rincian Kebutuhan Fitur</span>
                 </CardTitle>
                 <CardDescription className="text-base italic">
-                  Berdasarkan deskripsi Anda, silakan ceklis fitur-fitur yang menurut Anda diperlukan:
+                  AI telah merekomendasikan fitur berdasarkan deskripsi Anda. Silakan sesuaikan checklist jika diperlukan:
                 </CardDescription>
               </div>
               <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground flex items-center gap-2">
