@@ -140,14 +140,13 @@ function CountdownTimer() {
           <p className="text-sm opacity-90 max-w-[300px]">Dapatkan diskon 50% untuk semua paket pembuatan website & aplikasi.</p>
         </div>
 
-        <div className="flex gap-3 md:gap-4 items-center">
-          <TimerUnit value={timeLeft.days} label="Hari" />
-          <span className="text-2xl font-bold animate-pulse">:</span>
-          <TimerUnit value={timeLeft.hours} label="Jam" />
-          <span className="text-2xl font-bold animate-pulse">:</span>
-          <TimerUnit value={timeLeft.minutes} label="Menit" />
-          <span className="text-2xl font-bold animate-pulse">:</span>
-          <TimerUnit value={timeLeft.seconds} label="Detik" />
+        <div className="flex gap-3 md:gap-4 items-center text-center">
+          <div className="grid grid-cols-4 gap-2 md:gap-4">
+            <TimerUnit value={timeLeft.days} label="Hari" />
+            <TimerUnit value={timeLeft.hours} label="Jam" />
+            <TimerUnit value={timeLeft.minutes} label="Menit" />
+            <TimerUnit value={timeLeft.seconds} label="Detik" />
+          </div>
         </div>
       </div>
     </div>
@@ -176,13 +175,11 @@ export function EstimatorForm() {
       setSelectedFeatures(response.suggestedFeatures);
       
       setStep('features');
-      // Scroll to the checklist
       setTimeout(() => {
         document.getElementById('feature-checklist')?.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } catch (error) {
       console.error("AI analysis failed:", error);
-      // Fallback: still go to features but with empty selection if analysis fails
       setStep('features');
     } finally {
       setIsAnalyzing(false);
@@ -215,7 +212,7 @@ export function EstimatorForm() {
           title: "Gagal Membuat Estimasi",
           description: "Terjadi kesalahan saat berkomunikasi dengan AI. Silakan coba lagi nanti.",
         });
-        setStep('features'); // Go back on error
+        setStep('features');
       }
     });
   }
@@ -372,9 +369,6 @@ export function EstimatorForm() {
                           {...field}
                         />
                       </FormControl>
-                      <FormDescription className="text-sm italic">
-                        Tips: Jelaskan alur kerja bisnis Anda secara garis besar.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -411,10 +405,12 @@ export function EstimatorForm() {
                   AI telah merekomendasikan fitur berdasarkan deskripsi Anda. Silakan sesuaikan checklist jika diperlukan:
                 </CardDescription>
               </div>
-              <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Kembali ke Input
-              </Button>
+              {!isPending && (
+                <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Kembali ke Input
+                </Button>
+              )}
             </div>
           </CardHeader>
           <CardContent className="p-8 md:p-10">
@@ -427,10 +423,11 @@ export function EstimatorForm() {
                   </div>
                   <div className="space-y-4">
                     {features.map((feature) => (
-                      <div key={feature} className="flex items-start space-x-3 group cursor-pointer" onClick={() => toggleFeature(feature)}>
+                      <div key={feature} className="flex items-start space-x-3 group cursor-pointer" onClick={() => !isPending && toggleFeature(feature)}>
                         <Checkbox 
                           id={feature} 
                           checked={selectedFeatures.includes(feature)}
+                          disabled={isPending}
                           className="mt-1 border-primary data-[state=checked]:bg-primary"
                         />
                         <label
@@ -452,11 +449,21 @@ export function EstimatorForm() {
             </div>
             <Button 
               onClick={handleCalculate} 
+              disabled={isPending}
               size="lg" 
               className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl"
             >
-              Lanjutkan Perhitungan Biaya
-              <ArrowRight className="ml-3 h-5 w-5" />
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                  Harap Tunggu, Admin sedang menganalisa Biaya...
+                </>
+              ) : (
+                <>
+                  Lanjutkan Perhitungan Biaya
+                  <ArrowRight className="ml-3 h-5 w-5" />
+                </>
+              )}
             </Button>
           </CardFooter>
         </Card>
@@ -464,23 +471,28 @@ export function EstimatorForm() {
 
       {step === 'result' && isPending && (
          <Card className="animate-pulse border-primary/20 shadow-sm">
-            <CardHeader className="bg-muted/30">
-                <div className="h-6 w-1/4 bg-muted rounded-md"></div>
+            <CardHeader className="bg-muted/30 border-b">
+                <div className="flex items-center gap-3">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  <div className="h-6 w-1/2 bg-muted rounded-md"></div>
+                </div>
             </CardHeader>
-            <CardContent className="space-y-6 pt-8">
-                <div className="h-5 w-full bg-muted/40 rounded-md"></div>
-                <div className="h-5 w-full bg-muted/40 rounded-md"></div>
-                <div className="h-5 w-3/4 bg-muted/40 rounded-md"></div>
-                <div className="pt-4 flex gap-4">
-                  <div className="h-24 w-1/3 bg-muted/20 rounded-xl"></div>
-                  <div className="h-24 w-1/3 bg-muted/20 rounded-xl"></div>
-                  <div className="h-24 w-1/3 bg-muted/20 rounded-xl"></div>
+            <CardContent className="space-y-6 pt-10 text-center py-20">
+                <div className="flex flex-col items-center gap-4">
+                  <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                  <p className="text-xl font-headline font-bold text-primary animate-bounce">Harap Tunggu, Admin sedang menganalisa Biaya</p>
+                  <p className="text-muted-foreground">Menghitung rincian fitur dan merumuskan penawaran terbaik untuk Anda...</p>
+                </div>
+                <div className="pt-10 flex gap-4 opacity-30">
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
                 </div>
             </CardContent>
         </Card>
       )}
 
-      {step === 'result' && result && (
+      {step === 'result' && result && !isPending && (
         <Card className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5">
           <CardHeader className="bg-primary/5 border-b p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-1">
