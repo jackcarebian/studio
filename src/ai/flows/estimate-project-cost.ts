@@ -41,12 +41,12 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   Based on the user's requirements and the specific features they selected, categorize the project into one of three tiers: Standar, Moderate, or Advance. 
   
-  PENTING: Berikan estimasi harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS (maksimal) dari rentang harga yang ditentukan.
+  PENTING: Gunakan skema HARGA DISKON berikut untuk estimasi Anda. Berikan penawaran harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS (maksimal) dari rentang harga yang ditentukan.
 
   Price Ranges (Targetkan penawaran di rentang tengah ke atas):
-  - Standar: Rp 2.000.000 - Rp 4.000.000 (Target: Rp 3.000.000 - Rp 4.000.000)
-  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target: Rp 8.000.000 - Rp 10.000.000)
-  - Advance: Rp 12.000.000 - Rp 33.000.000 (Target: Rp 25.000.000 - Rp 33.000.000)
+  - Standar: Rp 2.000.000 - Rp 4.000.000 (Target Penawaran: Rp 3.000.000 - Rp 4.000.000)
+  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target Penawaran: Rp 8.000.000 - Rp 10.000.000)
+  - Advance: Rp 12.000.000 - Rp 16.000.000 (Target Penawaran: Rp 14.500.000 - Rp 16.000.000)
 
   ATURAN BIAYA KHUSUS:
   - Khusus untuk item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)", biayanya adalah TETAP Rp 300.000. Jangan gunakan angka lain untuk item ini.
