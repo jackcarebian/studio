@@ -19,10 +19,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -36,49 +37,53 @@ const formSchema = z.object({
     }),
 });
 
+const featureChecklist = {
+  Standar: [
+    "Website Company Profile / Landing Page",
+    "Desain Responsif (Mobile Friendly)",
+    "Integrasi WhatsApp Chat & Maps",
+    "Optimasi SEO Dasar",
+    "Keamanan SSL & Hosting Cepat",
+    "Gratis Domain .com / .id (1 Thn)"
+  ],
+  Moderate: [
+    "Aplikasi Web Kustom (Admin Dashboard)",
+    "Sistem Manajemen Konten (CMS)",
+    "Progressive Web App (PWA)",
+    "Database Firestore (Real-time)",
+    "Sistem Login & Autentikasi User"
+  ],
+  Advance: [
+    "ERP / CRM Custom Sesuai Alur Bisnis",
+    "Multi-role Access (Owner, Admin, Sales)",
+    "Sistem Notifikasi Push (Real-time)",
+    "Dashboard Analitik & Laporan PDF",
+    "Integrasi API Pihak Ketiga",
+    "Pembukuan (Add-on: Rp 2jt - 5jt)"
+  ]
+};
+
 const tierDetails = [
   {
     title: "Standar",
     originalPrice: "Rp 4jt - 8jt",
     price: "Rp 2jt - 4jt",
     description: "Cocok untuk profil bisnis esensial.",
-    features: [
-      "Website Company Profile / Landing Page",
-      "Desain Responsif (Mobile Friendly)",
-      "Integrasi WhatsApp Chat & Maps",
-      "Optimasi SEO Dasar",
-      "Keamanan SSL & Hosting Cepat",
-      "Gratis Domain .com / .id (1 Thn)"
-    ]
+    features: featureChecklist.Standar
   },
   {
     title: "Moderate",
     originalPrice: "Rp 11jt - 18jt",
     price: "Rp 6jt - 10jt",
     description: "Untuk sistem bisnis menengah.",
-    features: [
-      "Semua Fitur Standar",
-      "Aplikasi Web Kustom (Admin Dashboard)",
-      "Sistem Manajemen Konten (CMS)",
-      "Progressive Web App (PWA)",
-      "Database Firestore (Real-time)",
-      "Sistem Login & Autentikasi User"
-    ]
+    features: featureChecklist.Moderate
   },
   {
     title: "Advance",
     originalPrice: "Rp 24jt - 33jt",
     price: "Rp 12jt - 16jt",
     description: "Solusi operasional kompleks.",
-    features: [
-      "Semua Fitur Moderate",
-      "ERP / CRM Custom Sesuai Alur Bisnis",
-      "Multi-role Access (Owner, Admin, Sales)",
-      "Sistem Notifikasi Push (Real-time)",
-      "Dashboard Analitik & Laporan PDF",
-      "Integrasi API Pihak Ketiga",
-      "Pembukuan (Add-on: Rp 2jt - 5jt)"
-    ]
+    features: featureChecklist.Advance
   }
 ];
 
@@ -150,8 +155,10 @@ function CountdownTimer() {
 }
 
 export function EstimatorForm() {
+  const [step, setStep] = useState<'input' | 'features' | 'result'>('input');
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<string | null>(null);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -161,12 +168,31 @@ export function EstimatorForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onInitialSubmit(values: z.infer<typeof formSchema>) {
+    setStep('features');
+    // Scroll to the checklist
+    setTimeout(() => {
+      document.getElementById('feature-checklist')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+
+  function toggleFeature(feature: string) {
+    setSelectedFeatures(prev => 
+      prev.includes(feature) 
+        ? prev.filter(f => f !== feature) 
+        : [...prev, feature]
+    );
+  }
+
+  function handleCalculate() {
+    const requirements = form.getValues("requirements");
     setResult(null);
+    setStep('result');
     startTransition(async () => {
       try {
         const response = await estimateProjectCost({
-          requirements: values.requirements,
+          requirements,
+          selectedFeatures
         });
         setResult(response.costEstimate);
       } catch (error) {
@@ -176,6 +202,7 @@ export function EstimatorForm() {
           title: "Gagal Membuat Estimasi",
           description: "Terjadi kesalahan saat berkomunikasi dengan AI. Silakan coba lagi nanti.",
         });
+        setStep('features'); // Go back on error
       }
     });
   }
@@ -248,114 +275,172 @@ export function EstimatorForm() {
     <div className="space-y-10">
       <CountdownTimer />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {tierDetails.map((tier, idx) => (
-          <Card key={idx} className="relative group flex flex-col h-full bg-card border-border/50 hover:border-primary/40 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
-            {/* Ribbon folded design */}
-            <div className="absolute top-0 right-0 z-20">
-              <div className="relative">
-                <div className="bg-destructive text-white text-[10px] font-bold px-8 py-1.5 absolute top-4 -right-8 rotate-45 shadow-md uppercase tracking-widest text-center min-w-[150px]">
-                  Diskon 50%
+      {step === 'input' && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {tierDetails.map((tier, idx) => (
+            <Card key={idx} className="relative group flex flex-col h-full bg-card border-border/50 hover:border-primary/40 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
+              <div className="absolute top-0 right-0 z-20">
+                <div className="relative">
+                  <div className="bg-destructive text-white text-[10px] font-bold px-8 py-1.5 absolute top-4 -right-8 rotate-45 shadow-md uppercase tracking-widest text-center min-w-[150px]">
+                    Diskon 50%
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <CardHeader className="pb-4 relative z-10">
-              <CardTitle className="text-2xl font-headline text-primary mb-2">{tier.title}</CardTitle>
-              <div className="flex flex-col space-y-1">
-                <span className="text-sm text-muted-foreground line-through decoration-destructive/60 decoration-2 italic opacity-70">
-                  {tier.originalPrice}
-                </span>
-                <p className="text-3xl font-bold text-foreground tracking-tight">
-                  {tier.price}
-                </p>
+              <CardHeader className="pb-4 relative z-10">
+                <CardTitle className="text-2xl font-headline text-primary mb-2">{tier.title}</CardTitle>
+                <div className="flex flex-col space-y-1">
+                  <span className="text-sm text-muted-foreground line-through decoration-destructive/60 decoration-2 italic opacity-70">
+                    {tier.originalPrice}
+                  </span>
+                  <p className="text-3xl font-bold text-foreground tracking-tight">
+                    {tier.price}
+                  </p>
+                </div>
+                <CardDescription className="mt-4 text-base font-medium text-muted-foreground/80 leading-relaxed">
+                  {tier.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow relative z-10 pt-0">
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-6 opacity-50" />
+                <ul className="space-y-4 text-sm">
+                  {tier.features.map((feature, fIdx) => (
+                    <li key={fIdx} className="flex items-start gap-3 group/item">
+                      <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover/item:bg-primary/20 transition-colors">
+                        <ChevronRight className="h-3 w-3 text-primary shrink-0" />
+                      </div>
+                      <span className="text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <div className="p-6 pt-0 mt-auto relative z-10">
+                <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/50 font-bold" asChild>
+                  <a href="#form-estimator">Pilih Paket {tier.title}</a>
+                </Button>
               </div>
-              <CardDescription className="mt-4 text-base font-medium text-muted-foreground/80 leading-relaxed">
-                {tier.description}
+            </Card>
+          ))}
+        </div>
+      )}
+
+      {step === 'input' && (
+        <Card id="form-estimator" className="scroll-mt-24 shadow-lg border-primary/10">
+          <CardHeader className="bg-primary/5 border-b">
+              <CardTitle className="flex items-center gap-3 font-headline text-2xl">
+                  <div className="bg-primary p-2 rounded-lg">
+                    <Calculator className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <span>Formulir Kebutuhan Proyek</span>
+              </CardTitle>
+              <CardDescription className="text-base pt-2">
+                Jelaskan kebutuhan Anda, kami akan membantu merincikan fitur dan estimasi biayanya.
               </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow relative z-10 pt-0">
-              <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-6 opacity-50" />
-              <ul className="space-y-4 text-sm">
-                {tier.features.map((feature, fIdx) => (
-                  <li key={fIdx} className="flex items-start gap-3 group/item">
-                    <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover/item:bg-primary/20 transition-colors">
-                      <ChevronRight className="h-3 w-3 text-primary shrink-0" />
-                    </div>
-                    <span className="text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-            <div className="p-6 pt-0 mt-auto relative z-10">
-              <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/50 font-bold" asChild>
-                <a href="#form-estimator">Pilih Paket {tier.title}</a>
+          </CardHeader>
+          <CardContent className="pt-8 px-6 md:px-10">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onInitialSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="requirements"
+                  render={({ field }) => (
+                    <FormItem className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                        <FormLabel className="text-xl font-bold">Jelaskan Kebutuhan Anda</FormLabel>
+                        <Badge variant="secondary" className="bg-primary/10 text-primary border-none py-1 px-3 flex items-center gap-1.5">
+                          <Sparkles className="h-3 w-3" />
+                          AI Analysis Ready
+                        </Badge>
+                      </div>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Contoh: Saya membutuhkan sistem manajemen sales untuk 10 orang tim lapangan. Fitur utama: absensi GPS, input order real-time, dan dashboard owner..."
+                          className="min-h-[220px] text-lg p-6 focus-visible:ring-primary/50 shadow-inner bg-slate-50/50"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription className="text-sm italic">
+                        Tips: Jelaskan alur kerja bisnis Anda secara garis besar.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" size="lg" className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl hover:shadow-primary/20 transition-all">
+                  <Wand2 className="mr-3 h-5 w-5" />
+                  Buat Estimasi Biaya (Gratis)
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      )}
+
+      {step === 'features' && (
+        <Card id="feature-checklist" className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5">
+          <CardHeader className="bg-primary/5 border-b p-6 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <CardTitle className="font-headline text-2xl flex items-center gap-3">
+                  <CheckSquare className="h-7 w-7 text-primary" />
+                  <span>Rincian Kebutuhan Fitur</span>
+                </CardTitle>
+                <CardDescription className="text-base italic">
+                  Berdasarkan deskripsi Anda, silakan ceklis fitur-fitur yang menurut Anda diperlukan:
+                </CardDescription>
+              </div>
+              <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground flex items-center gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Kembali ke Input
               </Button>
             </div>
-          </Card>
-        ))}
-      </div>
-
-      <Card id="form-estimator" className="scroll-mt-24 shadow-lg border-primary/10">
-        <CardHeader className="bg-primary/5 border-b">
-            <CardTitle className="flex items-center gap-3 font-headline text-2xl">
-                <div className="bg-primary p-2 rounded-lg">
-                  <Calculator className="h-6 w-6 text-primary-foreground" />
+          </CardHeader>
+          <CardContent className="p-8 md:p-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              {Object.entries(featureChecklist).map(([tier, features]) => (
+                <div key={tier} className="space-y-6">
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-primary px-3 py-1 font-bold text-sm">{tier}</Badge>
+                    <div className="h-px flex-grow bg-border" />
+                  </div>
+                  <div className="space-y-4">
+                    {features.map((feature) => (
+                      <div key={feature} className="flex items-start space-x-3 group cursor-pointer" onClick={() => toggleFeature(feature)}>
+                        <Checkbox 
+                          id={feature} 
+                          checked={selectedFeatures.includes(feature)}
+                          className="mt-1 border-primary data-[state=checked]:bg-primary"
+                        />
+                        <label
+                          htmlFor={feature}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:text-primary transition-colors cursor-pointer"
+                        >
+                          {feature}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <span>Formulir Kebutuhan Proyek</span>
-            </CardTitle>
-            <CardDescription className="text-base pt-2">
-              Dapatkan penawaran khusus hari ini mulai dari <strong className="text-primary font-bold">Rp 2.000.000 hingga Rp 16.000.000+</strong>. Harga promo akan tereset otomatis setiap awal bulan.
-            </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-8 px-6 md:px-10">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="requirements"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
-                      <FormLabel className="text-xl font-bold">Jelaskan Kebutuhan Anda</FormLabel>
-                      <Badge variant="secondary" className="bg-primary/10 text-primary border-none py-1 px-3 flex items-center gap-1.5">
-                        <Sparkles className="h-3 w-3" />
-                        AI Analysis Ready
-                      </Badge>
-                    </div>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Contoh: Saya membutuhkan sistem manajemen sales untuk 10 orang tim lapangan. Fitur utama: absensi GPS, input order real-time, dan dashboard owner..."
-                        className="min-h-[220px] text-lg p-6 focus-visible:ring-primary/50 shadow-inner bg-slate-50/50"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription className="text-sm italic">
-                      Tips: Semakin rinci alur kerja yang Anda jelaskan, semakin akurat AI kami menghitung estimasi biaya dan fitur yang dibutuhkan.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isPending} size="lg" className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl hover:shadow-primary/20 transition-all">
-                {isPending ? (
-                  <>
-                    <Loader2 className="mr-3 h-6 w-6 animate-spin" />
-                    Menganalisis Kebutuhan Anda...
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="mr-3 h-5 w-5" />
-                    Buat Estimasi Biaya (Gratis)
-                  </>
-                )}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+              ))}
+            </div>
+          </CardContent>
+          <CardFooter className="bg-muted/30 border-t p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-sm text-muted-foreground max-w-md">
+              <p>Anda telah memilih <strong>{selectedFeatures.length} fitur</strong>. Klik tombol di samping untuk melanjutkan perhitungan biaya oleh AI.</p>
+            </div>
+            <Button 
+              onClick={handleCalculate} 
+              size="lg" 
+              className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl"
+            >
+              Lanjutkan Perhitungan Biaya
+              <ArrowRight className="ml-3 h-5 w-5" />
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
-      {isPending && (
+      {step === 'result' && isPending && (
          <Card className="animate-pulse border-primary/20 shadow-sm">
             <CardHeader className="bg-muted/30">
                 <div className="h-6 w-1/4 bg-muted rounded-md"></div>
@@ -373,7 +458,7 @@ export function EstimatorForm() {
         </Card>
       )}
 
-      {result && (
+      {step === 'result' && result && (
         <Card className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5">
           <CardHeader className="bg-primary/5 border-b p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-1">
@@ -381,12 +466,17 @@ export function EstimatorForm() {
                 <CheckCircle2 className="h-7 w-7 text-primary" />
                 <span>Hasil Analisis Strategis AI</span>
               </CardTitle>
-              <CardDescription className="text-sm">Estimasi ini didasarkan pada kompleksitas alur kerja yang Anda berikan.</CardDescription>
+              <CardDescription className="text-sm">Estimasi ini didasarkan pada rincian fitur yang Anda pilih.</CardDescription>
             </div>
-            <Button onClick={handleDownloadPDF} variant="outline" className="h-12 gap-2 border-primary/40 text-primary hover:bg-primary/10 font-bold px-6">
-              <Download className="h-5 w-5" />
-              Unduh Laporan (PDF)
-            </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button onClick={() => setStep('features')} variant="ghost" className="h-12 border-primary/20 text-muted-foreground hover:bg-primary/5">
+                Ubah Fitur
+              </Button>
+              <Button onClick={handleDownloadPDF} variant="outline" className="h-12 gap-2 border-primary/40 text-primary hover:bg-primary/10 font-bold px-6">
+                <Download className="h-5 w-5" />
+                Unduh Laporan (PDF)
+              </Button>
+            </div>
           </CardHeader>
           <CardContent className="p-8 md:p-12">
             <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-headline prose-headings:text-primary prose-p:leading-relaxed prose-strong:text-primary prose-li:text-muted-foreground">
