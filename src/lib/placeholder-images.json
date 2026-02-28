@@ -19,6 +19,12 @@
       "imageHint": "web application"
     },
     {
+      "id": "service-ecommerce",
+      "description": "E-commerce platform interface showing products.",
+      "imageUrl": "https://i.imgur.com/fKFgU1F.jpeg",
+      "imageHint": "online shop"
+    },
+    {
       "id": "solutions-illustration",
       "description": "Ilustrasi 3D solusi aplikasi modern kustom.",
       "imageUrl": "https://i.imgur.com/PCcjUSB.png",

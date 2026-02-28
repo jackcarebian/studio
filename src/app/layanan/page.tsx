@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const serviceList = [
     {
         title: "Website Profesional & Company Profile",
-        description: "Kami membangun website company profile yang modern, elegan, dan SEO-friendly untuk meningkatkan citra dan kepercayaan bisnis Anda. Tampilkan informasi penting perusahaan Anda dengan desain yang memukau.",
+        description: "Kami membangun website company profile yang modern, elegan, and SEO-friendly untuk meningkatkan citra dan kepercayaan bisnis Anda. Tampilkan informasi penting perusahaan Anda dengan desain yang memukau.",
         tags: ["Next.js", "React", "Tailwind CSS", "SEO"],
         image: placeholderImages.find(p => p.id === "service-website"),
     },
@@ -27,11 +27,7 @@ const serviceList = [
         title: "Toko Online (E-commerce)",
         description: "Mulai berjualan online dengan platform e-commerce yang andal. Kami menyediakan solusi toko online lengkap dengan manajemen produk, pembayaran, dan integrasi pengiriman.",
         tags: ["E-commerce", "Manajemen Stok", "Payment Gateway"],
-        image: {
-            imageUrl: "https://picsum.photos/seed/service3/600/400",
-            description: "Shopping cart interface",
-            imageHint: "shopping cart"
-        }
+        image: placeholderImages.find(p => p.id === "service-ecommerce"),
     },
     {
         title: "Progressive Web App (PWA)",
