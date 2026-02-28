@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
 import { CheckCircle, Code2, Database, Smartphone, Store, Wind } from "lucide-react";
 import { placeholderImages } from "@/lib/placeholder-images";
 import { Metadata } from "next";
@@ -46,8 +45,9 @@ const technologies = [
     { icon: <Code2 className="h-8 w-8 text-primary" />, name: "TypeScript" },
 ]
 
-
 export default function LayananPage() {
+  const phoneNumber = "6288988357060";
+
   return (
     <>
       <section className="py-16 md:py-24 bg-primary/10">
@@ -74,7 +74,13 @@ export default function LayananPage() {
                   ))}
                 </div>
                 <Button asChild>
-                  <Link href="/kontak">Diskusikan Proyek</Link>
+                  <a 
+                    href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya ingin mendiskusikan proyek ${service.title}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Diskusikan Proyek
+                  </a>
                 </Button>
               </div>
               <div className="md:w-1/2 w-full fade-in-up" style={{ animationDelay: '0.2s' }}>
