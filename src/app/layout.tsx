@@ -27,6 +27,9 @@ export const metadata: Metadata = {
       { url: "https://i.imgur.com/1tPYul1.png", sizes: "180x180", type: "image/png" }
     ],
   },
+  verification: {
+    google: "0gIzb78fQ_DlwDrCQpS_9JOV4CQStaMyvKicyxFtAGo",
+  },
 };
 
 export const viewport: Viewport = {
