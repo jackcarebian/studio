@@ -3,7 +3,7 @@
     {
       "id": "hero-background",
       "description": "Modern office desk setup with a laptop and coffee.",
-      "imageUrl": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bW9kZXJuJTIwb2ZmaWNlfGVufDB8fHx8MTc2NjA1NjE2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBvZmZpY2UlMjBkZXNrfGVufDB8fHx8MTc2NjA1NjE2MHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "modern office"
     },
     {
@@ -20,9 +20,9 @@
     },
     {
       "id": "solutions-illustration",
-      "description": "3D Illustration of a modern mobile app dashboard.",
-      "imageUrl": "https://images.unsplash.com/photo-1614332284144-8da1f9048c2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHwzZCUyMGRhc2hib2FyZHxlbnwwfHx8fDE3NjYxNDY2MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "3d dashboard"
+      "description": "Ilustrasi 3D solusi aplikasi modern kustom.",
+      "imageUrl": "https://i.imgur.com/PCcjUSB.png",
+      "imageHint": "3d illustration"
     },
     {
       "id": "testimonial-person-1",
