@@ -256,6 +256,9 @@ export default function Home() {
                 <p>
                   Sistem yang Anda bangun bersama kami bukan sekadar software biasa, melainkan <strong>Investasi Aset Digital</strong> yang Anda miliki sepenuhnya untuk memberikan kemandirian operasional jangka panjang.
                 </p>
+                <p>
+                  Bayangkan, nilai investasi sistem kustom ini jauh lebih hemat dan efisien dibandingkan biaya menggaji satu orang karyawan selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
+                </p>
                 <p className="font-bold text-primary italic">
                   "Jangan biarkan bisnis Anda berjalan berdasarkan asumsi. Berjalanlah di atas sistem yang solid."
                 </p>
@@ -369,7 +372,7 @@ export default function Home() {
       </section>
 
       {/* Solusi Section */}
-      <section className="py-16 md:py-24 bg-secondary/30">
+      <section className="py-16 md:py-24 bg-secondary/30 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 space-y-10 order-2 lg:order-1">
