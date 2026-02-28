@@ -25,6 +25,12 @@
       "imageHint": "online shop"
     },
     {
+      "id": "service-pwa",
+      "description": "Progressive Web App illustration on a mobile device.",
+      "imageUrl": "https://i.imgur.com/OPkXkfm.png",
+      "imageHint": "mobile app"
+    },
+    {
       "id": "solutions-illustration",
       "description": "Ilustrasi 3D solusi aplikasi modern kustom.",
       "imageUrl": "https://i.imgur.com/PCcjUSB.png",

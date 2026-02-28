@@ -33,11 +33,7 @@ const serviceList = [
         title: "Progressive Web App (PWA)",
         description: "Berikan pengalaman seperti aplikasi native kepada pengguna Anda. PWA yang kami bangun dapat di-install di perangkat, bekerja offline, dan mengirim notifikasi untuk meningkatkan engagement.",
         tags: ["PWA", "Offline-first", "Notifikasi Push"],
-        image: {
-            imageUrl: "https://picsum.photos/seed/service4/600/400",
-            description: "Mobile phone showing an installed PWA",
-            imageHint: "mobile app"
-        }
+        image: placeholderImages.find(p => p.id === "service-pwa"),
     }
 ]
 
