@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -376,7 +375,7 @@ export default function Home() {
               <div className="text-left">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Solusi yang Ditawarkan</h2>
                 <p className="mt-4 text-lg text-muted-foreground">
-                  Sistem berbasis Website & PWA (tanpa install aplikasi) dengan fitur inti untuk kendali penuh bisnis Anda.
+                  Sistem berbasis Website & PWA (semi aplikasi) dengan fitur inti untuk kendali penuh bisnis Anda.
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
