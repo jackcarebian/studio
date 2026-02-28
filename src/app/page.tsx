@@ -1,3 +1,6 @@
+
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -28,6 +31,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
 const features = [
   {
@@ -202,6 +206,27 @@ export default function Home() {
   const heroImage = placeholderImages.find(p => p.id === "hero-background");
   const solutionsIllustration = placeholderImages.find(p => p.id === "solutions-illustration");
   
+  // Ref for scroll animation
+  const solutionsRef = useRef<HTMLDivElement>(null);
+  const [solutionsInView, setSolutionsInView] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setSolutionsInView(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (solutionsRef.current) {
+      observer.observe(solutionsRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -372,7 +397,7 @@ export default function Home() {
       </section>
 
       {/* Solusi Section */}
-      <section className="py-16 md:py-24 bg-secondary/30 overflow-hidden">
+      <section ref={solutionsRef} className="py-16 md:py-24 bg-secondary/30 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2 space-y-10 order-2 lg:order-1">
@@ -419,9 +444,11 @@ export default function Home() {
                     key={idx} 
                     className={cn(
                       "p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow",
-                      idx % 2 === 0 ? "fade-in-left" : "fade-in-right"
+                      solutionsInView 
+                        ? (idx % 2 === 0 ? "fade-in-left opacity-100" : "fade-in-right opacity-100") 
+                        : "opacity-0"
                     )} 
-                    style={{ animationDelay: `${idx * 0.1}s` }}
+                    style={{ animationDelay: `${idx * 0.15}s` }}
                   >
                     <div className="bg-primary/10 p-2.5 rounded-lg w-fit mb-3">
                       {solusi.icon}
@@ -433,7 +460,7 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center">
-              <div className="relative w-full max-w-[500px] aspect-square fade-in-up">
+              <div className={cn("relative w-full max-w-[500px] aspect-square", solutionsInView ? "fade-in-up" : "opacity-0")}>
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl opacity-50 -z-10 animate-pulse"></div>
                 {solutionsIllustration && (
                   <Image
@@ -445,7 +472,6 @@ export default function Home() {
                     data-ai-hint={solutionsIllustration.imageHint}
                   />
                 )}
-                {/* Decorative floating elements */}
                 <div className="absolute -top-4 -right-4 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
                   <BarChart3 className="h-6 w-6 text-primary" />
                 </div>
