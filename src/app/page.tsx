@@ -27,6 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 const features = [
   {
@@ -411,7 +412,14 @@ export default function Home() {
                     desc: "Akses cepat dari smartphone seperti aplikasi native tanpa instalasi."
                   }
                 ].map((solusi, idx) => (
-                  <div key={idx} className="p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow fade-in-up" style={{ animationDelay: `${idx * 0.1}s` }}>
+                  <div 
+                    key={idx} 
+                    className={cn(
+                      "p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow",
+                      idx % 2 === 0 ? "fade-in-left" : "fade-in-right"
+                    )} 
+                    style={{ animationDelay: `${idx * 0.1}s` }}
+                  >
                     <div className="bg-primary/10 p-2.5 rounded-lg w-fit mb-3">
                       {solusi.icon}
                     </div>
