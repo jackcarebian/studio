@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -11,7 +12,6 @@ import {
   Paintbrush,
   Users,
   ExternalLink,
-  AlertCircle,
   CheckCircle2,
   Target,
   Zap,
@@ -200,6 +200,7 @@ const faqItems = [
 
 export default function Home() {
   const heroImage = placeholderImages.find(p => p.id === "hero-background");
+  const solutionsIllustration = placeholderImages.find(p => p.id === "solutions-illustration");
   
   return (
     <div className="flex flex-col">
@@ -370,53 +371,79 @@ export default function Home() {
       {/* Solusi Section */}
       <section className="py-16 md:py-24 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Solusi yang Ditawarkan</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Sistem berbasis Website & PWA (tanpa install aplikasi) dengan fitur inti untuk kendali penuh bisnis Anda.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                icon: <Users className="h-8 w-8 text-primary" />,
-                title: "Multi Akses Akun",
-                desc: "Akses berbeda untuk Sales Lapangan, Admin, dan Owner/Supervisor."
-              },
-              {
-                icon: <Zap className="h-8 w-8 text-primary" />,
-                title: "Order & Aktivitas Real-Time",
-                desc: "Order langsung dari lapangan, data valid dan dapat ditelusuri."
-              },
-              {
-                icon: <CheckCircle2 className="h-8 w-8 text-primary" />,
-                title: "Approval Bertingkat",
-                desc: "Alur persetujuan jelas, mengurangi order fiktif & data tidak akurat."
-              },
-              {
-                icon: <Bell className="h-8 w-8 text-primary" />,
-                title: "Push Notification",
-                desc: "Notifikasi instan untuk order masuk, ditolak, atau tugas follow-up."
-              },
-              {
-                icon: <BarChart3 className="h-8 w-8 text-primary" />,
-                title: "Monitoring Per Area",
-                desc: "Pantau performa harian sales per wilayah tanpa laporan manual."
-              },
-              {
-                icon: <LayoutDashboard className="h-8 w-8 text-primary" />,
-                title: "Dashboard PWA",
-                desc: "Akses cepat dari smartphone seperti aplikasi native tanpa instalasi."
-              }
-            ].map((solusi, idx) => (
-              <div key={idx} className="p-6 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow fade-in-up" style={{ animationDelay: `${idx * 0.1}s` }}>
-                <div className="bg-primary/10 p-3 rounded-lg w-fit mb-4">
-                  {solusi.icon}
-                </div>
-                <h4 className="text-lg font-headline font-bold mb-2">{solusi.title}</h4>
-                <p className="text-sm text-muted-foreground">{solusi.desc}</p>
+          <div className="flex flex-col lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2 space-y-10 order-2 lg:order-1">
+              <div className="text-left">
+                <h2 className="text-3xl md:text-4xl font-headline font-bold text-gray-800">Solusi yang Ditawarkan</h2>
+                <p className="mt-4 text-lg text-muted-foreground">
+                  Sistem berbasis Website & PWA (tanpa install aplikasi) dengan fitur inti untuk kendali penuh bisnis Anda.
+                </p>
               </div>
-            ))}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {[
+                  {
+                    icon: <Users className="h-7 w-7 text-primary" />,
+                    title: "Multi Akses Akun",
+                    desc: "Akses berbeda untuk Sales Lapangan, Admin, dan Owner/Supervisor."
+                  },
+                  {
+                    icon: <Zap className="h-7 w-7 text-primary" />,
+                    title: "Order & Aktivitas Real-Time",
+                    desc: "Order langsung dari lapangan, data valid dan dapat ditelusuri."
+                  },
+                  {
+                    icon: <CheckCircle2 className="h-7 w-7 text-primary" />,
+                    title: "Approval Bertingkat",
+                    desc: "Alur persetujuan jelas, mengurangi order fiktif & data tidak akurat."
+                  },
+                  {
+                    icon: <Bell className="h-7 w-7 text-primary" />,
+                    title: "Push Notification",
+                    desc: "Notifikasi instan untuk order masuk, ditolak, atau tugas follow-up."
+                  },
+                  {
+                    icon: <BarChart3 className="h-7 w-7 text-primary" />,
+                    title: "Monitoring Per Area",
+                    desc: "Pantau performa harian sales per wilayah tanpa laporan manual."
+                  },
+                  {
+                    icon: <LayoutDashboard className="h-7 w-7 text-primary" />,
+                    title: "Dashboard PWA",
+                    desc: "Akses cepat dari smartphone seperti aplikasi native tanpa instalasi."
+                  }
+                ].map((solusi, idx) => (
+                  <div key={idx} className="p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow fade-in-up" style={{ animationDelay: `${idx * 0.1}s` }}>
+                    <div className="bg-primary/10 p-2.5 rounded-lg w-fit mb-3">
+                      {solusi.icon}
+                    </div>
+                    <h4 className="text-base font-headline font-bold mb-1">{solusi.title}</h4>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{solusi.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center">
+              <div className="relative w-full max-w-[500px] aspect-square fade-in-up">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl opacity-50 -z-10 animate-pulse"></div>
+                {solutionsIllustration && (
+                  <Image
+                    src={solutionsIllustration.imageUrl}
+                    alt={solutionsIllustration.description}
+                    width={500}
+                    height={500}
+                    className="object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+                    data-ai-hint={solutionsIllustration.imageHint}
+                  />
+                )}
+                {/* Decorative floating elements */}
+                <div className="absolute -top-4 -right-4 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
+                  <BarChart3 className="h-6 w-6 text-primary" />
+                </div>
+                <div className="absolute bottom-10 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                  <Smartphone className="h-6 w-6 text-accent" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

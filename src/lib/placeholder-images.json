@@ -19,6 +19,12 @@
       "imageHint": "dashboard ui"
     },
     {
+      "id": "solutions-illustration",
+      "description": "3D Illustration of a modern mobile app dashboard.",
+      "imageUrl": "https://images.unsplash.com/photo-1614332284144-8da1f9048c2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHwzZCUyMGRhc2hib2FyZHxlbnwwfHx8fDE3NjYxNDY2MDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "3d dashboard"
+    },
+    {
       "id": "testimonial-person-1",
       "description": "Portrait of a smiling man.",
       "imageUrl": "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzbWlsaW5nJTIwcGVyc29ufGVufDB8fHx8MTc2NjE0MDMxMnww&ixlib=rb-4.1.0&q=80&w=1080",
