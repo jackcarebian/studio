@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jasa-pembuatan-website-aplikasi.vercel.app/sitemap.xml
