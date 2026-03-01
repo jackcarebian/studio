@@ -94,10 +94,28 @@ function CountdownTimer() {
     minutes: 0,
     seconds: 0,
   });
+  const [promoTitle, setPromoTitle] = useState("Promo Spesial");
 
   useEffect(() => {
+    const promoTitles = [
+      "Promo Spesial Awal Tahun",
+      "Promo Februari Penuh Cinta",
+      "Promo Maret Makin Mantap",
+      "Promo Berkah Ramadhan",
+      "Promo Mei Makin Maju",
+      "Promo Juni Juara Digital",
+      "Promo Juli Jitu Solusinya",
+      "Promo Merdeka Digital",
+      "Promo September Spektakuler",
+      "Promo Oktober Optimis",
+      "Promo November Nyaman",
+      "Promo Akhir Tahun Dahsyat"
+    ];
+    
     const calculateTimeLeft = () => {
       const now = new Date();
+      setPromoTitle(promoTitles[now.getMonth()]);
+
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
       const difference = nextMonth.getTime() - now.getTime();
 
@@ -136,7 +154,7 @@ function CountdownTimer() {
             <Timer className="h-5 w-5 animate-pulse" />
             <span className="text-sm uppercase tracking-widest">Penawaran Terbatas</span>
           </div>
-          <h3 className="text-xl md:text-2xl font-headline font-bold">Promo Spesial Awal Tahun</h3>
+          <h3 className="text-xl md:text-2xl font-headline font-bold">{promoTitle}</h3>
           <p className="text-sm opacity-90 max-w-[300px]">Dapatkan diskon 50% untuk semua paket pembuatan website & aplikasi.</p>
         </div>
 
