@@ -406,18 +406,31 @@ export default function Home() {
                     data-ai-hint={solutionsIllustration.imageHint}
                   />
                 )}
-                {/* Floating Shadcn-style elements */}
-                <div className="absolute -top-4 -right-4 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
-                  <BarChart3 className="h-6 w-6 text-primary" />
+                
+                {/* Multi Account Blinking Label (Top) */}
+                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20">
+                  <span className="text-xs font-bold text-primary whitespace-nowrap">Multi Account</span>
                 </div>
-                <div className="absolute bottom-10 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                  <Smartphone className="h-6 w-6 text-accent" />
+
+                {/* Push Notification Blinking Label (Right) */}
+                <div className="absolute top-1/3 -right-8 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '0.5s' }}>
+                  <span className="text-xs font-bold text-primary whitespace-nowrap">Push Notification</span>
                 </div>
-                <div className="absolute top-1/2 -left-12 bg-white p-3 rounded-xl shadow-lg hidden md:block">
+
+                {/* Real-time Data Blinking Label (Left) */}
+                <div className="absolute top-1/2 -left-12 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '1s' }}>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase">Real-time Data</span>
+                    <span className="text-xs font-bold text-muted-foreground uppercase whitespace-nowrap">REAL-TIME DATA</span>
                   </div>
+                </div>
+
+                {/* Floating Icon Boxes */}
+                <div className="absolute top-0 -right-12 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
+                  <BarChart3 className="h-6 w-6 text-primary" />
+                </div>
+                <div className="absolute bottom-4 -left-12 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                  <Smartphone className="h-6 w-6 text-accent" />
                 </div>
               </div>
             </div>
