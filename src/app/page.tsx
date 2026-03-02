@@ -182,7 +182,7 @@ export default function Home() {
         <div className="container mx-auto px-4 relative">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4 fade-in-up">
-              Bangun Masa Depan Digital Bisnis Anda
+              Bangun Masa Depan Sistem Informasi Bisnis Anda
             </h1>
             <p className="text-lg md:text-xl mb-8 text-primary-foreground/90 fade-in-up" style={{ animationDelay: '0.2s' }}>
               Layanan pembuatan Website dan Aplikasi Custom yang modern, cepat, dan SEO-friendly.
