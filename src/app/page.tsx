@@ -466,7 +466,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="lg:w-1/2 bg-primary/5 p-8 rounded-2xl border border-primary/20 fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="lg:w-1/2 bg-[#F0F9FF] p-8 rounded-2xl border border-primary/10 shadow-sm fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h3 className="text-2xl font-headline font-bold mb-6 text-primary">Keunggulan Kami</h3>
               <div className="space-y-4">
                 {[
