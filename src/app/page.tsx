@@ -60,30 +60,6 @@ const features = [
   },
 ];
 
-const testimonials = [
-  {
-    name: "Andi Wijaya",
-    title: "CEO, Startup Maju",
-    quote:
-      "Tim JasaWebsiteKu benar-benar mengubah ide kami menjadi kenyataan. Prosesnya cepat, profesional, dan hasilnya melebihi ekspektasi!",
-    avatar: placeholderImages.find(p => p.id === "testimonial-person-1")?.imageUrl || "https://picsum.photos/seed/1/100/100",
-  },
-  {
-    name: "Siti Amelia",
-    title: "Pemilik, Butik Online",
-    quote:
-      "Website e-commerce baru saya sangat mudah digunakan. Penjualan meningkat 50% di bulan pertama! Terima kasih banyak.",
-    avatar: placeholderImages.find(p => p.id === "testimonial-person-2")?.imageUrl || "https://picsum.photos/seed/2/100/100",
-  },
-  {
-    name: "Budi Santoso",
-    title: "Manajer Marketing",
-    quote:
-      "Profesionalisme dan keahlian teknis mereka luar biasa. Mereka memberikan solusi yang tepat untuk kebutuhan marketing kami.",
-    avatar: placeholderImages.find(p => p.id === "testimonial-person-3")?.imageUrl || "https://picsum.photos/seed/3/100/100",
-  },
-];
-
 const portfolioProjects = [
   {
     title: "NotifLayer",
@@ -161,44 +137,6 @@ const faqItems = [
         <p>Kami juga memberikan sesi pelatihan singkat setelah proyek selesai untuk memastikan tim Anda dapat mengoperasikan sistem dengan lancar.</p>
       </div>
     )
-  },
-  {
-    question: "Apakah website yang dibuat sudah SEO-Friendly?",
-    answer: (
-      <div className="space-y-4">
-        <p>
-          Ya. Kami menggunakan <strong>Next.js</strong> yang memiliki fitur Server-Side Rendering (SSR) dan optimasi meta-tag yang sangat baik untuk mesin pencari (SEO).
-        </p>
-        <p>Selain itu, kami memastikan struktur website rapi (Semantic HTML), kecepatan loading yang optimal, dan responsivitas di semua ukuran layar—semuanya adalah faktor kunci untuk mendapatkan peringkat tinggi di Google.</p>
-      </div>
-    )
-  },
-  {
-    question: "Apa itu PWA (Progressive Web App)?",
-    answer: (
-      <div className="space-y-4">
-        <p>
-          PWA adalah teknologi yang memungkinkan website Anda berfungsi seperti aplikasi mobile native (seperti di Android/iOS) tanpa harus didownload melalui Play Store atau App Store.
-        </p>
-        <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-          <li><strong>Dapat diinstal:</strong> Muncul ikon di layar utama HP.</li>
-          <li><strong>Cepat & Ringan:</strong> Loading instan karena sistem caching cerdas.</li>
-          <li><strong>Offline Mode:</strong> Masih bisa diakses meskipun koneksi internet tidak stabil.</li>
-          <li><strong>Hemat Biaya:</strong> Anda tidak perlu membuat aplikasi terpisah untuk Android dan iOS.</li>
-        </ul>
-      </div>
-    )
-  },
-  {
-    question: "Bagaimana dengan dukungan (support) setelah website online?",
-    answer: (
-      <div className="space-y-4">
-        <p>
-          Kami memberikan <strong>Garansi Bebas Bug</strong> selama 3 bulan pertama setelah peluncuran. Jika terjadi kesalahan teknis dari sisi kami, kami akan memperbaikinya tanpa biaya tambahan.
-        </p>
-        <p>Kami juga menawarkan paket maintenance bulanan bagi bisnis yang membutuhkan update rutin, pemantauan keamanan berkala, dan backup data otomatis untuk memastikan sistem selalu berjalan prima.</p>
-      </div>
-    )
   }
 ];
 
@@ -206,7 +144,6 @@ export default function Home() {
   const heroImage = placeholderImages.find(p => p.id === "hero-background");
   const solutionsIllustration = placeholderImages.find(p => p.id === "solutions-illustration");
   
-  // Ref for scroll animation
   const solutionsRef = useRef<HTMLDivElement>(null);
   const [solutionsInView, setSolutionsInView] = useState(false);
 
@@ -282,14 +219,14 @@ export default function Home() {
                   Sistem yang Anda bangun bersama kami bukan sekadar software biasa, melainkan <strong>Investasi Aset Digital</strong> yang Anda miliki sepenuhnya untuk memberikan kemandirian operasional jangka panjang.
                 </p>
                 <p>
-                  Bayangkan, nilai investasi sistem kustom ini jauh lebih hemat dan efisien dibandingkan biaya menggaji satu orang karyawan selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
+                  Bayangkan, nilai investasi sistem kustom ini <strong>jauh lebih hemat dan efisien</strong> dibandingkan biaya menggaji satu orang karyawan selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
                 </p>
                 <p className="font-bold text-primary italic">
                   "Jangan biarkan bisnis Anda berjalan berdasarkan asumsi. Berjalanlah di atas sistem yang solid."
                 </p>
               </div>
             </div>
-            <div className="bg-secondary/30 p-8 rounded-2xl border border-border fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="bg-secondary/30 p-8 rounded-2xl border-border shadow-inner fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h3 className="text-xl font-headline font-bold mb-6 flex items-center gap-2 text-destructive">
                 <ShieldAlert className="h-6 w-6" />
                 Tantangan Utama Pemilik Bisnis
@@ -313,7 +250,7 @@ export default function Home() {
               <p className="mt-6 p-4 bg-primary/5 rounded-lg text-sm italic text-primary font-medium border-l-4 border-primary">
                 Sistem kustom dirancang khusus untuk membereskan alur kerja unik Anda yang tidak bisa ditangani oleh software umum.
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
@@ -343,9 +280,6 @@ export default function Home() {
                 <p className="text-sm opacity-80">Siap digunakan di level cabang maupun tim lapangan.</p>
               </div>
             </div>
-            <p className="mt-8 text-sm italic opacity-70 fade-in-up" style={{ animationDelay: '0.6s' }}>
-              *Pendekatan ini telah kami terapkan pada sistem Prolist Property, yang digunakan oleh agent properti berskala nasional.
-            </p>
           </div>
         </div>
       </section>
@@ -443,10 +377,10 @@ export default function Home() {
                   <div 
                     key={idx} 
                     className={cn(
-                      "p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-shadow",
+                      "p-5 bg-card rounded-xl shadow-sm border border-border/50 hover:shadow-md transition-all duration-700",
                       solutionsInView 
                         ? (idx % 2 === 0 ? "fade-in-left opacity-100" : "fade-in-right opacity-100") 
-                        : "opacity-0"
+                        : "opacity-0 translate-x-10"
                     )} 
                     style={{ animationDelay: `${idx * 0.15}s` }}
                   >
@@ -472,11 +406,18 @@ export default function Home() {
                     data-ai-hint={solutionsIllustration.imageHint}
                   />
                 )}
+                {/* Floating Shadcn-style elements */}
                 <div className="absolute -top-4 -right-4 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
                   <BarChart3 className="h-6 w-6 text-primary" />
                 </div>
                 <div className="absolute bottom-10 -left-6 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
                   <Smartphone className="h-6 w-6 text-accent" />
+                </div>
+                <div className="absolute top-1/2 -left-12 bg-white p-3 rounded-xl shadow-lg hidden md:block">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase">Real-time Data</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -532,29 +473,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section (Why Choose Us) */}
-      <section id="features" className="py-16 md:py-24 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Mengapa Memilih JasaWebsiteKu?</h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Kami memberikan lebih dari sekadar kode, kami memberikan nilai dan kualitas tinggi untuk setiap solusi.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="fade-in-up p-6 bg-card rounded-lg shadow-sm text-center" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="flex justify-center mb-4">{feature.icon}</div>
-                <h3 className="text-lg font-headline font-semibold mb-2">{feature.title}</h3>
-                <p className="text-sm text-muted-foreground">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
-      <section id="faq" className="py-16 md:py-24 bg-background">
+      <section id="faq" className="py-16 md:py-24 bg-background border-t">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Tanya Jawab</h2>
