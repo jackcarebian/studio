@@ -226,7 +226,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <Card className="bg-secondary/30 p-8 rounded-2xl border-border shadow-inner fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="bg-[#FFF9E5] p-8 rounded-2xl border-border shadow-inner fade-in-up" style={{ animationDelay: '0.2s' }}>
               <h3 className="text-xl font-headline font-bold mb-6 flex items-center gap-2 text-destructive">
                 <ShieldAlert className="h-6 w-6" />
                 Tantangan Utama Pemilik Bisnis
