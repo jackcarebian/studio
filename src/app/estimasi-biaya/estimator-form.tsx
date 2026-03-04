@@ -168,12 +168,12 @@ export function EstimatorForm() {
     },
   });
 
-  // Formatting result for display and PDF to improve readability
+  // Formatting result for display to improve readability
   const formattedResult = useMemo(() => {
     if (!result) return null;
     return result
-      .replace(/\. /g, ".\n\n") // Add 1 enter (paragraph break) after dots
-      .replace(/(\d+\.)/g, "\n\n\n$1"); // Add 2 enters (extra break) before feature numbers
+      .replace(/\. /g, ".\n\n") // 1 enter after dot (sentence end)
+      .replace(/(\d+\.)/g, "\n\n$1"); // 2 enters before feature numbers
   }, [result]);
 
   async function onInitialSubmit(values: z.infer<typeof formSchema>) {
@@ -226,7 +226,7 @@ export function EstimatorForm() {
   }
 
   const handleDownloadPDF = () => {
-    if (!formattedResult) return;
+    if (!result) return;
 
     const doc = new jsPDF({
       orientation: "portrait",
@@ -238,68 +238,115 @@ export function EstimatorForm() {
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
+    // --- Header Section ---
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
     doc.setTextColor(25, 158, 189);
-    doc.text("DOKUMEN PENAWARAN & ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
+    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text(`No: EST/${new Date().getFullYear()}/${Math.floor(1000 + Math.random() * 9000)}`, margin, 35);
-    doc.text(`Tanggal: ${new Date().toLocaleDateString("id-ID")}`, margin, 40);
+    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, 32, { align: "center" });
 
     doc.setDrawColor(25, 158, 189);
-    doc.setLineWidth(0.5);
-    doc.line(margin, 45, pageWidth - margin, 45);
+    doc.setLineWidth(0.3);
+    doc.line(margin, 38, pageWidth - margin, 38);
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.setTextColor(40);
+    // --- Content Parsing & Rendering ---
+    let cursorY = 50;
+    const lineHeight = 6;
+    const paragraphGap = 8;
+    const featureGap = 12;
 
-    const cleanText = formattedResult
-      .replace(/[#*]/g, "")
-      .replace(/(\r\n|\n|\r)/gm, "\n");
+    // Split text into paragraphs based on the double enter logic from AI
+    // We handle specifically the numbered lists to mimic the image
+    const sections = result.split("\n\n");
 
-    const lines = doc.splitTextToSize(cleanText, contentWidth);
+    sections.forEach((section) => {
+      const trimmedSection = section.trim();
+      if (!trimmedSection) return;
 
-    let cursorY = 55;
-    const lineHeight = 7;
+      // Detect Numbered Feature Title
+      const isFeatureHeader = /^\d+\./.test(trimmedSection);
+      const isSessionTitle = trimmedSection.startsWith("ESTIMASI BIAYA PROYEK TIER");
+      const isTotal = trimmedSection.startsWith("TOTAL ESTIMASI BIAYA");
 
-    lines.forEach((line: string) => {
-      if (cursorY > 270) {
-        doc.addPage();
-        cursorY = 20;
-      }
-
-      // Highlight total estimation
-      if (line.includes("TOTAL ESTIMASI BIAYA")) {
-        doc.setFillColor(230, 245, 250);
-        doc.rect(margin - 2, cursorY - 5, contentWidth + 4, 10, 'F');
+      if (isSessionTitle) {
+        cursorY += 5;
         doc.setFont("helvetica", "bold");
-        doc.setTextColor(25, 158, 189);
-      } else {
-        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
         doc.setTextColor(40);
+        doc.text(trimmedSection, margin, cursorY);
+        cursorY += paragraphGap + 2;
+        return;
       }
 
-      doc.text(line, margin, cursorY);
-      cursorY += lineHeight;
+      if (isFeatureHeader) {
+        // Feature Title & Description & Price split logic
+        // Structure expected from AI: [Number]. [Title] \n [Desc] \n [Price]
+        const linesInFeature = trimmedSection.split("\n");
+        
+        linesInFeature.forEach((line, idx) => {
+          if (cursorY > 270) { doc.addPage(); cursorY = 20; }
+          
+          const text = line.trim().replace(/\*\*/g, ""); // Remove markdown bold for PDF manually
+          
+          if (idx === 0) { // Title
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.setTextColor(40);
+          } else if (text.startsWith("Rp")) { // Price
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.setTextColor(25, 158, 189);
+            cursorY += 2; // Small extra space before price
+          } else { // Description
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.setTextColor(80);
+          }
+
+          const wrappedText = doc.splitTextToSize(text, contentWidth);
+          doc.text(wrappedText, margin, cursorY);
+          cursorY += (wrappedText.length * lineHeight);
+        });
+
+        cursorY += featureGap;
+      } else if (isTotal) {
+        cursorY += 5;
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        doc.setTextColor(25, 158, 189);
+        doc.text(trimmedSection, margin, cursorY);
+      } else {
+        // Normal paragraphs
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+        doc.setTextColor(60);
+        const wrappedText = doc.splitTextToSize(trimmedSection.replace(/\*\*/g, ""), contentWidth);
+        
+        if (cursorY + (wrappedText.length * lineHeight) > 275) { doc.addPage(); cursorY = 20; }
+        
+        doc.text(wrappedText, margin, cursorY);
+        cursorY += (wrappedText.length * lineHeight) + paragraphGap;
+      }
     });
 
+    // --- Footer Section ---
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
-      doc.setTextColor(150);
-      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Resmi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+      doc.setTextColor(180);
+      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
     }
 
     doc.save(`Penawaran_JasaWebsiteKu_${new Date().getTime()}.pdf`);
     
     toast({
       title: "PDF Berhasil Dibuat",
-      description: "Dokumen penawaran resmi telah diunduh ke perangkat Anda.",
+      description: "Dokumen penawaran resmi telah diunduh dengan format yang rapi.",
     });
   };
 

@@ -51,18 +51,18 @@ const estimateProjectCostPrompt = ai.definePrompt({
   - Tambahkan item khusus jika ada "Pembukuan" (Add-on Rp 2jt - 5jt).
 
   STRUKTUR OUTPUT (WAJIB PERSIS):
-  1. Paragraf intro singkat berdasarkan kebutuhan user.
-  2. Kalimat kategori: "Kategori [Nama Kategori] mencerminkan tingkat kompleksitas yang tinggi..."
+  1. Paragraf intro: "Dengan mempertimbangkan kebutuhan Anda akan [Deskripsi Singkat], proyek ini dikategorikan sebagai [Tier]."
+  2. Paragraf kategori: "Kategori [Tier] mencerminkan tingkat kompleksitas yang tinggi..." (1-2 kalimat).
   3. Kalimat transisi: "Berikut adalah estimasi biaya terperinci yang kami tawarkan:"
-  4. Judul Sesi: "ESTIMASI BIAYA PROYEK TIER [KATEGORI]"
+  4. Judul Sesi: "ESTIMASI BIAYA PROYEK TIER [KATEGORI]" (Semua huruf kapital)
   5. List fitur bernomor dengan format:
-     [Nomor]. [Nama Fitur]
+     [Nomor]. [Nama Fitur] (Gunakan Bold markdown **)
      [Deskripsi singkat fitur dalam 1-2 kalimat]
-     Rp [Harga Item]
+     Rp [Harga Item dengan titik pemisah ribuan]
   6. Diakhiri dengan: "TOTAL ESTIMASI BIAYA: Rp [Total]"
 
   CONTOH FORMAT LIST:
-  1. Website Company Profile / Landing Page & Desain Responsif
+  1. **Website Company Profile / Landing Page & Desain Responsif**
   Ini adalah fondasi visual website Anda yang akan dioptimalkan agar tampil sempurna di berbagai perangkat.
   Rp 2.000.000
 
