@@ -43,14 +43,14 @@ const estimateProjectCostPrompt = ai.definePrompt({
   
   PENTING: Gunakan skema HARGA DISKON berikut untuk estimasi Anda. Berikan penawaran harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS (maksimal) dari rentang harga yang ditentukan.
 
-  Price Ranges (Targetkan penawaran di rentang tengah ke atas):
-  - Standar: Rp 2.000.000 - Rp 4.000.000 (Target Penawaran: Rp 3.000.000 - Rp 4.000.000)
-  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target Penawaran: Rp 8.000.000 - Rp 10.000.000)
-  - Advance: Rp 12.000.000 - Rp 16.000.000 (Target Penawaran: Rp 14.500.000 - Rp 16.000.000)
+  Price Ranges:
+  - Standar: Rp 2.000.000 - Rp 4.000.000 (Target: Rp 3.000.000 - Rp 4.000.000)
+  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target: Rp 8.000.000 - Rp 10.000.000)
+  - Advance: Rp 12.000.000 - Rp 16.000.000 (Target: Rp 14.500.000 - Rp 16.000.000)
 
   ATURAN BIAYA KHUSUS:
-  - Khusus untuk item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)", biayanya adalah TETAP Rp 300.000. Jangan gunakan angka lain untuk item ini.
-  - Khusus untuk paket Advance, jika pengguna memilih atau membutuhkan fitur "Pembukuan", tambahkan biaya Add-on sebesar Rp 2.000.000 hingga Rp 5.000.000 di atas harga dasar Advance tersebut.
+  - Khusus untuk item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)", biayanya adalah TETAP Rp 300.000.
+  - Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on Rp 2.000.000 - Rp 5.000.000.
 
   User Requirements Context: {{{requirements}}}
   
@@ -60,18 +60,16 @@ const estimateProjectCostPrompt = ai.definePrompt({
   {{/each}}
 
   Your response should include:
-  1. The determined category (Standar, Moderate, or Advance).
-  2. A detailed cost breakdown for each feature and technology.
-  3. A clear "TOTAL ESTIMASI BIAYA" at the end of the response.
+  1. Header Kategori (Gunakan ### **Kategori Proyek: [Nama Kategori]**)
+  2. Ringkasan singkat solusi yang ditawarkan dalam 1 paragraf.
+  3. Rincian Fitur & Biaya (Gunakan daftar poin yang jelas: **1. Nama Fitur**: Deskripsi singkat. **Biaya: Rp [Jumlah]**).
+  4. Penulisan total biaya di akhir menggunakan format: ### **TOTAL ESTIMASI BIAYA: Rp [Jumlah]**.
 
-  Explain the costs associated with each part of the project, focusing on the selected features.
-  
-  CRITICAL FORMATTING INSTRUCTIONS (INSTRUKSI FORMAT WAJIB):
-  - Gunakan Bahasa Indonesia yang profesional.
-  - WAJIB: Berikan jarak DUA baris baru (2 enters/newline) SETELAH SETIAP tanda titik (.). Contoh: "Selesai. Lanjut." menjadi "Selesai.\n\nLanjut."
-  - WAJIB: Berikan jarak DUA baris baru (2 enters/newline) SEBELUM SETIAP judul poin fitur atau kategori utama untuk memberikan ruang visual yang lega.
-  - Gunakan teks tebal (**teks**) untuk Kategori, Nama Fitur, dan Harga.
-  - Penulisan total biaya di akhir harus menggunakan format heading markdown level 3: ### **TOTAL ESTIMASI BIAYA: Rp [Jumlah]**.
+  CRITICAL FORMATTING INSTRUCTIONS:
+  - Gunakan Bahasa Indonesia profesional dan sopan.
+  - JANGAN memberikan jarak baris baru di setiap titik. Gunakan paragraf normal.
+  - Gunakan jarak satu baris kosong (double newline) hanya antar bagian utama atau antar item daftar fitur agar terlihat lega tapi tetap mengalir.
+  - Pastikan rincian biaya setiap fitur ditulis di baris baru setelah deskripsi fitur tersebut agar mudah dipindai mata.
 `,
 });
 
@@ -111,7 +109,7 @@ const identifyFeaturesPrompt = ai.definePrompt({
   
   User Requirements: {{{requirements}}}
   
-  AVAILABLE FEATURES LIST (ONLY return items from this list):
+  AVAILABLE FEATURES LIST:
   - Website Company Profile / Landing Page
   - Desain Responsif (Mobile Friendly)
   - Integrasi WhatsApp Chat & Maps
@@ -132,9 +130,7 @@ const identifyFeaturesPrompt = ai.definePrompt({
   
   RULES:
   1. ONLY return the exact strings from the list above.
-  2. If the user mentions "online shop" or selling, include relevant features.
-  3. If they mention "complex logic" or "business flow", definitely include "ERP / CRM Custom".
-  4. Always include "Desain Responsif" and "Keamanan SSL" as they are standard defaults.
+  2. Always include "Desain Responsif" and "Keamanan SSL" as defaults.
   
   Return only the JSON array of suggested feature names.`,
 });
