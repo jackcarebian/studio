@@ -160,7 +160,6 @@ export function EstimatorForm() {
   const [result, setResult] = useState<string | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const { toast } = useToast();
-  const loadingRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -527,7 +526,7 @@ export function EstimatorForm() {
               {isPending ? (
                 <>
                   <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-                  Harap Tunggu, Admin sedang menganalisa Biaya...
+                  Harap Tunggu, admin sedang menganalisa biaya
                 </>
               ) : (
                 <>
@@ -551,7 +550,7 @@ export function EstimatorForm() {
             <CardContent className="space-y-6 pt-10 text-center py-20">
                 <div className="flex flex-col items-center gap-4">
                   <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                  <p className="text-xl font-headline font-bold text-primary animate-bounce">Harap Tunggu, Admin sedang menganalisa Biaya</p>
+                  <p className="text-xl font-headline font-bold text-primary animate-bounce">Harap Tunggu, admin sedang menganalisa biaya</p>
                   <p className="text-muted-foreground">Menghitung rincian fitur dan merumuskan penawaran terbaik untuk Anda...</p>
                 </div>
                 <div className="pt-10 flex gap-4 opacity-30">
@@ -607,18 +606,6 @@ export function EstimatorForm() {
                 <Sparkles className="h-4 w-4 text-primary" />
                 Estimasi ini dihitung secara cerdas berdasarkan alur kerja bisnis Anda
                 </div>
-                
-                <Button size="lg" className="w-full md:w-auto px-12 h-16 text-xl bg-green-600 hover:bg-green-700 text-white font-black shadow-xl hover:shadow-green-200 gap-4 transition-all" asChild>
-                    <a 
-                        href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya telah menerima estimasi biaya AI sebesar ${result.match(/Rp [\d.]+/)?.[0] || ""} untuk proyek saya. Saya ingin mendiskusikan langkah selanjutnya.`)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <Send className="h-6 w-6" />
-                        HUBUNGI SALES (WHATSAPP)
-                    </a>
-                </Button>
-                <p className="text-xs text-slate-400 mt-2">Dapatkan diskon tambahan melalui negosiasi langsung dengan tim sales kami.</p>
             </CardFooter>
             </Card>
         </div>
