@@ -247,25 +247,28 @@ export function EstimatorForm() {
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
+    const lineHeight = 6;
+    let cursorY = 25;
 
+    // Header Title
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.setTextColor(25, 158, 189);
-    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
+    doc.setFontSize(16);
+    doc.setTextColor(25, 158, 189); // Primary Blue
+    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, cursorY, { align: "center" });
+    cursorY += 6;
 
+    // Subheader Date
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
+    doc.setFontSize(9);
     doc.setTextColor(100);
-    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, 32, { align: "center" });
+    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, cursorY, { align: "center" });
+    cursorY += 8;
 
+    // Separator Line
     doc.setDrawColor(25, 158, 189);
-    doc.setLineWidth(0.3);
-    doc.line(margin, 38, pageWidth - margin, 38);
-
-    let cursorY = 50;
-    const lineHeight = 7;
-    const paragraphGap = 10;
-    const featureGap = 15;
+    doc.setLineWidth(0.4);
+    doc.line(margin, cursorY, pageWidth - margin, cursorY);
+    cursorY += 12;
 
     const sections = result.split("\n\n");
 
@@ -273,17 +276,23 @@ export function EstimatorForm() {
       const trimmedSection = section.trim();
       if (!trimmedSection) return;
 
+      // Check for Page Break
+      if (cursorY > 265) {
+        doc.addPage();
+        cursorY = 20;
+      }
+
       const isFeatureHeader = /^\d+\./.test(trimmedSection);
       const isSessionTitle = trimmedSection.startsWith("ESTIMASI BIAYA PROYEK TIER");
       const isTotal = trimmedSection.startsWith("TOTAL ESTIMASI BIAYA");
 
       if (isSessionTitle) {
-        cursorY += 5;
+        cursorY += 4;
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(13);
+        doc.setFontSize(11);
         doc.setTextColor(40);
         doc.text(trimmedSection, margin, cursorY);
-        cursorY += paragraphGap + 2;
+        cursorY += 10;
         return;
       }
 
@@ -291,56 +300,62 @@ export function EstimatorForm() {
         const linesInFeature = trimmedSection.split("\n");
         
         linesInFeature.forEach((line, idx) => {
-          if (cursorY > 270) { doc.addPage(); cursorY = 20; }
-          
           const text = line.trim().replace(/\*\*/g, ""); 
-          
+          if (!text) return;
+
+          // Detect line type
           if (idx === 0) {
+            // Feature Title
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setTextColor(40);
           } else if (text.startsWith("Rp")) {
+            // Price Line
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(11);
+            doc.setFontSize(10);
             doc.setTextColor(25, 158, 189);
             cursorY += 1;
           } else {
+            // Description Line
             doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
+            doc.setFontSize(9);
             doc.setTextColor(80);
           }
 
           const wrappedText = doc.splitTextToSize(text, contentWidth);
           doc.text(wrappedText, margin, cursorY);
           cursorY += (wrappedText.length * lineHeight);
+
+          // Additional page break check inside feature
+          if (cursorY > 275) { doc.addPage(); cursorY = 20; }
         });
 
-        cursorY += featureGap;
+        cursorY += 8; // Gap between features
       } else if (isTotal) {
-        cursorY += 5;
+        cursorY += 6;
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(14);
+        doc.setFontSize(12);
         doc.setTextColor(25, 158, 189);
         doc.text(trimmedSection, margin, cursorY);
       } else {
+        // Introduction or Tier Paragraph
         doc.setFont("helvetica", "normal");
-        doc.setFontSize(11);
+        doc.setFontSize(10);
         doc.setTextColor(60);
-        const wrappedText = doc.splitTextToSize(trimmedSection.replace(/\*\*/g, ""), contentWidth);
-        
-        if (cursorY + (wrappedText.length * lineHeight) > 275) { doc.addPage(); cursorY = 20; }
-        
+        const textToWrap = trimmedSection.replace(/\*\*/g, "");
+        const wrappedText = doc.splitTextToSize(textToWrap, contentWidth);
         doc.text(wrappedText, margin, cursorY);
-        cursorY += (wrappedText.length * lineHeight) + paragraphGap;
+        cursorY += (wrappedText.length * lineHeight) + 6;
       }
     });
 
+    // Add Page Numbering Footer
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(180);
-      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 288, { align: "center" });
     }
 
     doc.save(`Penawaran_JasaWebsiteKu_${new Date().getTime()}.pdf`);
