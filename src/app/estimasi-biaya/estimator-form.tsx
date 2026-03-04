@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState, useTransition, useEffect, useMemo } from "react";
+import { useState, useTransition, useEffect, useMemo, useRef } from "react";
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from "jspdf";
 
@@ -160,6 +160,7 @@ export function EstimatorForm() {
   const [result, setResult] = useState<string | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
   const { toast } = useToast();
+  const loadingRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -168,15 +169,23 @@ export function EstimatorForm() {
     },
   });
 
-  // Pemrosesan teks untuk keterbacaan tinggi:
-  // 1 enter (break) setelah setiap tanda titik (.)
-  // 2 enter (paragraf) antar fitur (mendeteksi pola penomoran)
   const formattedResult = useMemo(() => {
     if (!result) return null;
     return result
-      .replace(/\. /g, ".\n\n") // 1 enter (newline) setelah titik
-      .replace(/(\d+\.)/g, "\n\n$1"); // 2 enter (paragraf) sebelum penomoran fitur
+      .replace(/\. /g, ".\n\n")
+      .replace(/(\d+\.)/g, "\n\n$1");
   }, [result]);
+
+  useEffect(() => {
+    if (step === 'result' && isPending) {
+      setTimeout(() => {
+        const element = document.getElementById('loading-section');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+    }
+  }, [step, isPending]);
 
   async function onInitialSubmit(values: z.infer<typeof formSchema>) {
     setIsAnalyzing(true);
@@ -240,7 +249,6 @@ export function EstimatorForm() {
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
-    // --- Header Section ---
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
     doc.setTextColor(25, 158, 189);
@@ -255,13 +263,11 @@ export function EstimatorForm() {
     doc.setLineWidth(0.3);
     doc.line(margin, 38, pageWidth - margin, 38);
 
-    // --- Content Parsing & Rendering ---
     let cursorY = 50;
     const lineHeight = 7;
     const paragraphGap = 10;
     const featureGap = 15;
 
-    // Split text into paragraphs
     const sections = result.split("\n\n");
 
     sections.forEach((section) => {
@@ -290,16 +296,16 @@ export function EstimatorForm() {
           
           const text = line.trim().replace(/\*\*/g, ""); 
           
-          if (idx === 0) { // Judul Fitur (Baris 1)
+          if (idx === 0) {
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
             doc.setTextColor(40);
-          } else if (text.startsWith("Rp")) { // Harga (Baris Baru)
+          } else if (text.startsWith("Rp")) {
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
             doc.setTextColor(25, 158, 189);
-            cursorY += 1; // Spasi kecil sebelum harga
-          } else { // Deskripsi Fitur
+            cursorY += 1;
+          } else {
             doc.setFont("helvetica", "normal");
             doc.setFontSize(10);
             doc.setTextColor(80);
@@ -535,7 +541,7 @@ export function EstimatorForm() {
       )}
 
       {step === 'result' && isPending && (
-         <Card className="animate-pulse border-primary/20 shadow-sm">
+         <Card id="loading-section" className="animate-pulse border-primary/20 shadow-sm scroll-mt-24">
             <CardHeader className="bg-muted/30 border-b">
                 <div className="flex items-center gap-3">
                   <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -558,7 +564,7 @@ export function EstimatorForm() {
       )}
 
       {step === 'result' && formattedResult && !isPending && (
-        <div className="fade-in-up space-y-8">
+        <div id="result-section" className="fade-in-up space-y-8 scroll-mt-24">
             <Card className="border-primary/30 shadow-[0_20px_50px_rgba(25,158,189,0.15)] overflow-hidden ring-1 ring-primary/5 bg-white relative">
             <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
             
