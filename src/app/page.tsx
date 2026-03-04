@@ -218,7 +218,7 @@ export default function Home() {
                   Sistem yang Anda bangun bersama kami bukan sekadar software biasa, melainkan <strong>Investasi Aset Digital</strong> yang Anda miliki sepenuhnya untuk memberikan kemandirian operasional jangka panjang.
                 </p>
                 <p>
-                  Bayangkan, nilai investasi sistem kustom ini <strong>jauh lebih hemat dan efisien</strong> dibandingkan biaya menggaji satu orang karyawan selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
+                  Bayangkan, nilai investasi sistem kustom ini <strong>jauh lebih hemat dan efisien</strong> dibandingkan biaya menggaji Programmer selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
                 </p>
                 <p className="font-bold text-primary italic">
                   "Jangan biarkan bisnis Anda berjalan berdasarkan asumsi. Berjalanlah di atas sistem yang solid."
