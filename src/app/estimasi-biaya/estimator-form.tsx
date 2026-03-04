@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useEffect, useMemo } from "react";
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from "jspdf";
 
@@ -20,10 +20,11 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft, FileText, Send } from "lucide-react";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   requirements: z
@@ -93,28 +94,10 @@ function CountdownTimer() {
     minutes: 0,
     seconds: 0,
   });
-  const [promoTitle, setPromoTitle] = useState("Promo Spesial");
 
   useEffect(() => {
-    const promoTitles = [
-      "Promo Spesial Awal Tahun",
-      "Promo Februari Penuh Cinta",
-      "Promo Maret Makin Mantap",
-      "Promo Berkah Ramadhan",
-      "Promo Mei Makin Maju",
-      "Promo Juni Juara Digital",
-      "Promo Juli Jitu Solusinya",
-      "Promo Merdeka Digital",
-      "Promo September Spektakuler",
-      "Promo Oktober Optimis",
-      "Promo November Nyaman",
-      "Promo Akhir Tahun Dahsyat"
-    ];
-    
     const calculateTimeLeft = () => {
       const now = new Date();
-      setPromoTitle(promoTitles[now.getMonth()]);
-
       const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0);
       const difference = nextMonth.getTime() - now.getTime();
 
@@ -153,7 +136,7 @@ function CountdownTimer() {
             <Timer className="h-5 w-5 animate-pulse" />
             <span className="text-sm uppercase tracking-widest">Penawaran Terbatas</span>
           </div>
-          <h3 className="text-xl md:text-2xl font-headline font-bold">{promoTitle}</h3>
+          <h3 className="text-xl md:text-2xl font-headline font-bold">Promo Spesial Awal Tahun</h3>
           <p className="text-sm opacity-90 max-w-[300px]">Dapatkan diskon 50% untuk semua paket pembuatan website & aplikasi.</p>
         </div>
 
@@ -184,6 +167,14 @@ export function EstimatorForm() {
       requirements: "",
     },
   });
+
+  // Formatting result for display and PDF to improve readability
+  const formattedResult = useMemo(() => {
+    if (!result) return null;
+    return result
+      .replace(/\. /g, ".\n\n") // Add 1 enter (paragraph break) after dots
+      .replace(/(\d+\.)/g, "\n\n\n$1"); // Add 2 enters (extra break) before feature numbers
+  }, [result]);
 
   async function onInitialSubmit(values: z.infer<typeof formSchema>) {
     setIsAnalyzing(true);
@@ -235,7 +226,7 @@ export function EstimatorForm() {
   }
 
   const handleDownloadPDF = () => {
-    if (!result) return;
+    if (!formattedResult) return;
 
     const doc = new jsPDF({
       orientation: "portrait",
@@ -246,88 +237,70 @@ export function EstimatorForm() {
     const pageWidth = doc.internal.pageSize.getWidth();
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
-    const primaryColor = [25, 158, 189]; // JWK Blue
 
-    // --- Header ---
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
+    doc.setTextColor(25, 158, 189);
+    doc.text("DOKUMEN PENAWARAN & ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
 
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
+    doc.setFontSize(10);
     doc.setTextColor(100);
-    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'numeric', year: 'numeric' })}`, pageWidth / 2, 32, { align: "center" });
+    doc.text(`No: EST/${new Date().getFullYear()}/${Math.floor(1000 + Math.random() * 9000)}`, margin, 35);
+    doc.text(`Tanggal: ${new Date().toLocaleDateString("id-ID")}`, margin, 40);
 
-    doc.setDrawColor(200);
-    doc.line(margin, 38, pageWidth - margin, 38);
+    doc.setDrawColor(25, 158, 189);
+    doc.setLineWidth(0.5);
+    doc.line(margin, 45, pageWidth - margin, 45);
 
-    // --- Content Parsing ---
-    let cursorY = 50;
-    const lineHeight = 6;
-    const lines = result.split('\n').filter(l => l.trim() !== "");
-
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
     doc.setTextColor(40);
-    doc.setFontSize(10.5);
 
-    lines.forEach((line) => {
-      if (cursorY > 265) {
-        // Add Footer before new page
-        doc.setFontSize(8);
-        doc.setTextColor(150);
-        doc.text(`Halaman ${doc.getNumberOfPages()} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 287, { align: "center" });
-        
+    const cleanText = formattedResult
+      .replace(/[#*]/g, "")
+      .replace(/(\r\n|\n|\r)/gm, "\n");
+
+    const lines = doc.splitTextToSize(cleanText, contentWidth);
+
+    let cursorY = 55;
+    const lineHeight = 7;
+
+    lines.forEach((line: string) => {
+      if (cursorY > 270) {
         doc.addPage();
-        cursorY = 25;
+        cursorY = 20;
       }
 
-      const cleanLine = line.replace(/[#*]/g, "").trim();
-
-      if (cleanLine.match(/^\d\./)) {
-        // Numbered Feature Title
-        cursorY += 4;
+      // Highlight total estimation
+      if (line.includes("TOTAL ESTIMASI BIAYA")) {
+        doc.setFillColor(230, 245, 250);
+        doc.rect(margin - 2, cursorY - 5, contentWidth + 4, 10, 'F');
         doc.setFont("helvetica", "bold");
-        doc.setTextColor(0);
-        doc.text(cleanLine, margin, cursorY);
-        cursorY += lineHeight;
-      } else if (cleanLine.startsWith("Rp") && !cleanLine.includes("TOTAL")) {
-        // Feature Price
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(60);
-        doc.text(cleanLine, margin, cursorY);
-        cursorY += lineHeight + 4;
-      } else if (cleanLine.includes("TOTAL ESTIMASI BIAYA")) {
-        // Total Footer
-        cursorY += 10;
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(12);
-        doc.setTextColor(0);
-        doc.text(cleanLine, margin, cursorY);
-        cursorY += lineHeight;
-      } else if (cleanLine.includes("ESTIMASI BIAYA PROYEK TIER")) {
-        // Tier Header
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(11);
-        doc.setTextColor(0);
-        doc.text(cleanLine, margin, cursorY);
-        cursorY += lineHeight + 2;
+        doc.setTextColor(25, 158, 189);
       } else {
-        // Normal text / Description
         doc.setFont("helvetica", "normal");
-        doc.setFontSize(10.5);
-        doc.setTextColor(80);
-        const wrappedText = doc.splitTextToSize(cleanLine, contentWidth);
-        doc.text(wrappedText, margin, cursorY);
-        cursorY += (wrappedText.length * lineHeight);
+        doc.setTextColor(40);
       }
+
+      doc.text(line, margin, cursorY);
+      cursorY += lineHeight;
     });
 
-    // Final Page Footer
-    doc.setFontSize(8);
-    doc.setTextColor(150);
-    doc.text(`Halaman ${doc.getNumberOfPages()} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 287, { align: "center" });
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(150);
+      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Resmi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+    }
 
-    doc.save(`Estimasi_JWK_${Date.now()}.pdf`);
+    doc.save(`Penawaran_JasaWebsiteKu_${new Date().getTime()}.pdf`);
+    
+    toast({
+      title: "PDF Berhasil Dibuat",
+      description: "Dokumen penawaran resmi telah diunduh ke perangkat Anda.",
+    });
   };
 
   return (
@@ -337,33 +310,44 @@ export function EstimatorForm() {
       {step === 'input' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {tierDetails.map((tier, idx) => (
-            <Card key={idx} className="relative group flex flex-col h-full bg-card border-border/50 hover:border-primary/40 transition-all duration-300 hover:shadow-2xl overflow-hidden">
+            <Card key={idx} className="relative group flex flex-col h-full bg-card border-border/50 hover:border-primary/40 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 overflow-hidden">
               <div className="absolute top-0 right-0 z-20">
-                <div className="bg-destructive text-white text-[10px] font-bold px-8 py-1.5 absolute top-4 -right-8 rotate-45 shadow-md uppercase tracking-widest text-center min-w-[150px]">
-                  Diskon 50%
+                <div className="relative">
+                  <div className="bg-destructive text-white text-[10px] font-bold px-8 py-1.5 absolute top-4 -right-8 rotate-45 shadow-md uppercase tracking-widest text-center min-w-[150px]">
+                    Diskon 50%
+                  </div>
                 </div>
               </div>
 
-              <CardHeader className="pb-4">
+              <CardHeader className="pb-4 relative z-10">
                 <CardTitle className="text-2xl font-headline text-primary mb-2">{tier.title}</CardTitle>
                 <div className="flex flex-col space-y-1">
-                  <span className="text-sm text-muted-foreground line-through decoration-destructive/60 italic opacity-70">{tier.originalPrice}</span>
-                  <p className="text-3xl font-bold text-foreground tracking-tight">{tier.price}</p>
+                  <span className="text-sm text-muted-foreground line-through decoration-destructive/60 decoration-2 italic opacity-70">
+                    {tier.originalPrice}
+                  </span>
+                  <p className="text-3xl font-bold text-foreground tracking-tight">
+                    {tier.price}
+                  </p>
                 </div>
-                <CardDescription className="mt-4 text-base font-medium">{tier.description}</CardDescription>
+                <CardDescription className="mt-4 text-base font-medium text-muted-foreground/80 leading-relaxed">
+                  {tier.description}
+                </CardDescription>
               </CardHeader>
-              <CardContent className="flex-grow pt-0">
+              <CardContent className="flex-grow relative z-10 pt-0">
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-border to-transparent mb-6 opacity-50" />
                 <ul className="space-y-4 text-sm">
                   {tier.features.map((feature, fIdx) => (
-                    <li key={fIdx} className="flex items-start gap-3">
-                      <ChevronRight className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                      <span className="text-muted-foreground">{feature}</span>
+                    <li key={fIdx} className="flex items-start gap-3 group/item">
+                      <div className="mt-0.5 rounded-full bg-primary/10 p-1 group-hover/item:bg-primary/20 transition-colors">
+                        <ChevronRight className="h-3 w-3 text-primary shrink-0" />
+                      </div>
+                      <span className="text-muted-foreground group-hover/item:text-foreground transition-colors">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
-              <div className="p-6 pt-0 mt-auto">
-                <Button variant="outline" className="w-full font-bold" asChild>
+              <div className="p-6 pt-0 mt-auto relative z-10">
+                <Button variant="outline" className="w-full border-primary/20 hover:bg-primary/5 hover:border-primary/50 hover:text-primary font-bold" asChild>
                   <a href="#form-estimator">Pilih Paket {tier.title}</a>
                 </Button>
               </div>
@@ -373,27 +357,37 @@ export function EstimatorForm() {
       )}
 
       {step === 'input' && (
-        <Card id="form-estimator" className="scroll-mt-24 shadow-lg">
+        <Card id="form-estimator" className="scroll-mt-24 shadow-lg border-primary/10">
           <CardHeader className="bg-primary/5 border-b">
               <CardTitle className="flex items-center gap-3 font-headline text-2xl">
-                <Calculator className="h-6 w-6 text-primary" />
-                <span>Formulir Kebutuhan Proyek</span>
+                  <div className="bg-primary p-2 rounded-lg">
+                    <Calculator className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <span>Formulir Kebutuhan Proyek</span>
               </CardTitle>
-              <CardDescription>Jelaskan kebutuhan Anda, kami akan merincikan fitur dan estimasi biayanya.</CardDescription>
+              <CardDescription className="text-base pt-2">
+                Jelaskan kebutuhan Anda, kami akan membantu merincikan fitur dan estimasi biayanya.
+              </CardDescription>
           </CardHeader>
-          <CardContent className="pt-8">
+          <CardContent className="pt-8 px-6 md:px-10">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onInitialSubmit)} className="space-y-8">
                 <FormField
                   control={form.control}
                   name="requirements"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-bold">Apa yang ingin Anda bangun?</FormLabel>
+                    <FormItem className="space-y-4">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                        <FormLabel className="text-xl font-bold">Jelaskan Kebutuhan Anda</FormLabel>
+                        <Badge variant="secondary" className="bg-primary/10 text-primary border-none py-1 px-3 flex items-center gap-1.5">
+                          <Sparkles className="h-3 w-3" />
+                          AI Analysis Ready
+                        </Badge>
+                      </div>
                       <FormControl>
                         <Textarea
                           placeholder="Contoh: Saya membutuhkan sistem manajemen sales untuk 10 orang tim lapangan. Fitur utama: absensi GPS, input order real-time, dan dashboard owner..."
-                          className="min-h-[200px] text-lg bg-slate-50/50"
+                          className="min-h-[220px] text-lg p-6 focus-visible:ring-primary/50 shadow-inner bg-slate-50/50"
                           {...field}
                         />
                       </FormControl>
@@ -401,8 +395,18 @@ export function EstimatorForm() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isAnalyzing} size="lg" className="w-full md:w-auto px-10">
-                  {isAnalyzing ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> Menganalisis...</> : <><Wand2 className="mr-3 h-5 w-5" /> Buat Estimasi Biaya</>}
+                <Button type="submit" disabled={isAnalyzing} size="lg" className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl hover:shadow-primary/20 transition-all">
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                      Menganalisis Kebutuhan...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="mr-3 h-5 w-5" />
+                      Buat Estimasi Biaya (Gratis)
+                    </>
+                  )}
                 </Button>
               </form>
             </Form>
@@ -411,26 +415,49 @@ export function EstimatorForm() {
       )}
 
       {step === 'features' && (
-        <Card id="feature-checklist" className="border-primary/30 shadow-2xl">
-          <CardHeader className="bg-primary/5 border-b">
+        <Card id="feature-checklist" className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5">
+          <CardHeader className="bg-primary/5 border-b p-6 md:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <CardTitle className="font-headline text-2xl flex items-center gap-3">
-                <CheckSquare className="h-7 w-7 text-primary" />
-                <span>Sesuaikan Fitur</span>
-              </CardTitle>
-              <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground"><ArrowLeft className="h-4 w-4 mr-2" /> Kembali</Button>
+              <div className="space-y-1">
+                <CardTitle className="font-headline text-2xl flex items-center gap-3">
+                  <CheckSquare className="h-7 w-7 text-primary" />
+                  <span>Rincian Kebutuhan Fitur</span>
+                </CardTitle>
+                <CardDescription className="text-base italic">
+                  AI telah merekomendasikan fitur berdasarkan deskripsi Anda. Silakan sesuaikan checklist jika diperlukan:
+                </CardDescription>
+              </div>
+              {!isPending && (
+                <Button variant="ghost" onClick={() => setStep('input')} className="text-muted-foreground flex items-center gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Kembali ke Input
+                </Button>
+              )}
             </div>
           </CardHeader>
-          <CardContent className="p-8">
+          <CardContent className="p-8 md:p-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               {Object.entries(featureChecklist).map(([tier, features]) => (
                 <div key={tier} className="space-y-6">
-                  <Badge className="bg-primary px-3 py-1 font-bold">{tier}</Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge className="bg-primary px-3 py-1 font-bold text-sm">{tier}</Badge>
+                    <div className="h-px flex-grow bg-border" />
+                  </div>
                   <div className="space-y-4">
                     {features.map((feature) => (
                       <div key={feature} className="flex items-start space-x-3 group cursor-pointer" onClick={() => !isPending && toggleFeature(feature)}>
-                        <Checkbox checked={selectedFeatures.includes(feature)} className="mt-1" />
-                        <label className="text-sm font-medium leading-none cursor-pointer">{feature}</label>
+                        <Checkbox 
+                          id={feature} 
+                          checked={selectedFeatures.includes(feature)}
+                          disabled={isPending}
+                          className="mt-1 border-primary data-[state=checked]:bg-primary"
+                        />
+                        <label
+                          htmlFor={feature}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-hover:text-primary transition-colors cursor-pointer"
+                        >
+                          {feature}
+                        </label>
                       </div>
                     ))}
                   </div>
@@ -438,54 +465,114 @@ export function EstimatorForm() {
               ))}
             </div>
           </CardContent>
-          <CardFooter className="bg-muted/30 border-t p-6">
-            <Button onClick={handleCalculate} disabled={isPending} size="lg" className="ml-auto px-10 h-14 text-lg font-bold">
-              {isPending ? <><Loader2 className="mr-3 h-5 w-5 animate-spin" /> Menghitung...</> : <>Lanjutkan Perhitungan <ArrowRight className="ml-3 h-5 w-5" /></>}
+          <CardFooter className="bg-muted/30 border-t p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-sm text-muted-foreground max-w-md">
+              <p>Anda telah memilih <strong>{selectedFeatures.length} fitur</strong>. Klik tombol di samping untuk melanjutkan perhitungan biaya oleh AI.</p>
+            </div>
+            <Button 
+              onClick={handleCalculate} 
+              disabled={isPending}
+              size="lg" 
+              className="w-full md:w-auto px-10 h-14 text-lg bg-primary hover:bg-primary/90 text-primary-foreground font-extrabold shadow-xl"
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-3 h-5 w-5 animate-spin" />
+                  Harap Tunggu, Admin sedang menganalisa Biaya...
+                </>
+              ) : (
+                <>
+                  Lanjutkan Perhitungan Biaya
+                  <ArrowRight className="ml-3 h-5 w-5" />
+                </>
+              )}
             </Button>
           </CardFooter>
         </Card>
       )}
 
       {step === 'result' && isPending && (
-         <Card className="animate-pulse py-20">
-            <CardContent className="flex flex-col items-center gap-4">
-              <Loader2 className="h-12 w-12 animate-spin text-primary" />
-              <p className="text-xl font-headline font-bold text-primary">Admin sedang menganalisa Biaya...</p>
+         <Card className="animate-pulse border-primary/20 shadow-sm">
+            <CardHeader className="bg-muted/30 border-b">
+                <div className="flex items-center gap-3">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  <div className="h-6 w-1/2 bg-muted rounded-md"></div>
+                </div>
+            </CardHeader>
+            <CardContent className="space-y-6 pt-10 text-center py-20">
+                <div className="flex flex-col items-center gap-4">
+                  <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                  <p className="text-xl font-headline font-bold text-primary animate-bounce">Harap Tunggu, Admin sedang menganalisa Biaya</p>
+                  <p className="text-muted-foreground">Menghitung rincian fitur dan merumuskan penawaran terbaik untuk Anda...</p>
+                </div>
+                <div className="pt-10 flex gap-4 opacity-30">
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
+                  <div className="h-32 w-1/3 bg-muted rounded-xl"></div>
+                </div>
             </CardContent>
         </Card>
       )}
 
-      {step === 'result' && result && !isPending && (
-        <Card className="border-primary/30 shadow-2xl bg-slate-50/30">
-          <CardHeader className="bg-white border-b p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <CardTitle className="font-headline text-2xl md:text-3xl">Hasil Analisis Strategis AI</CardTitle>
-              <CardDescription className="text-base font-semibold text-primary/80">Dokumen Estimasi Penawaran Resmi</CardDescription>
-            </div>
-            <div className="flex gap-3">
-              <Button onClick={() => setStep('features')} variant="ghost">Ubah Fitur</Button>
-              <Button onClick={handleDownloadPDF} size="lg" className="font-bold gap-2">
-                <Download className="h-5 w-5" /> Unduh PDF
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent className="p-8 md:p-16 bg-white mx-4 my-8 md:mx-10 rounded-xl shadow-inner border">
-            <div className="prose prose-blue max-w-none prose-headings:font-headline prose-p:text-gray-700 prose-li:text-gray-600 prose-h3:text-3xl prose-h3:font-extrabold">
-              <ReactMarkdown>{result}</ReactMarkdown>
-            </div>
-            <div className="mt-20 pt-10 border-t flex flex-col md:flex-row items-center justify-between gap-8">
-               <div className="text-center md:text-left">
-                  <p className="text-sm font-bold text-gray-500 uppercase">Siap Melanjutkan?</p>
-                  <p className="text-muted-foreground">Konsultasikan proyek Anda dengan tim kami.</p>
-               </div>
-               <Button asChild size="lg" className="bg-green-500 hover:bg-green-600 font-extrabold rounded-full">
-                  <a href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya ingin mendiskusikan penawaran estimasi saya.`)}`} target="_blank" rel="noopener noreferrer">
-                    <Send className="h-5 w-5 mr-3" /> Hubungi Sales WhatsApp
-                  </a>
-               </Button>
-            </div>
-          </CardContent>
-        </Card>
+      {step === 'result' && formattedResult && !isPending && (
+        <div className="fade-in-up space-y-8">
+            <Card className="border-primary/30 shadow-[0_20px_50px_rgba(25,158,189,0.15)] overflow-hidden ring-1 ring-primary/5 bg-white relative">
+            <div className="absolute top-0 left-0 w-2 h-full bg-primary" />
+            
+            <CardHeader className="bg-slate-50/50 border-b p-8 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <div className="space-y-2">
+                <CardTitle className="font-headline text-3xl font-bold flex items-center gap-4 text-primary">
+                    <div className="p-2 bg-primary/10 rounded-xl">
+                    <CheckCircle2 className="h-8 w-8 text-primary" />
+                    </div>
+                    <span>Hasil Analisis Strategis AI</span>
+                </CardTitle>
+                <CardDescription className="text-base text-muted-foreground font-medium pl-14">
+                    Dokumen Estimasi Penawaran Resmi
+                </CardDescription>
+                </div>
+                <div className="flex flex-wrap gap-4">
+                <Button onClick={() => setStep('features')} variant="outline" className="h-12 border-slate-200 text-muted-foreground hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold">
+                    Ubah Rincian Fitur
+                </Button>
+                <Button onClick={handleDownloadPDF} variant="default" className="h-12 gap-3 bg-primary hover:bg-primary/90 text-white font-bold px-8 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                    <Download className="h-5 w-5" />
+                    Unduh Dokumen (PDF)
+                </Button>
+                </div>
+            </CardHeader>
+            
+            <CardContent className="p-8 md:p-16">
+                <div className="prose prose-lg max-w-none dark:prose-invert 
+                prose-headings:font-headline prose-headings:text-primary prose-headings:mt-12 prose-headings:mb-6
+                prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
+                prose-strong:text-primary prose-strong:font-bold
+                prose-li:text-slate-600 prose-li:mb-2
+                bg-white rounded-lg">
+                <ReactMarkdown>{formattedResult}</ReactMarkdown>
+                </div>
+            </CardContent>
+            
+            <CardFooter className="bg-slate-50 border-t p-8 flex flex-col items-center gap-6">
+                <div className="flex items-center gap-3 text-sm text-slate-500 italic bg-white px-6 py-2 rounded-full border border-slate-100 shadow-sm">
+                <Sparkles className="h-4 w-4 text-primary" />
+                Estimasi ini dihitung secara cerdas berdasarkan alur kerja bisnis Anda
+                </div>
+                
+                <Button size="lg" className="w-full md:w-auto px-12 h-16 text-xl bg-green-600 hover:bg-green-700 text-white font-black shadow-xl hover:shadow-green-200 gap-4 transition-all" asChild>
+                    <a 
+                        href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya telah menerima estimasi biaya AI sebesar ${formattedResult.match(/Rp [\d.]+/)?.[0] || ""} untuk proyek saya. Saya ingin mendiskusikan langkah selanjutnya.`)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Send className="h-6 w-6" />
+                        HUBUNGI SALES (WHATSAPP)
+                    </a>
+                </Button>
+                <p className="text-xs text-slate-400 mt-2">Dapatkan diskon tambahan melalui negosiasi langsung dengan tim sales kami.</p>
+            </CardFooter>
+            </Card>
+        </div>
       )}
     </div>
   );
