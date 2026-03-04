@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -233,7 +232,7 @@ export default function Home() {
               </h3>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
-                  "Ketergantungan tinggi pada orang tertentu",
+                  "belum punya sistem terpadu",
                   "Data operasional yang sulit divalidasi",
                   "Proses manual yang menghambat kecepatan",
                   "Laporan bisnis yang terlambat & tidak akurat",
