@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState, useTransition, useEffect, useMemo, useRef } from "react";
+import { useState, useTransition, useEffect, useMemo } from "react";
 import ReactMarkdown from 'react-markdown';
 import { jsPDF } from "jspdf";
 
@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,11 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft, Send } from "lucide-react";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   requirements: z
@@ -170,6 +168,7 @@ export function EstimatorForm() {
 
   const formattedResult = useMemo(() => {
     if (!result) return null;
+    // Jeda 1 baris setelah titik, jeda 2 baris antar fitur
     return result
       .replace(/\. /g, ".\n\n")
       .replace(/(\d+\.)/g, "\n\n$1");
@@ -245,28 +244,35 @@ export function EstimatorForm() {
     });
 
     const pageWidth = doc.internal.pageSize.getWidth();
-    const margin = 20;
+    const margin = 25;
     const contentWidth = pageWidth - margin * 2;
-    const lineHeight = 6;
     let cursorY = 25;
+
+    // Font Configuration
+    const titleFontSize = 14;
+    const sessionFontSize = 10;
+    const featureTitleFontSize = 9.5;
+    const descriptionFontSize = 8.5;
+    const priceFontSize = 9.5;
+    const lineHeight = 5;
 
     // Header Title
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
+    doc.setFontSize(titleFontSize);
     doc.setTextColor(25, 158, 189); // Primary Blue
     doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, cursorY, { align: "center" });
-    cursorY += 6;
+    cursorY += 7;
 
     // Subheader Date
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(9);
-    doc.setTextColor(100);
+    doc.setFontSize(8.5);
+    doc.setTextColor(120);
     doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, cursorY, { align: "center" });
     cursorY += 8;
 
     // Separator Line
     doc.setDrawColor(25, 158, 189);
-    doc.setLineWidth(0.4);
+    doc.setLineWidth(0.3);
     doc.line(margin, cursorY, pageWidth - margin, cursorY);
     cursorY += 12;
 
@@ -276,10 +282,9 @@ export function EstimatorForm() {
       const trimmedSection = section.trim();
       if (!trimmedSection) return;
 
-      // Check for Page Break
-      if (cursorY > 265) {
+      if (cursorY > 270) {
         doc.addPage();
-        cursorY = 20;
+        cursorY = 25;
       }
 
       const isFeatureHeader = /^\d+\./.test(trimmedSection);
@@ -289,8 +294,8 @@ export function EstimatorForm() {
       if (isSessionTitle) {
         cursorY += 4;
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(11);
-        doc.setTextColor(40);
+        doc.setFontSize(sessionFontSize);
+        doc.setTextColor(50);
         doc.text(trimmedSection, margin, cursorY);
         cursorY += 10;
         return;
@@ -303,45 +308,50 @@ export function EstimatorForm() {
           const text = line.trim().replace(/\*\*/g, ""); 
           if (!text) return;
 
-          // Detect line type
+          // Detect line type and set style
           if (idx === 0) {
-            // Feature Title
+            // Feature Title (Bold)
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(10);
+            doc.setFontSize(featureTitleFontSize);
             doc.setTextColor(40);
           } else if (text.startsWith("Rp")) {
-            // Price Line
+            // Price Line (Bold & Color)
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(10);
+            doc.setFontSize(priceFontSize);
             doc.setTextColor(25, 158, 189);
-            cursorY += 1;
+            cursorY += 1.5; // Small extra gap before price
           } else {
-            // Description Line
+            // Description Line (Normal)
             doc.setFont("helvetica", "normal");
-            doc.setFontSize(9);
+            doc.setFontSize(descriptionFontSize);
             doc.setTextColor(80);
           }
 
           const wrappedText = doc.splitTextToSize(text, contentWidth);
           doc.text(wrappedText, margin, cursorY);
-          cursorY += (wrappedText.length * lineHeight);
+          
+          // Increment Y by actual height used
+          cursorY += (wrappedText.length * (idx === 0 ? lineHeight : lineHeight - 0.5));
 
-          // Additional page break check inside feature
-          if (cursorY > 275) { doc.addPage(); cursorY = 20; }
+          if (cursorY > 275) { doc.addPage(); cursorY = 25; }
         });
 
-        cursorY += 8; // Gap between features
+        cursorY += 7; // Gap between features
       } else if (isTotal) {
-        cursorY += 6;
+        cursorY += 8;
+        doc.setDrawColor(230, 245, 250);
+        doc.setFillColor(245, 250, 255);
+        doc.rect(margin - 2, cursorY - 6, contentWidth + 4, 12, 'F');
+        
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(12);
+        doc.setFontSize(11);
         doc.setTextColor(25, 158, 189);
-        doc.text(trimmedSection, margin, cursorY);
+        doc.text(trimmedSection, margin, cursorY + 1.5);
       } else {
         // Introduction or Tier Paragraph
         doc.setFont("helvetica", "normal");
-        doc.setFontSize(10);
-        doc.setTextColor(60);
+        doc.setFontSize(descriptionFontSize + 0.5);
+        doc.setTextColor(70);
         const textToWrap = trimmedSection.replace(/\*\*/g, "");
         const wrappedText = doc.splitTextToSize(textToWrap, contentWidth);
         doc.text(wrappedText, margin, cursorY);
@@ -349,13 +359,13 @@ export function EstimatorForm() {
       }
     });
 
-    // Add Page Numbering Footer
+    // Page Numbering
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(180);
-      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 288, { align: "center" });
+      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Resmi JasaWebsiteKu`, pageWidth / 2, 288, { align: "center" });
     }
 
     doc.save(`Penawaran_JasaWebsiteKu_${new Date().getTime()}.pdf`);
@@ -611,7 +621,7 @@ export function EstimatorForm() {
                 prose-p:text-slate-700 prose-p:leading-[1.8] prose-p:mb-6
                 prose-strong:text-primary prose-strong:font-bold
                 prose-li:text-slate-600 prose-li:mb-2
-                bg-white rounded-lg">
+                bg-white rounded-lg whitespace-pre-wrap">
                 <ReactMarkdown>{formattedResult}</ReactMarkdown>
                 </div>
             </CardContent>
@@ -619,7 +629,7 @@ export function EstimatorForm() {
             <CardFooter className="bg-slate-50 border-t p-8 flex flex-col items-center gap-6">
                 <div className="flex items-center gap-3 text-sm text-slate-500 italic bg-white px-6 py-2 rounded-full border border-slate-100 shadow-sm">
                 <Sparkles className="h-4 w-4 text-primary" />
-                Estimasi ini dihitung secara cerdas berdasarkan alur kerja bisnis Anda
+                Estimasi ini dihitung secara cerdas berdasarkan rincian fitur yang Anda pilih
                 </div>
             </CardFooter>
             </Card>
