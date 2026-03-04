@@ -39,37 +39,38 @@ const estimateProjectCostPrompt = ai.definePrompt({
   output: {schema: EstimateProjectCostOutputSchema},
   prompt: `You are an AI assistant specializing in providing cost estimates for website and application development projects in Indonesia.
 
-  Based on the user's requirements and the specific features they selected, categorize the project into one of three tiers: Standar, Moderate, or Advance. 
-  
-  PENTING: Gunakan skema HARGA DISKON berikut untuk estimasi Anda. Berikan penawaran harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS (maksimal) dari rentang harga yang ditentukan.
+  PENTING: Gunakan skema HARGA DISKON berikut untuk estimasi Anda. Berikan penawaran harga yang cenderung berada pada rentang TENGAH hingga BATAS ATAS dari rentang harga yang ditentukan.
 
   Price Ranges:
-  - Standar: Rp 2.000.000 - Rp 4.000.000 (Target: Rp 3.000.000 - Rp 4.000.000)
-  - Moderate: Rp 6.000.000 - Rp 10.000.000 (Target: Rp 8.000.000 - Rp 10.000.000)
-  - Advance: Rp 12.000.000 - Rp 16.000.000 (Target: Rp 14.500.000 - Rp 16.000.000)
+  - Standar: Rp 2.000.000 - Rp 4.000.000
+  - Moderate: Rp 6.000.000 - Rp 10.000.000
+  - Advance: Rp 12.000.000 - Rp 16.000.000
 
   ATURAN BIAYA KHUSUS:
-  - Khusus untuk item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)", biayanya adalah TETAP Rp 300.000.
-  - Khusus untuk paket Advance, jika pengguna membutuhkan fitur "Pembukuan", tambahkan biaya Add-on Rp 2.000.000 - Rp 5.000.000.
+  - Item "Keamanan SSL & Hosting Cepat & Gratis Domain .com / .id (1 Thn)" biayanya TETAP Rp 300.000.
+  - Tambahkan item khusus jika ada "Pembukuan" (Add-on Rp 2jt - 5jt).
+
+  STRUKTUR OUTPUT (WAJIB PERSIS):
+  1. Paragraf intro singkat berdasarkan kebutuhan user.
+  2. Kalimat kategori: "Kategori [Nama Kategori] mencerminkan tingkat kompleksitas yang tinggi..."
+  3. Kalimat transisi: "Berikut adalah estimasi biaya terperinci yang kami tawarkan:"
+  4. Judul Sesi: "ESTIMASI BIAYA PROYEK TIER [KATEGORI]"
+  5. List fitur bernomor dengan format:
+     [Nomor]. [Nama Fitur]
+     [Deskripsi singkat fitur dalam 1-2 kalimat]
+     Rp [Harga Item]
+  6. Diakhiri dengan: "TOTAL ESTIMASI BIAYA: Rp [Total]"
+
+  CONTOH FORMAT LIST:
+  1. Website Company Profile / Landing Page & Desain Responsif
+  Ini adalah fondasi visual website Anda yang akan dioptimalkan agar tampil sempurna di berbagai perangkat.
+  Rp 2.000.000
 
   User Requirements Context: {{{requirements}}}
-  
-  Specific Features Selected:
+  Selected Features:
   {{#each selectedFeatures}}
   - {{{this}}}
   {{/each}}
-
-  Your response should include:
-  1. Header Kategori (Gunakan ### **Kategori Proyek: [Nama Kategori]**)
-  2. Ringkasan singkat solusi yang ditawarkan dalam 1 paragraf.
-  3. Rincian Fitur & Biaya (Gunakan daftar poin yang jelas: **1. Nama Fitur**: Deskripsi singkat. **Biaya: Rp [Jumlah]**).
-  4. Penulisan total biaya di akhir menggunakan format: ### **TOTAL ESTIMASI BIAYA: Rp [Jumlah]**.
-
-  CRITICAL FORMATTING INSTRUCTIONS:
-  - Gunakan Bahasa Indonesia profesional dan sopan.
-  - JANGAN memberikan jarak baris baru di setiap titik. Gunakan paragraf normal.
-  - Gunakan jarak satu baris kosong (double newline) hanya antar bagian utama atau antar item daftar fitur agar terlihat lega tapi tetap mengalir.
-  - Pastikan rincian biaya setiap fitur ditulis di baris baru setelah deskripsi fitur tersebut agar mudah dipindai mata.
 `,
 });
 
@@ -105,7 +106,7 @@ const identifyFeaturesPrompt = ai.definePrompt({
   name: 'identifyFeaturesPrompt',
   input: {schema: IdentifyFeaturesInputSchema},
   output: {schema: IdentifyFeaturesOutputSchema},
-  prompt: `You are an expert system analyst. Analyze the following user requirements and identify which features from the list below are likely needed.
+  prompt: `Analyze requirements and identify features.
   
   User Requirements: {{{requirements}}}
   
@@ -127,10 +128,6 @@ const identifyFeaturesPrompt = ai.definePrompt({
   - Dashboard Analitik & Laporan PDF
   - Integrasi API Pihak Ketiga
   - Pembukuan (Add-on: Rp 2jt - 5jt)
-  
-  RULES:
-  1. ONLY return the exact strings from the list above.
-  2. Always include "Desain Responsif" and "Keamanan SSL" as defaults.
   
   Return only the JSON array of suggested feature names.`,
 });
