@@ -168,7 +168,6 @@ export function EstimatorForm() {
 
   const formattedResult = useMemo(() => {
     if (!result) return null;
-    // Jeda 1 baris setelah titik, jeda 2 baris antar fitur
     return result
       .replace(/\. /g, ".\n\n")
       .replace(/(\d+\.)/g, "\n\n$1");

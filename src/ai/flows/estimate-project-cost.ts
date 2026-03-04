@@ -52,18 +52,24 @@ const estimateProjectCostPrompt = ai.definePrompt({
 
   STRUKTUR OUTPUT (WAJIB PERSIS):
   1. Paragraf intro: "Dengan mempertimbangkan kebutuhan Anda akan [Deskripsi Singkat], proyek ini dikategorikan sebagai [Tier]."
+  
   2. Paragraf kategori: "Kategori [Tier] mencerminkan tingkat kompleksitas yang tinggi..." (1-2 kalimat).
+  
   3. Kalimat transisi: "Berikut adalah estimasi biaya terperinci yang kami tawarkan:"
+  
   4. Judul Sesi: "ESTIMASI BIAYA PROYEK TIER [KATEGORI]" (Semua huruf kapital)
+  
   5. List fitur bernomor dengan format:
      [Nomor]. **[Nama Fitur]**
      [Deskripsi singkat fitur dalam 1-2 kalimat].
      Rp [Harga Item dengan titik pemisah ribuan]
+
   6. Diakhiri dengan: "TOTAL ESTIMASI BIAYA: Rp [Total]"
 
   CATATAN FORMAT:
-  - Gunakan 1 baris kosong di antara setiap poin fitur.
+  - Gunakan 2 baris kosong di antara setiap poin fitur.
   - Letakkan harga (Rp) di baris baru setelah deskripsi fitur.
+  - Tambahkan 1 baris kosong setelah tanda titik (.) di setiap paragraf intro.
 
   User Requirements Context: {{{requirements}}}
   Selected Features:
