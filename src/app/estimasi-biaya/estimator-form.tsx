@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft } from "lucide-react";
+import { Loader2, Wand2, Calculator, CheckCircle2, ChevronRight, Download, Timer, Sparkles, CheckSquare, ArrowRight, ArrowLeft, FileText, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -248,54 +248,111 @@ export function EstimatorForm() {
     const margin = 20;
     const contentWidth = pageWidth - margin * 2;
 
+    // --- Header Branding ---
+    doc.setFillColor(25, 158, 189); // Primary Color
+    doc.rect(0, 0, pageWidth, 40, 'F');
+    
+    doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.setTextColor(25, 158, 189);
-    doc.text("DOKUMEN ESTIMASI PROYEK", pageWidth / 2, 25, { align: "center" });
-
-    doc.setFont("helvetica", "normal");
+    doc.setFontSize(24);
+    doc.text("JasaWebsiteKu", margin, 20);
+    
     doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Solusi Digital & Sistem Informasi Bisnis", margin, 28);
+    doc.text("WhatsApp: +62 889-8835-7060 | Email: promone.info@gmail.com", margin, 34);
+
+    // --- Document Title & Meta ---
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text("DOKUMEN PENAWARAN & ESTIMASI BIAYA", pageWidth / 2, 55, { align: "center" });
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
     doc.setTextColor(100);
-    doc.text(`Dicetak pada: ${new Date().toLocaleDateString("id-ID")}`, pageWidth / 2, 32, { align: "center" });
+    const docNo = `JWK-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.floor(Math.random() * 10000)}`;
+    doc.text(`No. Dokumen: ${docNo}`, margin, 65);
+    doc.text(`Tanggal: ${new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}`, margin, 70);
 
     doc.setDrawColor(200);
-    doc.line(margin, 38, pageWidth - margin, 38);
+    doc.line(margin, 75, pageWidth - margin, 75);
 
-    doc.setFont("helvetica", "normal");
+    // --- Content Body ---
     doc.setFontSize(11);
-    doc.setTextColor(0);
+    doc.setTextColor(30);
 
+    // Format text: removing excess asterisks and cleaning up
     const cleanText = result
-      .replace(/[#*]/g, "")
-      .replace(/(\r\n|\n|\r)/gm, "\n");
+      .replace(/[#]/g, "") // remove all #
+      .replace(/\*\*(.*?)\*\*/g, "$1") // replace bold with plain text for splitting
+      .replace(/(\r\n|\n|\r)/gm, "\n\n"); // ensure double spacing
 
     const lines = doc.splitTextToSize(cleanText, contentWidth);
 
-    let cursorY = 48;
+    let cursorY = 85;
     const lineHeight = 7;
 
     lines.forEach((line: string) => {
-      if (cursorY > 275) {
+      if (cursorY > 260) {
         doc.addPage();
-        cursorY = 20;
+        // Add footer for new page
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Halaman ${doc.getNumberOfPages()} - Penawaran Resmi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+        
+        doc.setFontSize(11);
+        doc.setTextColor(30);
+        cursorY = 25;
       }
+      
+      // Basic bold detection (if line starts with specific patterns like TOTAL)
+      if (line.includes("TOTAL ESTIMASI BIAYA")) {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(13);
+        cursorY += 2;
+      } else {
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(11);
+      }
+
       doc.text(line, margin, cursorY);
       cursorY += lineHeight;
     });
+
+    // --- Footer & Signature Area ---
+    if (cursorY > 240) {
+      doc.addPage();
+      cursorY = 30;
+    } else {
+      cursorY += 15;
+    }
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(9);
+    doc.setTextColor(100);
+    doc.text("*Estimasi ini bersifat fleksibel dan dapat dinegosiasikan sesuai kebutuhan spesifik.", margin, cursorY);
+    
+    cursorY += 20;
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0);
+    doc.text("Hormat Kami,", pageWidth - margin - 40, cursorY);
+    cursorY += 25;
+    doc.text("Tim JasaWebsiteKu", pageWidth - margin - 40, cursorY);
 
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
       doc.setFontSize(8);
       doc.setTextColor(150);
-      doc.text(`Halaman ${i} dari ${totalPages} - Dokumen Estimasi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
+      doc.text(`Halaman ${i} dari ${totalPages} - Penawaran Resmi JasaWebsiteKu`, pageWidth / 2, 285, { align: "center" });
     }
 
-    doc.save(`Estimasi_Biaya_JasaWebsiteKu_${new Date().getTime()}.pdf`);
+    doc.save(`Penawaran_JasaWebsiteKu_${new Date().getTime()}.pdf`);
     
     toast({
-      title: "PDF Berhasil Dibuat",
-      description: "Dokumen estimasi telah diunduh ke perangkat Anda.",
+      title: "Penawaran Berhasil Dibuat",
+      description: "Dokumen estimasi resmi telah diunduh ke perangkat Anda.",
     });
   };
 
@@ -511,32 +568,49 @@ export function EstimatorForm() {
       )}
 
       {step === 'result' && result && !isPending && (
-        <Card className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5">
-          <CardHeader className="bg-primary/5 border-b p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-1">
-              <CardTitle className="font-headline text-2xl flex items-center gap-3">
-                <CheckCircle2 className="h-7 w-7 text-primary" />
-                <span>Hasil Analisis Strategis AI</span>
-              </CardTitle>
-              <CardDescription className="text-sm">Estimasi ini didasarkan pada rincian fitur yang Anda pilih.</CardDescription>
+        <Card className="fade-in-up border-primary/30 shadow-2xl overflow-hidden ring-1 ring-primary/5 bg-slate-50/30">
+          <CardHeader className="bg-white border-b p-6 md:p-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                 <div className="bg-primary/10 p-2 rounded-full">
+                    <FileText className="h-6 w-6 text-primary" />
+                 </div>
+                 <CardTitle className="font-headline text-2xl md:text-3xl text-gray-800">
+                    Hasil Analisis Strategis AI
+                 </CardTitle>
+              </div>
+              <CardDescription className="text-base">Estimasi Penawaran Resmi - JasaWebsiteKu</CardDescription>
             </div>
             <div className="flex flex-wrap gap-3">
               <Button onClick={() => setStep('features')} variant="ghost" className="h-12 border-primary/20 text-muted-foreground hover:bg-primary/5">
                 Ubah Fitur
               </Button>
-              <Button onClick={handleDownloadPDF} variant="outline" className="h-12 gap-2 border-primary/40 text-primary hover:bg-primary/10 font-bold px-6">
+              <Button onClick={handleDownloadPDF} size="lg" className="h-12 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5">
                 <Download className="h-5 w-5" />
-                Unduh Laporan (PDF)
+                Unduh Penawaran (PDF)
               </Button>
             </div>
           </CardHeader>
-          <CardContent className="p-8 md:p-12">
-            <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-headline prose-headings:text-primary prose-p:leading-relaxed prose-strong:text-primary prose-li:text-muted-foreground">
+          <CardContent className="p-8 md:p-16 bg-white mx-4 my-8 md:mx-10 md:my-10 rounded-xl shadow-inner border border-slate-100">
+            <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-headline prose-headings:text-primary prose-p:leading-relaxed prose-strong:text-primary prose-li:text-muted-foreground prose-h3:text-3xl prose-h3:font-extrabold prose-h3:mt-10 prose-h3:pb-2 prose-h3:border-b-2 prose-h3:border-primary/20">
               <ReactMarkdown>{result}</ReactMarkdown>
+            </div>
+            
+            <div className="mt-16 pt-8 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8">
+               <div className="space-y-1 text-center md:text-left">
+                  <p className="text-sm font-bold text-gray-500 uppercase tracking-widest">Siap Melanjutkan?</p>
+                  <p className="text-muted-foreground">Hubungi tim kami untuk konsultasi teknis lebih lanjut.</p>
+               </div>
+               <Button asChild size="lg" className="h-14 px-10 gap-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-xl shadow-green-500/20">
+                  <a href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya baru saja membuat estimasi AI dan ingin berdiskusi lebih lanjut tentang proyek saya.`)}`} target="_blank" rel="noopener noreferrer">
+                    <Send className="h-5 w-5" />
+                    Hubungi Sales via WhatsApp
+                  </a>
+               </Button>
             </div>
           </CardContent>
           <div className="bg-primary/5 border-t p-6 text-center text-sm text-muted-foreground italic">
-            *Hasil ini adalah estimasi awal. Untuk penawaran resmi dan negosiasi detail, silakan hubungi tim sales kami melalui WhatsApp.
+            *Hasil ini adalah estimasi awal. Penawaran resmi dapat berubah setelah diskusi teknis mendalam.
           </div>
         </Card>
       )}
