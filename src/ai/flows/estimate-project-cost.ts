@@ -56,15 +56,14 @@ const estimateProjectCostPrompt = ai.definePrompt({
   3. Kalimat transisi: "Berikut adalah estimasi biaya terperinci yang kami tawarkan:"
   4. Judul Sesi: "ESTIMASI BIAYA PROYEK TIER [KATEGORI]" (Semua huruf kapital)
   5. List fitur bernomor dengan format:
-     [Nomor]. [Nama Fitur] (Gunakan Bold markdown **)
-     [Deskripsi singkat fitur dalam 1-2 kalimat]
+     [Nomor]. **[Nama Fitur]**
+     [Deskripsi singkat fitur dalam 1-2 kalimat].
      Rp [Harga Item dengan titik pemisah ribuan]
   6. Diakhiri dengan: "TOTAL ESTIMASI BIAYA: Rp [Total]"
 
-  CONTOH FORMAT LIST:
-  1. **Website Company Profile / Landing Page & Desain Responsif**
-  Ini adalah fondasi visual website Anda yang akan dioptimalkan agar tampil sempurna di berbagai perangkat.
-  Rp 2.000.000
+  CATATAN FORMAT:
+  - Gunakan 1 baris kosong di antara setiap poin fitur.
+  - Letakkan harga (Rp) di baris baru setelah deskripsi fitur.
 
   User Requirements Context: {{{requirements}}}
   Selected Features:

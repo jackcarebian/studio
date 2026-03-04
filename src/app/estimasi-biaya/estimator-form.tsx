@@ -168,12 +168,14 @@ export function EstimatorForm() {
     },
   });
 
-  // Formatting result for display to improve readability
+  // Pemrosesan teks untuk keterbacaan tinggi:
+  // 1 enter (break) setelah setiap tanda titik (.)
+  // 2 enter (paragraf) antar fitur (mendeteksi pola penomoran)
   const formattedResult = useMemo(() => {
     if (!result) return null;
     return result
-      .replace(/\. /g, ".\n\n") // 1 enter after dot (sentence end)
-      .replace(/(\d+\.)/g, "\n\n$1"); // 2 enters before feature numbers
+      .replace(/\. /g, ".\n\n") // 1 enter (newline) setelah titik
+      .replace(/(\d+\.)/g, "\n\n$1"); // 2 enter (paragraf) sebelum penomoran fitur
   }, [result]);
 
   async function onInitialSubmit(values: z.infer<typeof formSchema>) {
@@ -255,19 +257,17 @@ export function EstimatorForm() {
 
     // --- Content Parsing & Rendering ---
     let cursorY = 50;
-    const lineHeight = 6;
-    const paragraphGap = 8;
-    const featureGap = 12;
+    const lineHeight = 7;
+    const paragraphGap = 10;
+    const featureGap = 15;
 
-    // Split text into paragraphs based on the double enter logic from AI
-    // We handle specifically the numbered lists to mimic the image
+    // Split text into paragraphs
     const sections = result.split("\n\n");
 
     sections.forEach((section) => {
       const trimmedSection = section.trim();
       if (!trimmedSection) return;
 
-      // Detect Numbered Feature Title
       const isFeatureHeader = /^\d+\./.test(trimmedSection);
       const isSessionTitle = trimmedSection.startsWith("ESTIMASI BIAYA PROYEK TIER");
       const isTotal = trimmedSection.startsWith("TOTAL ESTIMASI BIAYA");
@@ -275,7 +275,7 @@ export function EstimatorForm() {
       if (isSessionTitle) {
         cursorY += 5;
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(12);
+        doc.setFontSize(13);
         doc.setTextColor(40);
         doc.text(trimmedSection, margin, cursorY);
         cursorY += paragraphGap + 2;
@@ -283,25 +283,23 @@ export function EstimatorForm() {
       }
 
       if (isFeatureHeader) {
-        // Feature Title & Description & Price split logic
-        // Structure expected from AI: [Number]. [Title] \n [Desc] \n [Price]
         const linesInFeature = trimmedSection.split("\n");
         
         linesInFeature.forEach((line, idx) => {
           if (cursorY > 270) { doc.addPage(); cursorY = 20; }
           
-          const text = line.trim().replace(/\*\*/g, ""); // Remove markdown bold for PDF manually
+          const text = line.trim().replace(/\*\*/g, ""); 
           
-          if (idx === 0) { // Title
+          if (idx === 0) { // Judul Fitur (Baris 1)
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
             doc.setTextColor(40);
-          } else if (text.startsWith("Rp")) { // Price
+          } else if (text.startsWith("Rp")) { // Harga (Baris Baru)
             doc.setFont("helvetica", "bold");
             doc.setFontSize(11);
             doc.setTextColor(25, 158, 189);
-            cursorY += 2; // Small extra space before price
-          } else { // Description
+            cursorY += 1; // Spasi kecil sebelum harga
+          } else { // Deskripsi Fitur
             doc.setFont("helvetica", "normal");
             doc.setFontSize(10);
             doc.setTextColor(80);
@@ -316,11 +314,10 @@ export function EstimatorForm() {
       } else if (isTotal) {
         cursorY += 5;
         doc.setFont("helvetica", "bold");
-        doc.setFontSize(13);
+        doc.setFontSize(14);
         doc.setTextColor(25, 158, 189);
         doc.text(trimmedSection, margin, cursorY);
       } else {
-        // Normal paragraphs
         doc.setFont("helvetica", "normal");
         doc.setFontSize(11);
         doc.setTextColor(60);
@@ -333,7 +330,6 @@ export function EstimatorForm() {
       }
     });
 
-    // --- Footer Section ---
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
       doc.setPage(i);
@@ -608,7 +604,7 @@ export function EstimatorForm() {
                 
                 <Button size="lg" className="w-full md:w-auto px-12 h-16 text-xl bg-green-600 hover:bg-green-700 text-white font-black shadow-xl hover:shadow-green-200 gap-4 transition-all" asChild>
                     <a 
-                        href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya telah menerima estimasi biaya AI sebesar ${formattedResult.match(/Rp [\d.]+/)?.[0] || ""} untuk proyek saya. Saya ingin mendiskusikan langkah selanjutnya.`)}`}
+                        href={`https://wa.me/6288988357060?text=${encodeURIComponent(`Halo JasaWebsiteKu, saya telah menerima estimasi biaya AI sebesar ${result.match(/Rp [\d.]+/)?.[0] || ""} untuk proyek saya. Saya ingin mendiskusikan langkah selanjutnya.`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
