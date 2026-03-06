@@ -86,13 +86,13 @@ const portfolioProjects = [
   },
   {
     title: "Tirta Mas Sumber Rejeki",
-    description: "Website profil bisnis terpercaya untuk layanan distribusi dan penyediaan sumber air.",
+    description: "Website profil Produsen alat kesehatan. Merupakan Industri cetak plastik custom.",
     url: "https://tirtamassumberrejeki.vercel.app/",
     image: placeholderImages.find(p => p.id === "project-tirtamas"),
   },
   {
     title: "Ambara Resto",
-    description: "Platform digital untuk Ambara Resto, memudahkan pelanggan menjelajahi menu dan layanan kuliner.",
+    description: "Platform digital untuk Ambara Resto, memudahkan pelanggan menjelajahi menu dan layanan booking meja.",
     url: "https://ambararesto.vercel.app/",
     image: placeholderImages.find(p => p.id === "project-ambara"),
   },
