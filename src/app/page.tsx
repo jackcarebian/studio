@@ -49,7 +49,7 @@ const features = [
     icon: <ShieldCheck className="h-10 w-10 text-primary" />,
     title: "Keamanan Terjamin",
     description:
-      "Kami menerapkan praktik keamanan terbaik untuk melindungi website dan data Anda.",
+      "Kami menerapkan praktik keamanan terbaik untuk melindungi website and data Anda.",
   },
   {
     icon: <Code2 className="h-10 w-10 text-primary" />,
@@ -83,6 +83,18 @@ const portfolioProjects = [
     description: "Platform kolaborasi dan networking untuk menghubungkan profesional dan komunitas.",
     url: "https://temanin.vercel.app/",
     image: placeholderImages.find(p => p.id === "project-temanin"),
+  },
+  {
+    title: "Tirta Mas Sumber Rejeki",
+    description: "Website profil bisnis terpercaya untuk layanan distribusi dan penyediaan sumber air.",
+    url: "https://tirtamassumberrejeki.vercel.app/",
+    image: placeholderImages.find(p => p.id === "project-tirtamas"),
+  },
+  {
+    title: "Ambara Resto",
+    description: "Platform digital untuk Ambara Resto, memudahkan pelanggan menjelajahi menu dan layanan kuliner.",
+    url: "https://ambararesto.vercel.app/",
+    image: placeholderImages.find(p => p.id === "project-ambara"),
   },
 ];
 
@@ -218,7 +230,8 @@ export default function Home() {
                   Sistem yang Anda bangun bersama kami bukan sekadar software biasa, melainkan <strong>Investasi Aset Digital</strong> yang Anda miliki sepenuhnya untuk memberikan kemandirian operasional jangka panjang.
                 </p>
                 <p>
-                  Bayangkan, nilai investasi sistem kustom ini <strong>jauh lebih hemat dan efisien</strong> dibandingkan biaya menggaji Programmer selama satu tahun penuh, namun sistem ini bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
+                  Bayangkan, nilai investasi sistem kustom ini <strong>jauh lebih hemat dan efisien</strong> dibandingkan biaya menggaji satu orang Programmer IT , selama satu tahun penuh.
+                  layanan kami budgeting dan sistem akan bekerja 24/7 tanpa henti untuk mengawal bisnis Anda.
                 </p>
                 <p className="font-bold text-primary italic">
                   "Jangan biarkan bisnis Anda berjalan berdasarkan asumsi. Berjalanlah di atas sistem yang solid."
@@ -292,7 +305,7 @@ export default function Home() {
               Beberapa karya terbaik yang telah kami bantu wujudkan. Klik kartu untuk mengunjungi website.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {portfolioProjects.map((project, index) => (
               <a 
                 key={index} 

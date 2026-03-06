@@ -77,6 +77,18 @@
       "description": "Screenshot cuplikan website TemanIn.",
       "imageUrl": "https://i.imgur.com/rxZpwCv.jpeg",
       "imageHint": "social dashboard"
+    },
+    {
+      "id": "project-tirtamas",
+      "description": "Screenshot Tirta Mas Sumber Rejeki.",
+      "imageUrl": "https://i.imgur.com/gXAl81v.jpeg",
+      "imageHint": "business website"
+    },
+    {
+      "id": "project-ambara",
+      "description": "Screenshot Ambara Resto.",
+      "imageUrl": "https://i.imgur.com/T2sbyTC.jpeg",
+      "imageHint": "restaurant website"
     }
   ]
 }
