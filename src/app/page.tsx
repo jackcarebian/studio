@@ -405,7 +405,7 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center">
+            <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center px-4 md:px-0">
               <div className={cn("relative w-full max-w-[500px] aspect-square", solutionsInView ? "fade-in-up" : "opacity-0")}>
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl opacity-50 -z-10 animate-pulse"></div>
                 {solutionsIllustration && (
@@ -420,35 +420,35 @@ export default function Home() {
                 )}
                 
                 {/* Multi Account Blinking Label (Top) */}
-                <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20">
+                <div className="absolute -top-4 md:-top-8 left-1/2 -translate-x-1/2 bg-white px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20">
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs font-bold text-primary whitespace-nowrap">Multi Account</span>
+                    <span className="text-[10px] md:text-xs font-bold text-primary whitespace-nowrap">Multi Account</span>
                   </div>
                 </div>
 
                 {/* Push Notification Blinking Label (Right) */}
-                <div className="absolute top-1/3 -right-8 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '0.5s' }}>
+                <div className="absolute top-1/3 -right-2 md:-right-8 bg-white px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '0.5s' }}>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs font-bold text-primary whitespace-nowrap">Push Notification</span>
+                    <span className="text-[10px] md:text-xs font-bold text-primary whitespace-nowrap">Push Notification</span>
                   </div>
                 </div>
 
                 {/* Real-time Data Blinking Label (Left) */}
-                <div className="absolute top-1/2 -left-12 bg-white px-4 py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '1s' }}>
+                <div className="absolute top-1/2 -left-4 md:-left-12 bg-white px-3 md:px-4 py-1.5 md:py-2 rounded-full shadow-lg border border-primary/10 animate-pulse z-20" style={{ animationDelay: '1s' }}>
                   <div className="flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-xs font-bold text-muted-foreground uppercase whitespace-nowrap">REAL-TIME DATA</span>
+                    <span className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase whitespace-nowrap">REAL-TIME DATA</span>
                   </div>
                 </div>
 
                 {/* Floating Icon Boxes */}
-                <div className="absolute top-0 -right-12 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
-                  <BarChart3 className="h-6 w-6 text-primary" />
+                <div className="absolute top-0 -right-4 md:-right-12 bg-white p-2.5 md:p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '3s' }}>
+                  <BarChart3 className="h-4 w-4 md:h-6 md:h-6 text-primary" />
                 </div>
-                <div className="absolute bottom-4 -left-12 bg-white p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
-                  <Smartphone className="h-6 w-6 text-accent" />
+                <div className="absolute bottom-4 -left-4 md:-left-12 bg-white p-2.5 md:p-4 rounded-2xl shadow-xl animate-bounce" style={{ animationDuration: '4s', animationDelay: '1s' }}>
+                  <Smartphone className="h-4 w-4 md:h-6 md:h-6 text-accent" />
                 </div>
               </div>
             </div>
