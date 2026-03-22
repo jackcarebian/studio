@@ -89,6 +89,12 @@
       "description": "Screenshot Ambara Resto.",
       "imageUrl": "https://i.imgur.com/T2sbyTC.jpeg",
       "imageHint": "restaurant website"
+    },
+    {
+      "id": "project-pitcar",
+      "description": "Screenshot aplikasi Pitcar.",
+      "imageUrl": "https://i.imgur.com/7PGVdq2.jpeg",
+      "imageHint": "car service app"
     }
   ]
 }

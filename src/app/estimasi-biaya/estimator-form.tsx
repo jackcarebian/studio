@@ -134,7 +134,7 @@ function CountdownTimer() {
             <Timer className="h-5 w-5 animate-pulse" />
             <span className="text-sm uppercase tracking-widest">Penawaran Terbatas</span>
           </div>
-          <h3 className="text-xl md:text-2xl font-headline font-bold">Promo Spesial Awal Tahun</h3>
+          <h3 className="text-xl md:text-2xl font-headline font-bold">Promo Spesial di 2026</h3>
           <p className="text-sm opacity-90 max-w-[300px]">Dapatkan diskon 50% untuk semua paket pembuatan website & aplikasi.</p>
         </div>
 

@@ -96,6 +96,12 @@ const portfolioProjects = [
     url: "https://ambararesto.vercel.app/",
     image: placeholderImages.find(p => p.id === "project-ambara"),
   },
+  {
+    title: "Pitcar",
+    description: "Sistem informasi dan Aplikasi Member Service Mobil. dengan feature pengingat jadwal service berkala.",
+    url: "https://pitcar-eight.vercel.app/",
+    image: placeholderImages.find(p => p.id === "project-pitcar"),
+  },
 ];
 
 const faqItems = [
@@ -305,14 +311,14 @@ export default function Home() {
               Beberapa karya terbaik yang telah kami bantu wujudkan. Klik kartu untuk mengunjungi website.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="flex flex-wrap justify-center gap-8">
             {portfolioProjects.map((project, index) => (
               <a 
                 key={index} 
                 href={project.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group block"
+                className="group block w-full md:w-[calc(50%-1rem)] xl:w-[calc(33.333%-1.5rem)] max-w-sm xl:max-w-none"
               >
                 <Card className="overflow-hidden border-none shadow-lg group-hover:shadow-2xl transition-all duration-300 h-full fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                   <div className="relative aspect-video bg-muted/20">
